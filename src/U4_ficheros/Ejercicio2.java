@@ -1,9 +1,12 @@
 package U4_ficheros;
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.util.Locale;
+import java.util.Objects;
 import java.util.Scanner;
 
-public class Explorador {
+public class Ejercicio2 {
     public static void main(String[] args) throws IOException {
         int exitKey = -1;
         Scanner scanner = new Scanner(System.in);
@@ -23,7 +26,7 @@ public class Explorador {
                 f = abandonarDirectorio(f);
 
             } else if(numValido(f, ent)) {
-                temp = new File(f, f.list()[ent - 1]);
+                temp = new File(f, Objects.requireNonNull(f.list())[ent - 1]);
                 f = accederDirectorio(f, temp);
             }
 
@@ -35,7 +38,7 @@ public class Explorador {
         System.out.println("Lista de ficheros y directorios del directorio: " + f.getCanonicalPath());
         System.out.println("---------------------------------------------------");
 
-        if (f.list().length == 0)
+        if (Objects.requireNonNull(f.list()).length == 0)
             System.out.println("El directorio está vacío.");
         else
             print2(f);
@@ -44,26 +47,48 @@ public class Explorador {
     public static void print2 (File f) {
         int contador = 1;
 
-        for(String e : f.list()) {
+        DateFormat formatter;
+        formatter = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, Locale.getDefault());
 
-            if(new File(f, e).isDirectory()) {
-                System.out.println(contador + "\t" + e + " <Directorio>");
+        for(String e : Objects.requireNonNull(f.list())) {
+            File temp = new File(f, e);
 
-            } else {
-                System.out.println(contador + "\t" + e + " " + e.length() + " bytes");
+            if(!temp.isHidden()) {
+                if(temp.isDirectory()) {
+                    System.out.println(contador + ".- \t" + permisos(temp) + " \t" + String.format("½-15d", e.length()) + formatter.format(temp.lastModified()) + "\t" + temp.getName());
+
+                } else {
+                    System.out.println(contador + "\t <Documento>\t" + e + " (" + e.length() + " bytes)");
+                }
             }
 
             contador++;
         }
     }
 
+    public static String permisos(File f) {
+        String perm = "";
+
+        if(f.isDirectory())
+            perm += "d";
+        else
+            perm += "-";
+
+        if(f.canRead())
+            perm += "r";
+        else
+            perm += "-";
+
+
+        return perm;
+    }
+
     public static int numFichero() {
-        int fichero = new Scanner(System.in).nextInt();
-        return fichero;
+        return new Scanner(System.in).nextInt();
     }
 
     public static boolean numValido(File f, int n) {
-        if (n >= -1 && n <= f.list().length)
+        if (n >= -1 && n <= Objects.requireNonNull(f.list()).length)
             return true;
         return false;
     }
