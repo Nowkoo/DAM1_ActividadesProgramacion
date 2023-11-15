@@ -48,13 +48,11 @@ public class Ejercicio1 {
         for(String e : Objects.requireNonNull(f.list())) {
             File temp = new File(f, e);
 
-            if(!temp.isHidden()) {
-                if(temp.isDirectory()) {
-                    System.out.println(contador + "\t <Directorio>\t" + e);
+            if(temp.isDirectory()) {
+                System.out.println(contador + "\t <Directorio>\t" + e);
 
-                } else {
-                    System.out.println(contador + "\t <Documento>\t" + e + " (" + e.length() + " bytes)");
-                }
+            } else {
+                System.out.println(contador + "\t <Documento>\t" + e + " (" + e.length() + " bytes)");
             }
 
             contador++;

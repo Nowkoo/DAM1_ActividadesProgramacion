@@ -52,16 +52,7 @@ public class Ejercicio2 {
 
         for(String e : Objects.requireNonNull(f.list())) {
             File temp = new File(f, e);
-
-            if(!temp.isHidden()) {
-                if(temp.isDirectory()) {
-                    System.out.println(contador + ".- \t" + permisos(temp) + " \t" + String.format("½-15d", e.length()) + formatter.format(temp.lastModified()) + "\t" + temp.getName());
-
-                } else {
-                    System.out.println(contador + "\t <Documento>\t" + e + " (" + e.length() + " bytes)");
-                }
-            }
-
+            System.out.println(contador + ".- \t" + permisos(temp) + " \t" + String.format("%-15d", e.length()) + formatter.format(temp.lastModified()) + "\t\t" + temp.getName());
             contador++;
         }
     }
@@ -79,6 +70,15 @@ public class Ejercicio2 {
         else
             perm += "-";
 
+        if(f.canWrite())
+            perm += "w";
+        else
+            perm += "-";
+
+        if(f.canExecute())
+            perm += "x";
+        else
+            perm += "-";
 
         return perm;
     }
