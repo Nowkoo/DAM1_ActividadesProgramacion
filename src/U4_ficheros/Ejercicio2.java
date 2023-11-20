@@ -84,7 +84,13 @@ public class Ejercicio2 {
     }
 
     public static int numFichero() {
-        return new Scanner(System.in).nextInt();
+        int valor;
+        try {
+            valor = new Scanner(System.in).nextInt();
+        } catch (Exception e) {
+            return -2;
+        }
+        return valor;
     }
 
     public static boolean numValido(File f, int n) {
