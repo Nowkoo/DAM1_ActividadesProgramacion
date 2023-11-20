@@ -105,7 +105,7 @@ public class ExamenB {
         posicion = scanner.nextInt() - 1;
 
         //Comprobamos que la posición está dentro de los límites del array
-        if (posicion > dirs.length || posicion < 1) {
+        if (posicion > dirs.length || posicion < 0) {
             System.out.println("La posición excede el límite de almacenamiento.");
             return;
         }
