@@ -21,7 +21,6 @@ public class Ejercicio3 {
             scanner.nextLine();
 
             if (option == 1) {
-                System.out.println("Introduzca la ruta absoluta del archivo que ");
                 readFile(file1);
             } else if (option == 2) {
                 copyFile(file1, file2);
@@ -45,6 +44,7 @@ public class Ejercicio3 {
             c = f_in.read();
         }
         f_in.close();
+        System.out.println();
     }
 
     public static void copyFile(File f1, File f2) throws IOException {
