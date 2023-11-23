@@ -3,12 +3,14 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Ejercicio3 {
-    public static void main(String[] args) throws IOException {
-        File file1 = new File("./recursos/foo.txt");
-        File file2 = new File("./recursos/foo_copy.txt");
-        Scanner scanner = new Scanner(System.in);
+    static Scanner scanner = new Scanner(System.in);
+    static String dir;
+    static File file1 = new File("./recursos/foo.txt");
+    static File file2 = new File("./recursos/foo_copy.txt");
 
+    public static void main(String[] args) throws IOException {
         int option = 1;
+        boolean sobreescribir;
 
         while (option != 0) {
             System.out.println("0: Salir");
@@ -21,11 +23,13 @@ public class Ejercicio3 {
             scanner.nextLine();
 
             if (option == 1) {
-                readFile(file1);
+                menuLectura();
             } else if (option == 2) {
-                copyFile(file1, file2);
+                sobreescribir = false;
+                menuCopiado(sobreescribir);
             } else if (option == 3) {
-                addFile(file1, file2);
+                sobreescribir = true;
+                menuCopiado(sobreescribir);
             } else if (option == 0) {
                 break;
             } else {
@@ -47,9 +51,9 @@ public class Ejercicio3 {
         System.out.println();
     }
 
-    public static void copyFile(File f1, File f2) throws IOException {
+    public static void copyFile(File f1, File f2, boolean sobreescribir) throws IOException {
         FileInputStream f_in = new FileInputStream(f1);
-        FileOutputStream f_out = new FileOutputStream(f2);
+        FileOutputStream f_out = new FileOutputStream(f2, sobreescribir);
 
         int charAmount = f_in.available();
         int reading = f_in.read();
@@ -62,17 +66,31 @@ public class Ejercicio3 {
         System.out.println("Se han copiado " + charAmount + " carácteres.");
     }
 
-    public static void addFile(File f1, File f2) throws IOException {
-        FileInputStream f2_in = new FileInputStream(f2);
-        FileOutputStream f1_out = new FileOutputStream(f1, true);
-
-        int reading = f2_in.read();
-        while (reading != -1) {
-            f1_out.write(reading);
-            reading = f2_in.read();
+    public static void menuLectura() throws IOException {
+        System.out.println("Introduzca la ruta absoluta del archivo que quiere leer:");
+        dir = scanner.nextLine();
+        if (new File(dir).exists()) {
+            file1 = new File(dir);
+            readFile(file1);
         }
+        else
+            System.out.println("El fichero no existe o no se puede leer.");
+    }
 
-        f2_in.close();
-        f1_out.close();
+    public static void menuCopiado(boolean sobreescribir) throws IOException {
+        System.out.println("Introduzca la ruta absoluta del archivo que quiere copiar:");
+        dir = scanner.nextLine();
+        if (new File(dir).exists()) {
+            file1 = new File(dir);
+
+            System.out.println("Introduzca la ruta absoluta del archivo donde quiere pegar el contenido:");
+            dir = scanner.nextLine();
+            if (new File(dir).exists()) {
+                file2 = new File(dir);
+                copyFile(file1, file2, sobreescribir);
+            } else
+                System.out.println("El fichero no existe o no se puede leer.");
+        } else
+            System.out.println("El fichero no existe o no se puede leer.");
     }
 }
