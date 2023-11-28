@@ -15,6 +15,7 @@ public class TransformaImagen {
         new TransformaImagen(new File("./recursos/pluginfile.bmp"));
         transformaNegativo();
         transformaOscuro();
+        transformaBlancoNegro();
     }
 
     static boolean isBmp(File f) {
@@ -84,24 +85,26 @@ public class TransformaImagen {
         f_in.read(cabecera);
         f_out.write(cabecera);
 
-        int num;
-        num = f_in.read();
+        int rojo, verde, azul, media;
+        int num = f_in.read();
 
         while (num != -1) {
-            for (int i = 0; i < 3; i++) {
-                switch (i) {
-                    case 0:
-                        int red = num;
-                        break;
-                    case 1:
-                        int green = num;
-                        break;
-                    case 2:
-                        int blue = num;
-                        break;
-                }
-            }
+            rojo = num;
+            num = f_in.read();
+            verde = num;
+            num = f_in.read();
+            azul = num;
+
+            media = (rojo + verde + azul) / 3;
+            f_out.write(media);
+            f_out.write(media);
+            f_out.write(media);
+
+            num = f_in.read();
         }
+
+        f_in.close();
+        f_out.close();
     }
 
     static String nombreFichero(String n) {
