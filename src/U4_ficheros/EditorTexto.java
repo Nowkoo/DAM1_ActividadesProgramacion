@@ -21,13 +21,7 @@ public class EditorTexto {
             System.out.println("0: Cerrar programa");
             System.out.println("1: Abrir archivo");
             System.out.println("Introduce tu opción de trabajo: ");
-
-            try {
-                option = scanner.nextInt();
-            } catch (InputMismatchException e) {
-                option = -10;
-            }
-
+            option = menuInput();
             scanner.nextLine();
 
             if (option == 1) {
@@ -70,13 +64,7 @@ public class EditorTexto {
         while (option != exitKey) {
             System.out.println("0: Cerrar archivo\t1: Eliminar línea\t2: Insertar línea\t3: Guardar");
             System.out.println("¿Qué acción desea realizar? ");
-
-            try {
-                option = scanner.nextInt();
-            } catch (InputMismatchException e) {
-                option = -10;
-            }
-
+            option = menuInput();
             scanner.nextLine();
 
             if (option == 1) {
@@ -103,12 +91,8 @@ public class EditorTexto {
     static void eliminarLinea() {
         int num;
         System.out.println("Introduzca el número de la línea que quiere eliminar: ");
-
-        try {
-            num = scanner.nextInt();
-        } catch (InputMismatchException e) {
-            num = -10;
-        }
+        num = menuInput();
+        num--;
 
         if (num >= 0 && num < lines.size()) {
             lines.remove(num);
@@ -121,14 +105,10 @@ public class EditorTexto {
     static void insertarLinea() {
         int num;
         System.out.println("¿En qué posición quiere insertar línea? ");
-
-        try {
-            num = scanner.nextInt();
-        } catch (InputMismatchException e) {
-            num = -10;
-        }
-
+        num = menuInput();
+        num--;
         scanner.nextLine();
+
         if (num >= 0 && num < lines.size()) {
             String texto;
             System.out.println("Introduzca el contenido de la nueva línea: ");
@@ -146,15 +126,11 @@ public class EditorTexto {
         else {
             menuGuardado();
             try {
-                BufferedReader f_ent = new BufferedReader(new FileReader(original));
                 PrintWriter f_sal = new PrintWriter(new FileWriter(modificado));
-                String line = f_ent.readLine();
-                while (line != null) {
+                for (String line : lines) {
                     f_sal.println(line);
-                    line = f_ent.readLine();
                 }
                 hayCambios = false;
-                f_ent.close();
                 f_sal.close();
 
             } catch (IOException e) {
@@ -166,13 +142,7 @@ public class EditorTexto {
     static void menuGuardado() {
         int option;
         System.out.println("1: Guardar\t2: Copiar");
-
-        try {
-            option = scanner.nextInt();
-        } catch (InputMismatchException e) {
-            option = -10;
-        }
-
+        option = menuInput();
         scanner.nextLine();
 
         if (option == 1) {
@@ -184,5 +154,15 @@ public class EditorTexto {
             System.out.println("La opción seleccionada no existe.");
             menuGuardado();
         }
+    }
+
+    static int menuInput() {
+        int input;
+        try {
+            input = scanner.nextInt();
+        } catch (InputMismatchException e) {
+            input = -10;
+        }
+        return input;
     }
 }
