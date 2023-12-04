@@ -1,4 +1,4 @@
-package U4_ficheros;
+package U4_ficheros.G1_File;
 
 // Java program to demonstrate the
 // use of getCanonicalFile() function

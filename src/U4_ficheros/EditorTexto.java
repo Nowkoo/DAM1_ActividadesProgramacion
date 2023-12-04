@@ -97,6 +97,7 @@ public class EditorTexto {
         if (num >= 0 && num < lines.size()) {
             lines.remove(num);
             hayCambios = true;
+            mostrar();
         } else {
             System.out.println("La posición seleccionada no existe.");
         }
@@ -115,6 +116,7 @@ public class EditorTexto {
             texto = scanner.nextLine();
             lines.add(num, texto);
             hayCambios = true;
+            mostrar();
         } else {
             System.out.println("La posición seleccionada no existe.");
         }
@@ -164,5 +166,13 @@ public class EditorTexto {
             input = -10;
         }
         return input;
+    }
+
+    static void mostrar() {
+        int i = 0;
+        for (String line : lines) {
+            i++;
+            System.out.println(i + ".- " + line);
+        }
     }
 }

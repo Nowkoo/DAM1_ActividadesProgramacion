@@ -1,4 +1,4 @@
-package U4_ficheros;
+package U4_ficheros.G5_Exceptions;
 
 import java.util.Scanner;
 /**

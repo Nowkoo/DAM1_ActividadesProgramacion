@@ -1,13 +1,14 @@
-package U4_ficheros;
+package U4_ficheros.G2_ByteOriented;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class ByteOriented_02_Copia {
+public class ByteOriented_04_Append {
 
     public static void main(String[] args) throws IOException {
         FileInputStream fichero_entrada = new FileInputStream("./recursos/foo.txt");
-        FileOutputStream fichero_salida = new FileOutputStream("./recursos/foo_copia.txt");
+        FileOutputStream fichero_salida = new FileOutputStream("./recursos/foo_copia.txt", true);
 
         int lectura = fichero_entrada.read();
         while (lectura != -1){
@@ -19,5 +20,4 @@ public class ByteOriented_02_Copia {
         fichero_entrada.close();
         fichero_salida.close();
     }
-
 }
