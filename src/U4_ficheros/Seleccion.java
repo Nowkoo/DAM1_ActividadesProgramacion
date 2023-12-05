@@ -94,7 +94,7 @@ public class Seleccion {
                 System.out.print("\tAÑO: " + f_in.readInt());
                 System.out.print("\tALTURA: " + f_in.readFloat());
                 System.out.print("\tCLUB: " + f_in.readUTF());*/
-                System.out.printf("COD. PAÍS: %d PAIS: %s NOMBRE: %s AÑO: %d ALTURA: %.2f CLUB: %s", f_in.readInt(), f_in.readUTF(), f_in.readUTF(), f_in.readInt(), f_in.readFloat(), f_in.readUTF());
+                System.out.printf("COD. PAÍS: %d PAIS: %s NOMBRE: %-22s AÑO: %d ALTURA: %.2f CLUB: %s", f_in.readInt(), f_in.readUTF(), f_in.readUTF(), f_in.readInt(), f_in.readFloat(), f_in.readUTF());
 
                 System.out.println();
             }
