@@ -16,4 +16,28 @@ public class Jugador {
         this.altura = altura;
         this.club = club;
     }
+
+    public int getCodPais() {
+        return codPais;
+    }
+
+    public String getNombrePais() {
+        return nombrePais;
+    }
+
+    public String getNombreJugador() {
+        return nombreJugador;
+    }
+
+    public int getAñoNacimiento() {
+        return añoNacimiento;
+    }
+
+    public float getAltura() {
+        return altura;
+    }
+
+    public String getClub() {
+        return club;
+    }
 }
