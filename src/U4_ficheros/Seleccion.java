@@ -1,6 +1,7 @@
 package U4_ficheros;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -13,6 +14,7 @@ public class Seleccion {
             System.out.println("0: Cerrar programa");
             System.out.println("1: Generar selección");
             System.out.println("2: Leer selección");
+            System.out.println("3: Combinar selecciones");
             System.out.println("Introduce tu opción de trabajo: ");
             option = menuInput();
 
@@ -21,11 +23,24 @@ public class Seleccion {
                 System.out.println("Se ha generado el fichero.");
 
             } else if (option == 2) {
-                System.out.println("Introduzca la ruta del archivo que quiere leer: ");
+                System.out.println("Introduzca la ruta del fichero que quiere leer: ");
                 File f = fileInput();
                 if(f.exists() && f.isFile())
                     leerSeleccion(f);
                 else
+                    System.out.println("Archivo no válido.");
+
+            } else if (option == 3) {
+                System.out.println("Introduzca la ruta del primer fichero (se sobreescribirán los datos): ");
+                File f = fileInput();
+                if(f.exists() && f.isFile()) {
+                    System.out.println("Introduzca la ruta del segundo fichero: ");
+                    File f2 = fileInput();
+                    if(f2.exists() && f2.isFile())
+                        combinarSelecciones(f, f2);
+                    else
+                        System.out.println("Archivo no válido.");
+                } else
                     System.out.println("Archivo no válido.");
 
             } else if (option == 0) {
@@ -82,27 +97,49 @@ public class Seleccion {
         }
     }
 
-    public static void leerSeleccion(File f) {
+    public static ArrayList arrayJugadores(File f) {
+        ArrayList<Jugador> jugadores = new ArrayList<>();
+
         try {
-            Jugador[] jugadores;
-            DataInputStream f_in = new DataInputStream(new FileInputStream(f));
-
+            DataInputStream f_in = new DataInputStream((new FileInputStream(f)));
             while(f_in.available() > 0) {
-                /*System.out.print(("COD. PAÍS: " + f_in.readInt()));
-                System.out.print("\tPAÍS: " + f_in.readUTF());
-                System.out.print("\tNOMBRE: " + f_in.readUTF());
-                System.out.print("\tAÑO: " + f_in.readInt());
-                System.out.print("\tALTURA: " + f_in.readFloat());
-                System.out.print("\tCLUB: " + f_in.readUTF());*/
-                System.out.printf("COD. PAÍS: %d PAIS: %s NOMBRE: %-22s AÑO: %d ALTURA: %.2f CLUB: %s", f_in.readInt(), f_in.readUTF(), f_in.readUTF(), f_in.readInt(), f_in.readFloat(), f_in.readUTF());
-
-                System.out.println();
+                jugadores.add(new Jugador(f_in.readInt(), f_in.readUTF(), f_in.readUTF(), f_in.readInt(), f_in.readFloat(), f_in.readUTF()));
             }
             f_in.close();
 
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+        return jugadores;
+    }
+
+    public static ArrayList ordenar(ArrayList<Jugador> jugadores) {
+        Jugador aux;
+        for (int i = 0; i < jugadores.size() - 1; i++) {
+            for (int j = 0; j < (jugadores.size() - 1 - i); j++) {
+                if (jugadores.get(j).getAñoNacimiento() > jugadores.get(j + 1).getAñoNacimiento()) {
+                    aux = jugadores.get(j);
+                    jugadores.set(j, jugadores.get(j + 1));
+                    jugadores.set(j + 1, aux);
+                }
+            }
+        }
+        return jugadores;
+    }
+
+    public static void leerSeleccion(File f) {
+        ArrayList<Jugador> jugadores = ordenar(arrayJugadores(f));
+        for (int i = 0; i < jugadores.size(); i++) {
+            System.out.printf("COD. PAÍS: %d PAIS: %s NOMBRE: %-22s AÑO: %d ALTURA: %.2f CLUB: %s",
+                    jugadores.get(i).getCodPais(), jugadores.get(i).getNombrePais(),
+                    jugadores.get(i).getNombreJugador(), jugadores.get(i).getAñoNacimiento(),
+                    jugadores.get(i).getAltura(), jugadores.get(i).getClub());
+            System.out.println();
+        }
+    }
+
+    public static void combinarSelecciones(File f, File f2) {
+
     }
 
     static File fileInput() {
