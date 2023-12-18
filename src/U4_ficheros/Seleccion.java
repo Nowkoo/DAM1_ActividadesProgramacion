@@ -12,15 +12,15 @@ public class Seleccion {
 
         while (option != exitKey) {
             System.out.println("0: Cerrar programa");
-            System.out.println("1: Generar selección");
-            System.out.println("2: Leer selección");
-            System.out.println("3: Combinar selecciones");
+            System.out.println("1: Generar fichero con la selección de EEUU.");
+            System.out.println("2: Leer ficheros de selección.");
+            System.out.println("3: Añadir los jugadores de una selección a los de otra (combinar).");
             System.out.println("Introduce tu opción de trabajo: ");
             option = menuInput();
 
             if (option == 1) {
-                generarFichero(generarJugadores());
-                System.out.println("Se ha generado el fichero.");
+                generarFichero(generarJugadores(), "./recursos/seleccion_EEUU.dat");
+                System.out.println("Se ha generado el fichero con la selección de EEUU.");
 
             } else if (option == 2) {
                 System.out.println("Introduzca la ruta del fichero que quiere leer: ");
@@ -31,10 +31,10 @@ public class Seleccion {
                     System.out.println("Archivo no válido.");
 
             } else if (option == 3) {
-                System.out.println("Introduzca la ruta del primer fichero (se sobreescribirán los datos): ");
+                System.out.println("Introduzca la ruta del fichero de selección al que se añadirán los nuevos jugadores: ");
                 File f = fileInput();
                 if(f.exists() && f.isFile()) {
-                    System.out.println("Introduzca la ruta del segundo fichero: ");
+                    System.out.println("Introduzca la ruta del fichero de selección donde se encuentran los datos de los jugadores que quiere añadir al primer fichero: ");
                     File f2 = fileInput();
                     if(f2.exists() && f2.isFile())
                         combinarSelecciones(f, f2);
@@ -52,43 +52,43 @@ public class Seleccion {
         }
     }
 
-    public static Jugador[] generarJugadores() {
-        Jugador[] jugadores = new Jugador[19];
+    public static ArrayList<Jugador> generarJugadores() {
+        ArrayList<Jugador> jugadores = new ArrayList<>();
 
-        jugadores[0] = new Jugador(4, "USA", "Matt Turner", 1994, 1.90f, "Arsenal (ENG)");
-        jugadores[1] = new Jugador(4, "USA", "Ethan Horvath", 1995, 1.93f, "Luton Town (ENG)");
-        jugadores[2] = new Jugador(4, "USA", "Sean Johnson", 1989, 1.90f, "New York City FC (USA)");
-        jugadores[3] = new Jugador(4, "USA", "Sergiño Dest", 2000, 1.73f, "Milan (ITA)");
-        jugadores[4] = new Jugador(4, "USA", "Walker Zimmerman", 1993, 1.90f, "Nashville SC");
-        jugadores[5] = new Jugador(4, "USA", "Antonee Robinson", 1997, 1.82f, "Fulham (ENG)");
-        jugadores[6] = new Jugador(4, "USA", "Tim Ream", 1987, 1.85f, "Fulham (ENG)");
-        jugadores[7] = new Jugador(4, "USA", "Aaron Long", 1992, 1.88f, "New York Red Bulls (USA)");
-        jugadores[8] = new Jugador(4, "USA", "Shaquell Moore", 1996, 1.80f, "Nashville SC (USA)");
-        jugadores[9] = new Jugador(4, "USA", "Cameron Carter-Vickers", 1997, 1.85f, "Celtic (SCO)");
-        jugadores[10] = new Jugador(4, "USA", "DeAndre Yedlin", 1993, 1.71f, "Inter Miami (USA)");
-        jugadores[11] = new Jugador(4, "USA", "Joe Scally", 2002, 1.84f, "Borussia Mönchengladbach (GER)");
-        jugadores[12] = new Jugador(4, "USA", "Tyler Adams", 1999, 1.75f, "Leeds United (ENG)");
-        jugadores[13] = new Jugador(4, "USA", "Yunus Musah", 2002, 1.77f, "Valencia (SPA)");
-        jugadores[14] = new Jugador(4, "USA", "Weston McKennie", 1998, 1.85f, "Juventus (ITA)");
-        jugadores[15] = new Jugador(4, "USA", "Luca de la Torre", 1998, 1.78f, "Celta de Vigo (SPA)");
-        jugadores[16] = new Jugador(4, "USA", "Cristian Roldan", 1995, 1.72f, "Seattle Sounders (USA)");
-        jugadores[17] = new Jugador(4, "USA", "Kellyn Acosta", 1995, 1.77f, "Los Angeles FC (USA)");
-        jugadores[18] = new Jugador(4, "USA", "Giovanni Reyna", 2002, 1.85f, "Borussia Dortmund (GER)");
+        jugadores.add(new Jugador(4, "USA", "Matt Turner", 1994, 1.90f, "Arsenal (ENG)"));
+        jugadores.add(new Jugador(4, "USA", "Ethan Horvath", 1995, 1.93f, "Luton Town (ENG)"));
+        jugadores.add(new Jugador(4, "USA", "Sean Johnson", 1989, 1.90f, "New York City FC (USA)"));
+        jugadores.add(new Jugador(4, "USA", "Sergiño Dest", 2000, 1.73f, "Milan (ITA)"));
+        jugadores.add(new Jugador(4, "USA", "Walker Zimmerman", 1993, 1.90f, "Nashville SC"));
+        jugadores.add(new Jugador(4, "USA", "Antonee Robinson", 1997, 1.82f, "Fulham (ENG)"));
+        jugadores.add(new Jugador(4, "USA", "Tim Ream", 1987, 1.85f, "Fulham (ENG)"));
+        jugadores.add(new Jugador(4, "USA", "Aaron Long", 1992, 1.88f, "New York Red Bulls (USA)"));
+        jugadores.add(new Jugador(4, "USA", "Shaquell Moore", 1996, 1.80f, "Nashville SC (USA)"));
+        jugadores.add(new Jugador(4, "USA", "Cameron Carter-Vickers", 1997, 1.85f, "Celtic (SCO)"));
+        jugadores.add(new Jugador(4, "USA", "DeAndre Yedlin", 1993, 1.71f, "Inter Miami (USA)"));
+        jugadores.add(new Jugador(4, "USA", "Joe Scally", 2002, 1.84f, "Borussia Mönchengladbach (GER)"));
+        jugadores.add(new Jugador(4, "USA", "Tyler Adams", 1999, 1.75f, "Leeds United (ENG)"));
+        jugadores.add(new Jugador(4, "USA", "Yunus Musah", 2002, 1.77f, "Valencia (SPA)"));
+        jugadores.add(new Jugador(4, "USA", "Weston McKennie", 1998, 1.85f, "Juventus (ITA)"));
+        jugadores.add(new Jugador(4, "USA", "Luca de la Torre", 1998, 1.78f, "Celta de Vigo (SPA)"));
+        jugadores.add(new Jugador(4, "USA", "Cristian Roldan", 1995, 1.72f, "Seattle Sounders (USA)"));
+        jugadores.add(new Jugador(4, "USA", "Kellyn Acosta", 1995, 1.77f, "Los Angeles FC (USA)"));
+        jugadores.add(new Jugador(4, "USA", "Giovanni Reyna", 2002, 1.85f, "Borussia Dortmund (GER)"));
 
         return jugadores;
     }
 
-    public static void generarFichero(Jugador[] jugadores) {
+    public static void generarFichero(ArrayList<Jugador> jugadores, String ruta) {
         try {
-            DataOutputStream f_out = new DataOutputStream(new FileOutputStream("./recursos/seleccion_USA.dat"));
+            DataOutputStream f_out = new DataOutputStream(new FileOutputStream(ruta));
 
-            for (int i = 0; i < jugadores.length; i++) {
-                f_out.writeInt(jugadores[i].getCodPais());
-                f_out.writeUTF(jugadores[i].getNombrePais());
-                f_out.writeUTF(jugadores[i].getNombreJugador());
-                f_out.writeInt(jugadores[i].getAñoNacimiento());
-                f_out.writeFloat(jugadores[i].getAltura());
-                f_out.writeUTF(jugadores[i].getClub());
+            for (int i = 0; i < jugadores.size(); i++) {
+                f_out.writeInt(jugadores.get(i).getCodPais());
+                f_out.writeUTF(jugadores.get(i).getNombrePais());
+                f_out.writeUTF(jugadores.get(i).getNombreJugador());
+                f_out.writeInt(jugadores.get(i).getAñoNacimiento());
+                f_out.writeFloat(jugadores.get(i).getAltura());
+                f_out.writeUTF(jugadores.get(i).getClub());
             }
             f_out.close();
 
@@ -130,7 +130,7 @@ public class Seleccion {
     public static void leerSeleccion(File f) {
         ArrayList<Jugador> jugadores = ordenar(arrayJugadores(f));
         for (int i = 0; i < jugadores.size(); i++) {
-            System.out.printf("COD. PAÍS: %d PAIS: %s NOMBRE: %-22s AÑO: %d ALTURA: %.2f CLUB: %s",
+            System.out.printf("COD. PAÍS: %-2d PAIS: %-10s NOMBRE: %-25s AÑO: %d ALTURA: %.2f CLUB: %s",
                     jugadores.get(i).getCodPais(), jugadores.get(i).getNombrePais(),
                     jugadores.get(i).getNombreJugador(), jugadores.get(i).getAñoNacimiento(),
                     jugadores.get(i).getAltura(), jugadores.get(i).getClub());
@@ -139,7 +139,9 @@ public class Seleccion {
     }
 
     public static void combinarSelecciones(File f, File f2) {
-
+        ArrayList<Jugador> jugadores = arrayJugadores(f);
+        jugadores.addAll(arrayJugadores(f2));
+        generarFichero(jugadores, f.getPath());
     }
 
     static File fileInput() {
