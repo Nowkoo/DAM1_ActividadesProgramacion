@@ -1,7 +1,7 @@
 package U5_POO.T02;
 
 public class Camion {
-    private String matricula;
+    final private String matricula;
     private int volumen;
     private int peso;
 
@@ -13,10 +13,6 @@ public class Camion {
 
     public String getMatricula() {
         return matricula;
-    }
-
-    public void setMatricula(String matricula) {
-        this.matricula = matricula;
     }
 
     public int getVolumen() {
