@@ -17,7 +17,7 @@ public class Mudanza {
         this.bultos = bultos;
     }
 
-    public int coste() {
+    public int coste() throws Exception {
         int precioTotal = costeCarga() + costeDistancia();
         return precioTotal;
     }
