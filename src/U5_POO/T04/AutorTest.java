@@ -29,5 +29,10 @@ class AutorTest {
     void setGenero() {
         Autor autor = new Autor("Autor", 'f', "xxx@yyy");
 
+        autor.setGenero('n');
+        assertEquals('n', autor.getGenero());
+
+        autor.setGenero('z');
+        assertEquals(' ', autor.getGenero());
     }
 }
