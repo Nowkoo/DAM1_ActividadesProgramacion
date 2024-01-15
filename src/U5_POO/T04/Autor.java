@@ -24,10 +24,11 @@ public class Autor {
     }
 
     public void setGenero(char genero) {
-        if(genero == 'm' || genero == 'f' || genero == 'n')
+        if(genero == 'm' || genero == 'f' || genero == 'n') {
             this.genero = genero;
-        else
-            genero = ' ';
+        } else {
+            this.genero = ' ';
+        }
     }
 
     public String getEmail() {

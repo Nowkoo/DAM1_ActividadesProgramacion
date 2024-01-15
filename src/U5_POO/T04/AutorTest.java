@@ -32,7 +32,7 @@ class AutorTest {
         autor.setGenero('n');
         assertEquals('n', autor.getGenero());
 
-        autor.setGenero('z');
+        autor.setGenero('q');
         assertEquals(' ', autor.getGenero());
     }
 }
