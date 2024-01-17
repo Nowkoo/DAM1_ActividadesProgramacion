@@ -4,24 +4,21 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Tablero {
-    char[][] tablero;
-    ArrayList<Barco> barcos;
-    int numFilas;
-    int numColumnas;
-    Random random = new Random();
+    private char[][] tablero;
+    private ArrayList<Barco> barcos;
+    private int numFilas;
+    private int numColumnas;
+    private Random random = new Random();
 
     public Tablero(int numFilas, int numColumnas, int numBarcos) {
         this.numFilas = numFilas;
         this.numColumnas = numColumnas;
         generarTablero();
         generarBarcos(numBarcos);
-
-        for (Barco b : barcos) {
-            System.out.println("filaBarco: " + b.getFila() + ", columnaBarco: " + b.getColumna());
-        }
     }
     public void mostrarEstadisticas() {
-
+        System.out.println("\n--Estadísticas--");
+        System.out.println("Número de tiros necesarios: " + HundirLaFlota.getNumTiros());
     }
 
     public void mostrarTablero(boolean muestraBarcos) {
