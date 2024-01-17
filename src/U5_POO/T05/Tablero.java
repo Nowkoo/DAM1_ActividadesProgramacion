@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Tablero {
-    ArrayList<String> tablero;
+    char[][] tablero;
     ArrayList<Barco> barcos;
     int numFilas;
     int numColumnas;
@@ -15,63 +15,73 @@ public class Tablero {
         this.numColumnas = numColumnas;
         generarTablero();
         generarBarcos(numBarcos);
+
+        for (Barco b : barcos) {
+            System.out.println("filaBarco: " + b.getFila() + ", columnaBarco: " + b.getColumna());
+        }
     }
     public void mostrarEstadisticas() {
 
     }
 
     public void mostrarTablero(boolean muestraBarcos) {
-        for (String t: tablero) {
-            System.out.println(t);
+        if(muestraBarcos)
+            mostrarBarcos();
+
+        System.out.print(" \t");
+        for (int i = 0; i < tablero.length; i++) {
+            System.out.print(i + 1 + " ");
+        }
+        System.out.println();
+
+        String letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        for (int i = 0; i < tablero.length; i++) {
+            System.out.print(letras.charAt(i) + "\t");
+            for (int j = 0; j < tablero[i].length; j++) {
+                System.out.print(tablero[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public void mostrarBarcos() {
+        for (Barco b : barcos) {
+            if (tablero[b.getFila()][b.getColumna()] != 'X') {
+                tablero[b.getFila()][b.getColumna()] = 'B';
+            }
         }
     }
 
     public void tiro(int fila, int columna) {
         boolean tocado = false;
         String resultado = "Has fallado.";
-        InterfazUsuario ui = new InterfazUsuario();
-        fila = ui.inputFila();
-        columna = ui.inputColumna();
 
         for (Barco b : barcos) {
-            if (b.fila == fila && b.columna == columna) {
+            if (b.getFila() == fila && b.getColumna() == columna) {
                 barcos.remove(b);
                 resultado = "¡Hundido!";
+                tocado = true;
+                break;
             }
-            break;
         }
+
+        if (tocado)
+            tablero[fila][columna] = 'X';
+        else
+            tablero[fila][columna] = 'O';
+
         System.out.println(resultado);
     }
 
-    public void actualizarTablero(int fila, int columna, boolean tocado) {
-        if (tocado) {
-            String tirada = tablero.get(fila - 1);
-            for (int i = 0; i < columna; i++) {
-
-            }
-        }
-    }
-
-    public void comprobarFinPartida() {
-
+    public boolean comprobarFinPartida() {
+        return barcos.isEmpty();
     }
 
     public void generarTablero() {
-        tablero = new ArrayList<>();
-        tablero.add(" ");
-        String letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-        if (numFilas > letras.length())
-            numFilas = letras.length();
-
-        for (int i = 0; i < numColumnas; i++) {
-            tablero.set(0, tablero.get(0) + "\t" + (i + 1));
-        }
-
-        for (int i = 0; i < numFilas; i++) {
-            tablero.add(letras.charAt(i) + "");
-            for (int j = 0; j < numColumnas; j++) {
-                tablero.set(i, tablero.get(i) + "\t ");
+        tablero = new char[numFilas][numColumnas];
+        for (int i = 0; i < tablero.length; i++) {
+            for (int j = 0; j < tablero[i].length; j++) {
+                tablero[i][j] = '-';
             }
         }
     }
@@ -80,6 +90,21 @@ public class Tablero {
         barcos = new ArrayList<>();
         for (int i = 0; i < numBarcos; i++) {
             barcos.add(new Barco(random.nextInt(numFilas), random.nextInt(numColumnas)));
+            while (barcoRepetido(barcos.get(i))) {
+                barcos.get(i).setFila(random.nextInt(numFilas));
+                barcos.get(i).setColumna(random.nextInt(numColumnas));
+            }
         }
+    }
+
+    public boolean barcoRepetido (Barco barco) {
+        boolean repetido = false;
+        for (Barco b : barcos) {
+            if (barco == b)
+                break;
+            else if (barco.getFila() == b.getFila() && barco.getColumna() == b.getColumna())
+                repetido = true;
+        }
+        return repetido;
     }
 }

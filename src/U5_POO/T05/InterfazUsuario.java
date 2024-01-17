@@ -5,10 +5,15 @@ import java.util.Scanner;
 public class InterfazUsuario {
     Scanner scanner = new Scanner(System.in);
     public int inputFila() {
-        return scanner.nextInt();
+        System.out.println("Letra: ");
+        String letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String letra = scanner.next();
+
+        return letras.indexOf(letra.charAt(0));
     }
 
     public int inputColumna() {
-        return scanner.nextInt();
+        System.out.print("Número: ");
+        return scanner.nextInt() - 1;
     }
 }

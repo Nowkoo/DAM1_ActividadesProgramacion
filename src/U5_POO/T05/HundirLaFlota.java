@@ -5,7 +5,10 @@ public class HundirLaFlota {
         Tablero tablero = new Tablero(4, 4, 4);
         InterfazUsuario ui = new InterfazUsuario();
 
-        tablero.mostrarTablero(true);
+        while(!tablero.comprobarFinPartida()) {
+            tablero.mostrarTablero(true);
+            tablero.tiro(ui.inputFila(), ui.inputColumna());
+        }
 
     }
 }
