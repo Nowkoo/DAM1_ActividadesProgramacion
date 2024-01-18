@@ -1,4 +1,4 @@
-package U5_POO.T05;
+package U5_POO.T06;
 
 public class HundirLaFlota {
     private static int numTiros;

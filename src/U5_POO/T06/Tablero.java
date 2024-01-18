@@ -1,4 +1,6 @@
-package U5_POO.T05;
+package U5_POO.T06;
+
+import U5_POO.T05.HundirLaFlota;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -83,19 +85,20 @@ public class Tablero {
             }
         }
     }
-
-    public void generarBarcos(int numBarcos) {
+    public void generarArrayBarcos(int numBarcos) {
         barcos = new ArrayList<>();
         for (int i = 0; i < numBarcos; i++) {
-            barcos.add(new Barco(random.nextInt(numFilas), random.nextInt(numColumnas)));
-            while (barcoRepetido(barcos.get(i))) {
-                barcos.get(i).setFila(random.nextInt(numFilas));
-                barcos.get(i).setColumna(random.nextInt(numColumnas));
-            }
+            barcos.add(generarBarco());
         }
     }
 
-    public boolean barcoRepetido (Barco barco) {
+    public Barco generarBarco() {
+        Coordenada inicio = new Coordenada(random.nextInt(numFilas), random.nextInt(numColumnas));
+
+        return new Barco();
+    }
+
+    public boolean CoordenadaRepetida (Coordenada coord) {
         boolean repetido = false;
         for (Barco b : barcos) {
             if (barco == b)
