@@ -8,6 +8,7 @@ import java.util.Random;
 public class Tablero {
     private char[][] tablero;
     private Barco[] barcos;
+    private ArrayList<Coordenada> posicionesOcupadas = new ArrayList<>();
     private int numFilas;
     private int numColumnas;
     private Random random = new Random();
@@ -47,8 +48,10 @@ public class Tablero {
 
     public void mostrarBarcos() {
         for (Barco b : barcos) {
-            if (tablero[b.getFila()][b.getColumna()] != 'X') {
-                tablero[b.getFila()][b.getColumna()] = 'B';
+            for (Coordenada c : b.getCoordenadas()) {
+                if (tablero[c.getFila()][c.getColumna()] != 'X') {
+                    tablero[c.getFila()][c.getColumna()] = 'B';
+                }
             }
         }
     }
@@ -58,11 +61,13 @@ public class Tablero {
         String resultado = "Has fallado.";
 
         for (Barco b : barcos) {
-            if (b.getFila() == fila && b.getColumna() == columna) {
-                barcos.remove(b);
-                resultado = "¡Hundido!";
-                tocado = true;
-                break;
+            for (Coordenada c : b.getCoordenadas()) {
+                if (c.getFila() == fila && c.getColumna() == columna) {
+                    b.getCoordenadas().remove(b);
+                    resultado = "¡Hundido!";
+                    tocado = true;
+                    break;
+                }
             }
         }
 
@@ -90,7 +95,8 @@ public class Tablero {
         for (int i = 0; i < barcos.length; i++) {
             do {
                 rellenarBarco(barcos[i], orientacion(), incremento());
-            } while(barcoInvalido(barcos[i]));
+            } while (barcoInvalido(barcos[i]));
+            generarAreaBarco(barcos[i]);
         }
     }
 
@@ -103,6 +109,16 @@ public class Tablero {
                 barco.getCoordenadas()[i] = new Coordenada(barco.getCoordenadas()[i - 1].getFila(), barco.getCoordenadas()[i - 1].getColumna() + incremento);
             }
         }
+        if (excedeTablero(barco))
+            rellenarBarco(barco, orientacion, incremento);
+    }
+
+    public boolean excedeTablero(Barco barco) {
+        for (Coordenada c : barco.getCoordenadas()) {
+            if (c.getFila() > numFilas || c.getColumna() > numColumnas)
+                return true;
+        }
+        return false;
     }
 
     public int orientacion() {
@@ -117,31 +133,52 @@ public class Tablero {
             return 1;
     }
 
+    public void generarAreaBarco(Barco barco) {
+        ArrayList<Coordenada> areaCoordenada = new ArrayList<>();
+        for (Coordenada coordenadaBarco : barco.getCoordenadas()) {
+            areaCoordenada = generarAreaCoordenada(coordenadaBarco);
+            añadirACoordenadasOcupadas(areaCoordenada);
+        }
+    }
+
+    public ArrayList<Coordenada> generarAreaCoordenada(Coordenada coordenadaBarco) {
+        ArrayList<Coordenada> areaCoordenada = new ArrayList<>();
+        for (int i = coordenadaBarco.getFila() - 1; i < 3; i++) {
+            for (int j = coordenadaBarco.getColumna() - 1; i < 3; i++) {
+                areaCoordenada.add(new Coordenada(i, j));
+            }
+        }
+        return areaCoordenada;
+    }
+
+    public void añadirACoordenadasOcupadas(ArrayList<Coordenada> nuevasCoordenadas) {
+        for (Coordenada coordenada : nuevasCoordenadas) {
+            if(!coordenadaRepetida(coordenada) && !excedeTablero(coordenada)) {
+                posicionesOcupadas.add(coordenada);
+            }
+        }
+    }
+
+    public boolean coordenadaRepetida(Coordenada c) {
+        boolean repetida = false;
+        for (Coordenada cOcupada : posicionesOcupadas) {
+            if (cOcupada.getFila() == c.getFila() && cOcupada.getColumna() == c.getColumna())
+                repetida = true;
+        }
+        return repetida;
+    }
+
+    public boolean excedeTablero(Coordenada coordenada) {
+        if (coordenada.getFila() > numFilas || coordenada.getColumna() > numColumnas)
+            return true;
+        return false;
+    }
+
     public boolean barcoInvalido(Barco barco) {
-        for (Barco b : barcos) {
-            if (b != barco) {
-                compararCoordenadas(barco, b);
-            }
+        for (Coordenada coordenadaBarco : barco.getCoordenadas()) {
+            if (coordenadaRepetida(coordenadaBarco))
+                return true;
         }
-        return true;
-    }
-
-    public boolean compararCoordenadas(Barco barcoNuevo, Barco barcoViejo) {
-        for (Coordenada cordNueva : barcoNuevo.getCoordenadas()) {
-            for (Coordenada cordVieja : barcoViejo.getCoordenadas()) {
-
-            }
-        }
-    }
-
-    public boolean coordenadaInvalida (Coordenada coord, Coordenada[] cordenadas) {
-        boolean repetido = false;
-        for (Coordenada c : cordenadas) {
-            if (coord == c)
-                break;
-            else if (coord.getFila() == c.getFila() && coord.getColumna() == c.getColumna())
-                repetido = true;
-        }
-        return repetido;
+        return false;
     }
 }

@@ -1,14 +1,16 @@
 package U5_POO.T06;
 
+import java.util.ArrayList;
+
 public class Barco {
     private int longitud;
-    private Coordenada[] coordenadas;
+    private ArrayList<Coordenada> coordenadas;
 
     public Barco(int longitud) {
         this.longitud = longitud;
     }
 
-    public Coordenada[] getCoordenadas() {
+    public ArrayList<Coordenada> getCoordenadas() {
         return coordenadas;
     }
 
@@ -16,7 +18,7 @@ public class Barco {
         return longitud;
     }
 
-    public void setCoordenadas(Coordenada[] coordenadas) {
+    public void setCoordenadas(ArrayList<Coordenada> coordenadas) {
         this.coordenadas = coordenadas;
     }
 }
