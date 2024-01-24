@@ -24,4 +24,9 @@ public class Coordenada {
     public int getColumna() {
         return columna;
     }
+
+    @Override
+    public String toString() {
+        return "(" + fila + ", " + columna + ")";
+    }
 }

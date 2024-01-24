@@ -21,4 +21,13 @@ public class Barco {
     public void setCoordenadas(ArrayList<Coordenada> coordenadas) {
         this.coordenadas = coordenadas;
     }
+
+    @Override
+    public String toString() {
+        String str = "";
+        for (Coordenada coordenada : coordenadas) {
+            str+= "C: " + coordenada.toString() + " ";
+        }
+        return str;
+    }
 }

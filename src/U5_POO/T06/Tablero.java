@@ -22,6 +22,11 @@ public class Tablero {
         generarTablero();
         rellenarBarcos();
     }
+
+    public Tablero() {
+        //Tablero para pruebas
+    }
+
     public void mostrarEstadisticas() {
         System.out.println("\nFIN DE PARTIDA");
         System.out.println("--Estadísticas--");
@@ -119,6 +124,7 @@ public class Tablero {
 
     public void rellenarBarco(Barco barco, int orientacion, int incremento) {
         do {
+            barco.setCoordenadas(new ArrayList<Coordenada>());
             barco.getCoordenadas().add(new Coordenada(random.nextInt(numFilas), random.nextInt(numColumnas)));
             for (int i = 1; i < barco.getLongitud(); i++) {
                 int fila = barco.getCoordenadas().get(i - 1).getFila();
@@ -155,7 +161,7 @@ public class Tablero {
     }
 
     public void generarAreaBarco(Barco barco) {
-        ArrayList<Coordenada> areaCoordenada = new ArrayList<>();
+        ArrayList<Coordenada> areaCoordenada;
         for (Coordenada coordenadaBarco : barco.getCoordenadas()) {
             areaCoordenada = generarAreaCoordenada(coordenadaBarco);
             añadirACoordenadasOcupadas(areaCoordenada);
@@ -164,10 +170,15 @@ public class Tablero {
 
     public ArrayList<Coordenada> generarAreaCoordenada(Coordenada coordenadaBarco) {
         ArrayList<Coordenada> areaCoordenada = new ArrayList<>();
-        for (int i = coordenadaBarco.getFila() - 1; i < 3; i++) {
-            for (int j = coordenadaBarco.getColumna() - 1; i < 3; i++) {
-                areaCoordenada.add(new Coordenada(i, j));
+        int fila = coordenadaBarco.getFila() - 1;
+        int columna = coordenadaBarco.getColumna() - 1;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                areaCoordenada.add(new Coordenada(fila, columna));
+                columna++;
             }
+            columna = coordenadaBarco.getColumna() - 1;
+            fila++;
         }
         return areaCoordenada;
     }
@@ -201,5 +212,53 @@ public class Tablero {
                 return true;
         }
         return false;
+    }
+
+    public char[][] getTablero() {
+        return tablero;
+    }
+
+    public void setTablero(char[][] tablero) {
+        this.tablero = tablero;
+    }
+
+    public ArrayList<Barco> getBarcos() {
+        return barcos;
+    }
+
+    public void setBarcos(ArrayList<Barco> barcos) {
+        this.barcos = barcos;
+    }
+
+    public ArrayList<Coordenada> getPosicionesOcupadas() {
+        return posicionesOcupadas;
+    }
+
+    public void setPosicionesOcupadas(ArrayList<Coordenada> posicionesOcupadas) {
+        this.posicionesOcupadas = posicionesOcupadas;
+    }
+
+    public int getNumFilas() {
+        return numFilas;
+    }
+
+    public void setNumFilas(int numFilas) {
+        this.numFilas = numFilas;
+    }
+
+    public int getNumColumnas() {
+        return numColumnas;
+    }
+
+    public void setNumColumnas(int numColumnas) {
+        this.numColumnas = numColumnas;
+    }
+
+    public String[] getResultados() {
+        return resultados;
+    }
+
+    public void setResultados(String[] resultados) {
+        this.resultados = resultados;
     }
 }
