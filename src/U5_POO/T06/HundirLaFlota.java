@@ -1,5 +1,7 @@
 package U5_POO.T06;
 
+import java.util.ArrayList;
+
 public class HundirLaFlota {
     private static int numTiros;
     public static void main(String[] args) {
@@ -26,10 +28,15 @@ public class HundirLaFlota {
 
     public static void play() {
         numTiros = 0;
-        Tablero tablero = new Tablero(8, 8, 10);
+        ArrayList<Barco> barcos = new ArrayList<>();
+        barcos.add(new Barco(2));
+        barcos.add(new Barco(3));
+        barcos.add(new Barco(3));
+        barcos.add(new Barco(4));
+        Tablero tablero = new Tablero(8, 8, barcos);
 
         while(!tablero.comprobarFinPartida()) {
-            tablero.mostrarTablero(false);
+            tablero.mostrarTablero(true);
             try {
                 System.out.println("--Realiza tu tirada--");
                 int fila = InterfazUsuario.inputFila();

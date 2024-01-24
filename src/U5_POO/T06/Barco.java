@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Barco {
     private int longitud;
-    private ArrayList<Coordenada> coordenadas;
+    private ArrayList<Coordenada> coordenadas = new ArrayList<>();
 
     public Barco(int longitud) {
         this.longitud = longitud;

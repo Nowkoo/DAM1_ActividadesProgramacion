@@ -7,13 +7,15 @@ import java.util.Random;
 
 public class Tablero {
     private char[][] tablero;
-    private Barco[] barcos;
+    private ArrayList<Barco> barcos;
     private ArrayList<Coordenada> posicionesOcupadas = new ArrayList<>();
     private int numFilas;
     private int numColumnas;
+
+    private String[] resultados = {"Has fallado.", "Tocado...", "¡Hundido!"};
     private Random random = new Random();
 
-    public Tablero(int numFilas, int numColumnas, Barco[] barcos) {
+    public Tablero(int numFilas, int numColumnas, ArrayList<Barco> barcos) {
         this.numFilas = numFilas;
         this.numColumnas = numColumnas;
         this.barcos = barcos;
@@ -57,30 +59,45 @@ public class Tablero {
     }
 
     public void tiro(int fila, int columna) {
-        boolean tocado = false;
-        String resultado = "Has fallado.";
-
-        for (Barco b : barcos) {
-            for (Coordenada c : b.getCoordenadas()) {
-                if (c.getFila() == fila && c.getColumna() == columna) {
-                    b.getCoordenadas().remove(b);
-                    resultado = "¡Hundido!";
-                    tocado = true;
-                    break;
-                }
-            }
-        }
-
-        if (tocado)
-            tablero[fila][columna] = 'X';
-        else if (tablero[fila][columna] != 'X')
-            tablero[fila][columna] = 'O';
-
+        String resultado = comprobarBarcos(fila, columna);
+        actualizarTablero(fila, columna, resultado);
         System.out.println(resultado);
     }
 
+    public String comprobarBarcos(int fila, int columna) {
+        String resultado = resultados[0];
+        for (Barco barco : barcos) {
+            for (Coordenada coordenada : barco.getCoordenadas()) {
+                boolean coordenadasCoinciden = coordenada.getFila() == fila && coordenada.getColumna() == columna;
+                if (coordenadasCoinciden) {
+                    barco.getCoordenadas().remove(coordenada);
+                    resultado = resultados[1];
+                    break;
+                }
+            }
+            if (arrayVacio(barco.getCoordenadas())) {
+                barcos.remove(barco);
+                resultado = resultados[2];
+                break;
+            }
+        }
+        return resultado;
+    }
+
+    public void actualizarTablero(int fila, int columna, String resultado) {
+        boolean haFallado = resultado.equals(resultados[0]);
+        if (haFallado)
+            tablero[fila][columna] = 'O';
+        else
+            tablero[fila][columna] = 'X';
+    }
+
+    public boolean arrayVacio(ArrayList array) {
+        return array.size() == 0;
+    }
+
     public boolean comprobarFinPartida() {
-        return barcos.isEmpty();
+        return arrayVacio(barcos);
     }
 
     public void generarTablero() {
@@ -92,30 +109,34 @@ public class Tablero {
         }
     }
     public void rellenarBarcos() {
-        for (int i = 0; i < barcos.length; i++) {
+        for (Barco barco : barcos) {
             do {
-                rellenarBarco(barcos[i], orientacion(), incremento());
-            } while (barcoInvalido(barcos[i]));
-            generarAreaBarco(barcos[i]);
+                rellenarBarco(barco, orientacion(), incremento());
+            } while (barcoInvalido(barco));
+            generarAreaBarco(barco);
         }
     }
 
     public void rellenarBarco(Barco barco, int orientacion, int incremento) {
-        barco.getCoordenadas()[0] = new Coordenada(random.nextInt(numFilas), random.nextInt(numColumnas));
-        for (int i = 1; i < barco.getLongitud(); i++) {
-            if (orientacion == 0) {
-                barco.getCoordenadas()[i] = new Coordenada(barco.getCoordenadas()[i - 1].getFila() + incremento, barco.getCoordenadas()[i - 1].getColumna());
-            } else {
-                barco.getCoordenadas()[i] = new Coordenada(barco.getCoordenadas()[i - 1].getFila(), barco.getCoordenadas()[i - 1].getColumna() + incremento);
+        do {
+            barco.getCoordenadas().add(new Coordenada(random.nextInt(numFilas), random.nextInt(numColumnas)));
+            for (int i = 1; i < barco.getLongitud(); i++) {
+                int fila = barco.getCoordenadas().get(i - 1).getFila();
+                int columna = barco.getCoordenadas().get(i - 1).getColumna();
+                if (orientacion == 0) {
+                    barco.getCoordenadas().add(new Coordenada(fila + incremento, columna));
+                } else {
+                    barco.getCoordenadas().add(new Coordenada(fila, columna + incremento));
+                }
             }
-        }
-        if (excedeTablero(barco))
-            rellenarBarco(barco, orientacion, incremento);
+        } while (excedeTablero(barco));
     }
 
     public boolean excedeTablero(Barco barco) {
         for (Coordenada c : barco.getCoordenadas()) {
-            if (c.getFila() > numFilas || c.getColumna() > numColumnas)
+            boolean esDemasiadoGrande = c.getFila() > numFilas || c.getColumna() > numColumnas;
+            boolean esDemasiadoPequeño = c.getFila() < 0 || c.getColumna() < 0;
+            if (esDemasiadoGrande || esDemasiadoPequeño)
                 return true;
         }
         return false;
