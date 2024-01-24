@@ -20,17 +20,10 @@ public class Tablero {
         this.numColumnas = numColumnas;
         this.barcos = barcos;
         generarTablero();
-        rellenarBarcos();
     }
 
     public Tablero() {
         //Tablero para pruebas
-    }
-
-    public void mostrarEstadisticas() {
-        System.out.println("\nFIN DE PARTIDA");
-        System.out.println("--Estadísticas--");
-        System.out.println("Número de tiros necesarios: " + HundirLaFlota.getNumTiros());
     }
 
     public void mostrarTablero(boolean muestraBarcos) {
@@ -101,10 +94,6 @@ public class Tablero {
         return array.size() == 0;
     }
 
-    public boolean comprobarFinPartida() {
-        return arrayVacio(barcos);
-    }
-
     public void generarTablero() {
         tablero = new char[numFilas][numColumnas];
         for (int i = 0; i < tablero.length; i++) {
@@ -113,16 +102,16 @@ public class Tablero {
             }
         }
     }
-    public void rellenarBarcos() {
+    public void rellenarBarcosIA() {
         for (Barco barco : barcos) {
             do {
-                rellenarBarco(barco, orientacion(), incremento());
+                rellenarBarcoIA(barco, orientacion(), incremento());
             } while (barcoInvalido(barco));
             generarAreaBarco(barco);
         }
     }
 
-    public void rellenarBarco(Barco barco, int orientacion, int incremento) {
+    public void rellenarBarcoIA(Barco barco, int orientacion, int incremento) {
         do {
             barco.setCoordenadas(new ArrayList<Coordenada>());
             barco.getCoordenadas().add(new Coordenada(random.nextInt(numFilas), random.nextInt(numColumnas)));
@@ -138,9 +127,45 @@ public class Tablero {
         } while (excedeTablero(barco));
     }
 
+    public void rellenarBarcosJugador() {
+        System.out.println("Primero coloca tus barcos.");
+        for (Barco barco : barcos) {
+            System.out.println("Estás colocando un barco de " + barco.getLongitud() + " casillas.");
+            for (int i = 0; i < barco.getLongitud(); i++) {
+                mostrarTablero(true);
+                Coordenada nuevaCoordenada = rellenarCoordenadaJugador(barco);
+            }
+        }
+    }
+
+    public Coordenada rellenarCoordenadaJugador(Barco barco) {
+        Coordenada nuevaCoordenada;
+        do {
+            int fila = InterfazUsuario.inputFila();
+            int columna = InterfazUsuario.inputColumna();
+            nuevaCoordenada = new Coordenada(fila, columna);
+        } while (excedeTablero(nuevaCoordenada) && !esAdyacente(barco, nuevaCoordenada));
+        barco.getCoordenadas().add(nuevaCoordenada);
+        return nuevaCoordenada;
+    }
+
+    public boolean esAdyacente(Barco barco, Coordenada nuevaCoordenada) {
+        if (arrayVacio(barco.getCoordenadas()))
+            return true;
+        Coordenada ultimaCoordenada = barco.getCoordenadas().get(barco.getCoordenadas().size() - 1);
+        boolean mismaFila = nuevaCoordenada.getFila() == ultimaCoordenada.getFila();
+        boolean mismaColumna = nuevaCoordenada.getColumna() == ultimaCoordenada.getColumna();
+        if (mismaFila) {
+            //boolean coincide = nuevaCoordenada.getColumna() - 1 == ultimaCoordenada.getColumna();
+        } else if (mismaColumna) {
+
+        }
+        return false;
+    }
+
     public boolean excedeTablero(Barco barco) {
         for (Coordenada c : barco.getCoordenadas()) {
-            boolean esDemasiadoGrande = c.getFila() > numFilas || c.getColumna() > numColumnas;
+            boolean esDemasiadoGrande = c.getFila() > numFilas - 1 || c.getColumna() > numColumnas - 1;
             boolean esDemasiadoPequeño = c.getFila() < 0 || c.getColumna() < 0;
             if (esDemasiadoGrande || esDemasiadoPequeño)
                 return true;

@@ -56,7 +56,7 @@ class TableroTest {
         Tablero tablero = new Tablero();
         tablero.setNumFilas(8);
         tablero.setNumColumnas(8);
-        tablero.rellenarBarco(barcoPrueba, orientacion, incremento);
+        tablero.rellenarBarcoIA(barcoPrueba, orientacion, incremento);
         System.out.println(barcoPrueba);
         boolean isEmpty = barcoPrueba.getCoordenadas().size() != 0;
         assertEquals(false, !isEmpty);

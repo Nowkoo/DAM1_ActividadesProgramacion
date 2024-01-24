@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 public class HundirLaFlota {
     private static int numTiros;
+    private static Tablero tableroIA;
+    private static Tablero tableroJugador;
+    private static ArrayList<Barco> barcosIA;
+    private static ArrayList<Barco> barcosJugador;
     public static void main(String[] args) {
         int playerInput = 1;
         while(playerInput != 2) {
@@ -22,33 +26,64 @@ public class HundirLaFlota {
         }
     }
 
-    public static int getNumTiros() {
-        return numTiros;
-    }
-
     public static void play() {
         numTiros = 0;
-        ArrayList<Barco> barcos = new ArrayList<>();
-        barcos.add(new Barco(2));
-        barcos.add(new Barco(3));
-        barcos.add(new Barco(3));
-        barcos.add(new Barco(4));
-        Tablero tablero = new Tablero(8, 8, barcos);
+        prepararIA();
+        prepararJugador();
 
-        while(!tablero.comprobarFinPartida()) {
-            tablero.mostrarTablero(true);
-            try {
-                System.out.println("--Realiza tu tirada--");
-                int fila = InterfazUsuario.inputFila();
-                int columna = InterfazUsuario.inputColumna();
-                tablero.tiro(fila, columna);
-                numTiros++;
-            } catch (Exception e) {
-                System.out.println("Jugada inválida. Prueba otra vez: \n");
-            }
+        while(comprobarFinPartida()) {
+            turnoJugador();
+            turnoIA();
         }
-        tablero.mostrarEstadisticas();
+        mostrarEstadisticas();
         if(InterfazUsuario.volverAJugar())
             play();
+    }
+
+    public static void prepararIA() {
+        barcosIA = new ArrayList<>();
+        barcosIA.add(new Barco(2));
+        barcosIA.add(new Barco(3));
+        barcosIA.add(new Barco(3));
+        barcosIA.add(new Barco(4));
+        tableroIA = new Tablero(8, 8, barcosIA);
+        tableroIA.rellenarBarcosIA();
+    }
+
+    public static void prepararJugador() {
+        barcosJugador = new ArrayList<>();
+        barcosJugador.add(new Barco(2));
+        barcosJugador.add(new Barco(3));
+        barcosJugador.add(new Barco(3));
+        barcosJugador.add(new Barco(4));
+        tableroJugador = new Tablero(8, 8, barcosJugador);
+        tableroJugador.rellenarBarcosJugador();
+    }
+
+    public static void turnoJugador() {
+        tableroIA.mostrarTablero(true);
+        try {
+            System.out.println("--Realiza tu tirada--");
+            int fila = InterfazUsuario.inputFila();
+            int columna = InterfazUsuario.inputColumna();
+            tableroIA.tiro(fila, columna);
+            numTiros++;
+        } catch (Exception e) {
+            System.out.println("Jugada inválida. Prueba otra vez: \n");
+        }
+    }
+
+    public static void turnoIA() {
+
+    }
+
+    public static boolean comprobarFinPartida() {
+        return false;
+    }
+
+    public static void mostrarEstadisticas() {
+        System.out.println("\nFIN DE PARTIDA");
+        System.out.println("--Estadísticas--");
+        System.out.println("Número de tiros necesarios: " + numTiros);
     }
 }
