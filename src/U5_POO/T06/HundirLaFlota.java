@@ -9,6 +9,7 @@ public class HundirLaFlota {
     private static Tablero tableroJugador;
     private static ArrayList<Barco> barcosIA;
     private static ArrayList<Barco> barcosJugador;
+    private static String resultadoTurnoJugador, resultadoTurnoIA;
     public static void main(String[] args) {
         int playerInput = 1;
         while(playerInput != 2) {
@@ -31,10 +32,14 @@ public class HundirLaFlota {
         numTiros = 0;
         inicializarTableroIA();
         inicializarTableroJugador();
+        ia = new IA(tableroJugador);
+        mostrarTableros();
 
         while(!comprobarFinPartida()) {
             turnoJugador();
             turnoIA();
+            System.out.println("Resultado de tu tirada: " + resultadoTurnoJugador);
+            System.out.println("Resultado tirada IA: " + resultadoTurnoIA);
         }
         mostrarEstadisticas();
         if(InterfazUsuario.volverAJugar())
@@ -49,7 +54,6 @@ public class HundirLaFlota {
         barcosIA.add(new Barco(4));
         tableroIA = new Tablero(8, 8, barcosIA);
         tableroIA.rellenarBarcosIA();
-        ia = new IA(tableroJugador);
     }
 
     public static void inicializarTableroJugador() {
@@ -59,17 +63,16 @@ public class HundirLaFlota {
         barcosJugador.add(new Barco(3));
         barcosJugador.add(new Barco(4));
         tableroJugador = new Tablero(8, 8, barcosJugador);
-        tableroJugador.rellenarBarcosJugador();
+        //tableroJugador.rellenarBarcosJugador();
+        tableroJugador.rellenarBarcosIA();
     }
 
     public static void turnoJugador() {
-        System.out.println("Tu turno:");
-        tableroIA.mostrarTablero(true);
         try {
-            System.out.println("--Realiza tu tirada--");
+            System.out.println("Tu turno");
             int fila = InterfazUsuario.inputFila();
             int columna = InterfazUsuario.inputColumna();
-            tableroIA.tiro(fila, columna);
+            resultadoTurnoJugador = tableroIA.tiro(fila, columna);
             numTiros++;
         } catch (Exception e) {
             System.out.println("Jugada inválida. Prueba otra vez: \n");
@@ -77,8 +80,11 @@ public class HundirLaFlota {
     }
 
     public static void turnoIA() {
-        System.out.println("Turno del contrincante:");
-        ia.tirada();
+        Coordenada tiradaIA = ia.tirada();
+        resultadoTurnoIA = tableroJugador.tiro(tiradaIA.getFila(), tiradaIA.getColumna());
+        System.out.println("El contrincante ha jugado " + tiradaIA.getFila() + tiradaIA.getColumna());
+        ia.tiradasPrevias.add(tiradaIA);
+        mostrarTableros();
     }
 
     public static boolean comprobarFinPartida() {
@@ -89,5 +95,12 @@ public class HundirLaFlota {
         System.out.println("\nFIN DE PARTIDA");
         System.out.println("--Estadísticas--");
         System.out.println("Número de tiros necesarios: " + numTiros);
+    }
+
+    public static void mostrarTableros() {
+        System.out.println("\n----BARCOS IA----");
+        tableroIA.mostrarTablero(true);
+        System.out.println("\n----TUS BARCOS----");
+        tableroJugador.mostrarTablero(true);
     }
 }

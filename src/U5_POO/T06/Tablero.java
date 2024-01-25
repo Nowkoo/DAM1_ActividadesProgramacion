@@ -58,10 +58,10 @@ public class Tablero {
         }
     }
 
-    public void tiro(int fila, int columna) {
+    public String tiro(int fila, int columna) {
         String resultado = comprobarBarcos(fila, columna);
         actualizarTablero(fila, columna, resultado);
-        System.out.println(resultado);
+        return resultado;
     }
 
     public String comprobarBarcos(int fila, int columna) {
@@ -167,7 +167,7 @@ public class Tablero {
             if (perteneceAlBarco)
                 return true;
         }
-        boolean perteneceAOtrosBarcos = coordenadaRepetida(nuevaCoordenada);
+        boolean perteneceAOtrosBarcos = coordenadaRepetida(nuevaCoordenada, posicionesOcupadas);
         return perteneceAOtrosBarcos;
     }
 
@@ -252,16 +252,16 @@ public class Tablero {
 
     public void añadirCoordenadasAlArray(ArrayList<Coordenada> nuevasCoordenadas, ArrayList<Coordenada> almacenAreas) {
         for (Coordenada coordenada : nuevasCoordenadas) {
-            if(!coordenadaRepetida(coordenada) && !excedeTablero(coordenada)) {
+            if(!coordenadaRepetida(coordenada, almacenAreas) && !excedeTablero(coordenada)) {
                 almacenAreas.add(coordenada);
             }
         }
     }
 
-    public boolean coordenadaRepetida(Coordenada c) {
+    public boolean coordenadaRepetida(Coordenada coordenada, ArrayList<Coordenada> coordenadasOcupadas) {
         boolean repetida = false;
-        for (Coordenada cOcupada : posicionesOcupadas) {
-            if (cOcupada.getFila() == c.getFila() && cOcupada.getColumna() == c.getColumna())
+        for (Coordenada coordenadaOcupada : coordenadasOcupadas) {
+            if (coordenadaOcupada.getFila() == coordenada.getFila() && coordenadaOcupada.getColumna() == coordenada.getColumna())
                 repetida = true;
         }
         return repetida;
@@ -275,7 +275,7 @@ public class Tablero {
 
     public boolean barcoInvalido(Barco barco) {
         for (Coordenada coordenadaBarco : barco.getCoordenadas()) {
-            if (coordenadaRepetida(coordenadaBarco))
+            if (coordenadaRepetida(coordenadaBarco, posicionesOcupadas))
                 return true;
         }
         return false;

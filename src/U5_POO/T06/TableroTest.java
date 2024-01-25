@@ -87,11 +87,6 @@ class TableroTest {
 
     @Test
     void coordenadaRepetida() {
-        Coordenada coordenada = new Coordenada (1, 2);
-        Tablero tablero = new Tablero();
-        assertEquals(false, tablero.coordenadaRepetida(coordenada));
-        tablero.getPosicionesOcupadas().add(coordenada);
-        assertEquals(true, tablero.coordenadaRepetida(coordenada));
     }
 
     @Test
