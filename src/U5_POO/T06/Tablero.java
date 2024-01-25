@@ -14,7 +14,7 @@ public class Tablero {
     private int numFilas;
     private int numColumnas;
 
-    private String[] resultados = {"Has fallado.", "Tocado...", "¡Hundido!"};
+    private String[] resultados = {"Agua.", "Tocado...", "¡Hundido!"};
     private Random random = new Random();
 
     public Tablero(int numFilas, int numColumnas, ArrayList<Barco> barcos) {
