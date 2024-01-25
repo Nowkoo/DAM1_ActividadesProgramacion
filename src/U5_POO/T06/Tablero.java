@@ -8,6 +8,8 @@ import java.util.Random;
 public class Tablero {
     private char[][] tablero;
     private ArrayList<Barco> barcos;
+    ArrayList<Barco> barcosTocados = new ArrayList<>();
+    ArrayList<Coordenada> areaBarcosHundidos = new ArrayList<>();
     private ArrayList<Coordenada> posicionesOcupadas = new ArrayList<>();
     private int numFilas;
     private int numColumnas;
@@ -70,12 +72,15 @@ public class Tablero {
                 if (coordenadasCoinciden) {
                     barco.getCoordenadas().remove(coordenada);
                     resultado = resultados[1];
+                    barcosTocados.add(barco);
                     break;
                 }
             }
             if (arrayVacio(barco.getCoordenadas())) {
-                barcos.remove(barco);
                 resultado = resultados[2];
+                barcos.remove(barco);
+                barcosTocados.remove(barco);
+                generarAreaBarco(barco, areaBarcosHundidos);
                 break;
             }
         }
@@ -107,7 +112,7 @@ public class Tablero {
             do {
                 rellenarBarcoIA(barco, orientacion(), incremento());
             } while (barcoInvalido(barco));
-            generarAreaBarco(barco);
+            generarAreaBarco(barco, posicionesOcupadas);
         }
     }
 
@@ -128,25 +133,42 @@ public class Tablero {
     }
 
     public void rellenarBarcosJugador() {
-        System.out.println("Primero coloca tus barcos.");
+        System.out.println("Primero escoge la posición de tus barcos.");
         for (Barco barco : barcos) {
-            System.out.println("Estás colocando un barco de " + barco.getLongitud() + " casillas.");
-            for (int i = 0; i < barco.getLongitud(); i++) {
+            boolean barcoLleno;
+            do {
                 mostrarTablero(true);
-                Coordenada nuevaCoordenada = rellenarCoordenadaJugador(barco);
-            }
+                System.out.println("--Estás colocando un barco de " + barco.getLongitud() + " casillas--");
+                rellenarCoordenadaJugador(barco);
+                barcoLleno = barco.getCoordenadas().size() == barco.getLongitud();
+            } while (!barcoLleno);
+            generarAreaBarco(barco, posicionesOcupadas);
+            System.out.println("¡Barco creado!");
         }
     }
 
-    public Coordenada rellenarCoordenadaJugador(Barco barco) {
+    public void rellenarCoordenadaJugador(Barco barco) {
         Coordenada nuevaCoordenada;
+        int i = 0;
         do {
+            if (i != 0)
+                System.out.println("Posición inválida.");
             int fila = InterfazUsuario.inputFila();
             int columna = InterfazUsuario.inputColumna();
             nuevaCoordenada = new Coordenada(fila, columna);
-        } while (excedeTablero(nuevaCoordenada) && !esAdyacente(barco, nuevaCoordenada));
+            i++;
+        } while (excedeTablero(nuevaCoordenada) || !esAdyacente(barco, nuevaCoordenada) || posicionOcupada(barco, nuevaCoordenada));
         barco.getCoordenadas().add(nuevaCoordenada);
-        return nuevaCoordenada;
+    }
+
+    public boolean posicionOcupada(Barco barco, Coordenada nuevaCoordenada) {
+        for (Coordenada coordenada : barco.getCoordenadas()) {
+            boolean perteneceAlBarco = nuevaCoordenada.getFila() == coordenada.getFila() && nuevaCoordenada.getColumna() == coordenada.getColumna();
+            if (perteneceAlBarco)
+                return true;
+        }
+        boolean perteneceAOtrosBarcos = coordenadaRepetida(nuevaCoordenada);
+        return perteneceAOtrosBarcos;
     }
 
     public boolean esAdyacente(Barco barco, Coordenada nuevaCoordenada) {
@@ -156,9 +178,29 @@ public class Tablero {
         boolean mismaFila = nuevaCoordenada.getFila() == ultimaCoordenada.getFila();
         boolean mismaColumna = nuevaCoordenada.getColumna() == ultimaCoordenada.getColumna();
         if (mismaFila) {
-            //boolean coincide = nuevaCoordenada.getColumna() - 1 == ultimaCoordenada.getColumna();
+            return columnaAdyacente(barco, nuevaCoordenada);
         } else if (mismaColumna) {
+            return filaAdyacente(barco, nuevaCoordenada);
+        }
+        return false;
+    }
 
+    public boolean columnaAdyacente(Barco barco, Coordenada nuevaCoordenada) {
+        for (Coordenada coordenada : barco.getCoordenadas()) {
+            boolean estaDerecha = nuevaCoordenada.getColumna() - 1 == coordenada.getColumna();
+            boolean estaIzquierda = nuevaCoordenada.getColumna() + 1 == coordenada.getColumna();
+            if (estaDerecha || estaIzquierda)
+                return true;
+        }
+        return false;
+    }
+
+    public boolean filaAdyacente(Barco barco, Coordenada nuevaCoordenada) {
+        for (Coordenada coordenada: barco.getCoordenadas()) {
+            boolean estaAbajo = nuevaCoordenada.getFila() - 1 == coordenada.getFila();
+            boolean estaArriba = nuevaCoordenada.getFila() + 1 == coordenada.getFila();
+            if (estaArriba || estaAbajo)
+                return true;
         }
         return false;
     }
@@ -185,11 +227,11 @@ public class Tablero {
             return 1;
     }
 
-    public void generarAreaBarco(Barco barco) {
+    public void generarAreaBarco(Barco barco, ArrayList<Coordenada> almacenAreas) {
         ArrayList<Coordenada> areaCoordenada;
         for (Coordenada coordenadaBarco : barco.getCoordenadas()) {
             areaCoordenada = generarAreaCoordenada(coordenadaBarco);
-            añadirACoordenadasOcupadas(areaCoordenada);
+            añadirCoordenadasAlArray(areaCoordenada, almacenAreas);
         }
     }
 
@@ -208,10 +250,10 @@ public class Tablero {
         return areaCoordenada;
     }
 
-    public void añadirACoordenadasOcupadas(ArrayList<Coordenada> nuevasCoordenadas) {
+    public void añadirCoordenadasAlArray(ArrayList<Coordenada> nuevasCoordenadas, ArrayList<Coordenada> almacenAreas) {
         for (Coordenada coordenada : nuevasCoordenadas) {
             if(!coordenadaRepetida(coordenada) && !excedeTablero(coordenada)) {
-                posicionesOcupadas.add(coordenada);
+                almacenAreas.add(coordenada);
             }
         }
     }
@@ -285,5 +327,13 @@ public class Tablero {
 
     public void setResultados(String[] resultados) {
         this.resultados = resultados;
+    }
+
+    public ArrayList<Barco> getBarcosTocados() {
+        return barcosTocados;
+    }
+
+    public ArrayList<Coordenada> getAreaBarcosHundidos() {
+        return areaBarcosHundidos;
     }
 }

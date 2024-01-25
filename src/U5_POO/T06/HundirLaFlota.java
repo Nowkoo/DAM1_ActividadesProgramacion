@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class HundirLaFlota {
     private static int numTiros;
+    private static IA ia;
     private static Tablero tableroIA;
     private static Tablero tableroJugador;
     private static ArrayList<Barco> barcosIA;
@@ -28,10 +29,10 @@ public class HundirLaFlota {
 
     public static void play() {
         numTiros = 0;
-        prepararIA();
-        prepararJugador();
+        inicializarTableroIA();
+        inicializarTableroJugador();
 
-        while(comprobarFinPartida()) {
+        while(!comprobarFinPartida()) {
             turnoJugador();
             turnoIA();
         }
@@ -40,7 +41,7 @@ public class HundirLaFlota {
             play();
     }
 
-    public static void prepararIA() {
+    public static void inicializarTableroIA() {
         barcosIA = new ArrayList<>();
         barcosIA.add(new Barco(2));
         barcosIA.add(new Barco(3));
@@ -48,9 +49,10 @@ public class HundirLaFlota {
         barcosIA.add(new Barco(4));
         tableroIA = new Tablero(8, 8, barcosIA);
         tableroIA.rellenarBarcosIA();
+        ia = new IA(tableroJugador);
     }
 
-    public static void prepararJugador() {
+    public static void inicializarTableroJugador() {
         barcosJugador = new ArrayList<>();
         barcosJugador.add(new Barco(2));
         barcosJugador.add(new Barco(3));
@@ -61,6 +63,7 @@ public class HundirLaFlota {
     }
 
     public static void turnoJugador() {
+        System.out.println("Tu turno:");
         tableroIA.mostrarTablero(true);
         try {
             System.out.println("--Realiza tu tirada--");
@@ -74,7 +77,8 @@ public class HundirLaFlota {
     }
 
     public static void turnoIA() {
-
+        System.out.println("Turno del contrincante:");
+        ia.tirada();
     }
 
     public static boolean comprobarFinPartida() {
