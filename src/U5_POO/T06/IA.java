@@ -34,6 +34,28 @@ public class IA {
     }
 
     public Coordenada intentarHundir() {
+        Coordenada tirada;
+        do {
+            tirada = evitarZonaSeguridad();
+        } while (!tiradaInteligente(tirada));
+        return tirada;
+    }
+
+    public boolean tiradaInteligente(Coordenada tirada) {
+        for (Barco barco : tablero.getBarcosTocados()) {
+            if (numCasillasTocadas(barco) == 1) {
+                 return tiradaEnCruz(tirada);
+            }
+        }
+        return tiradaEnRaya();
+    }
+
+    public int numCasillasTocadas(Barco barco) {
+        return barco.getLongitud() - barco.getCoordenadas().size();
+    }
+
+    /*
+    public Coordenada intentarHundir() {
         ArrayList<Coordenada> tiradasCircundantes = tiradasCircundantes();
         for (Coordenada coordenada : tiradasCircundantes) {
             if (tablero.coordenadaRepetida(coordenada, tiradasPrevias) || malaTirada(coordenada)) {
@@ -44,7 +66,7 @@ public class IA {
         return tiradaElegida;
     }
 
-    //AQUÍ!!!!!
+
     public ArrayList<Coordenada> tiradasCircundantes() {
         ArrayList<Coordenada> tiradasCircundantes = new ArrayList<>();
         for (Barco barco : tablero.getBarcosTocados()) {
@@ -55,6 +77,7 @@ public class IA {
         }
         return tiradasCircundantes();
     }
+     */
 
     public Coordenada evitarZonaSeguridad() {
         Coordenada tirada;
