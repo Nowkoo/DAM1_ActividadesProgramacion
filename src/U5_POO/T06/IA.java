@@ -10,6 +10,7 @@ public class IA {
     Coordenada primeraCoordenadaTocada;
     boolean hayCoordenadaTocada = false;
     Barco barcoTocado;
+    Barco nuevoBarcoTocado = null;
     Random random = new Random();
 
     public IA(Tablero tablero) {
@@ -32,7 +33,10 @@ public class IA {
     public boolean hayTocado() {
         for (Barco barco : tablero.getBarcos()) {
             if (barco.isTocado()) {
-                barcoTocado = barco;
+                if(barcoTocado == null) {
+                    barcoTocado = barco;
+                }
+                nuevoBarcoTocado = barco;
                 return true;
             }
         }
@@ -53,7 +57,7 @@ public class IA {
 
     public boolean tiradaInteligente(Coordenada tirada) {
         actualizarCoordenadasTocadas();
-        if (numCasillasTocadas(barcoTocado) == 1) {
+        if (numCasillasTocadas(nuevoBarcoTocado) == 1) {
             return tablero.coordenadaRepetida(tirada, tiradaEnCruz());
         } else {
             return tablero.coordenadaRepetida(tirada, tiradaEnLinea());
@@ -63,8 +67,11 @@ public class IA {
     public void actualizarCoordenadasTocadas() {
         if (barcoTocado.getCoordenadas().isEmpty()) {
             hayCoordenadaTocada = false;
+            if (barcoTocado != nuevoBarcoTocado) {
+                barcoTocado = nuevoBarcoTocado;
+            }
         }
-        if (numCasillasTocadas(barcoTocado) == 1) {
+        if (numCasillasTocadas(nuevoBarcoTocado) == 1) {
             if (!hayCoordenadaTocada) {
                 primeraCoordenadaTocada = tiradasPrevias.get(tiradasPrevias.size() - 1);
                 hayCoordenadaTocada = true;
@@ -88,7 +95,7 @@ public class IA {
     }
 
     public ArrayList<Coordenada> tiradaEnLinea() {
-        if (barcoTocado.esHorizontal()) {
+        if (nuevoBarcoTocado.esHorizontal()) {
             return tiradaHorizontal();
         } else {
             return tiradaVertical();
