@@ -14,7 +14,7 @@ public class Tablero {
     private int numFilas;
     private int numColumnas;
 
-    private String[] resultados = {"Agua.", "Tocado...", "¡Hundido!"};
+    private String[] resultados = {Ansi.BLUE + "Agua" + Ansi.RESET, Ansi.RED + "Tocado..." + Ansi.RESET, Ansi.RED + Ansi.BOLD + "¡Hundido!" + Ansi.RESET};
     private Random random = new Random();
 
     public Tablero(int numFilas, int numColumnas, ArrayList<Barco> barcos) {
@@ -34,15 +34,27 @@ public class Tablero {
 
         System.out.print(" \t");
         for (int i = 0; i < tablero.length; i++) {
-            System.out.print(i + 1 + " ");
+            System.out.print(Ansi.WHITE + (i + 1 + " ") + Ansi.RESET);
         }
         System.out.println();
 
         String letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         for (int i = 0; i < tablero.length; i++) {
-            System.out.print(letras.charAt(i) + "\t");
+            System.out.print(Ansi.WHITE + (letras.charAt(i) + "\t") + Ansi.RESET);
             for (int j = 0; j < tablero[i].length; j++) {
-                System.out.print(tablero[i][j] + " ");
+                switch (tablero[i][j] + ""){
+                    case "X":
+                        System.out.print(Ansi.RED + tablero[i][j] + " " + Ansi.RESET);
+                        break;
+                    case "O":
+                        System.out.print(Ansi.BLUE + tablero[i][j] + " " + Ansi.RESET);
+                        break;
+                    case "B":
+                        System.out.print(tablero[i][j] + " ");
+                        break;
+                    case "-":
+                        System.out.print(Ansi.BLACK + tablero[i][j] + " " + Ansi.RESET);
+                }
             }
             System.out.println();
         }
@@ -143,7 +155,7 @@ public class Tablero {
     }
 
     public void rellenarBarcosJugador() {
-        System.out.println("Primero escoge la posición de tus barcos.");
+        System.out.println("\nPrimero escoge la posición de tus barcos.");
         for (Barco barco : barcos) {
             boolean barcoLleno;
             do {
@@ -151,7 +163,7 @@ public class Tablero {
                 System.out.println("--Estás colocando un barco de " + barco.getLongitud() + " casillas--");
                 rellenarCoordenadaJugador(barco);
                 barcoLleno = barco.getCoordenadas().size() == barco.getLongitud();
-            } while (!barcoLleno);
+            } while (!barcoLleno || excedeTablero(barco));
             generarAreaBarco(barco, posicionesOcupadas);
             almacenarOrientacionBarco(barco);
             System.out.println("¡Barco creado!");
@@ -163,7 +175,7 @@ public class Tablero {
         int i = 0;
         do {
             if (i != 0)
-                System.out.println("Posición inválida.");
+                System.out.println(Ansi.RED + "Posición inválida." + Ansi.RESET);
             int fila = InterfazUsuario.inputFila();
             int columna = InterfazUsuario.inputColumna();
             nuevaCoordenada = new Coordenada(fila, columna);

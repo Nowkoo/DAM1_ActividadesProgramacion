@@ -13,7 +13,7 @@ public class HundirLaFlota {
     public static void main(String[] args) {
         int playerInput = 1;
         while(playerInput != 2) {
-            System.out.println("¡Bienvendo a Hundir la flota!");
+            System.out.println(Ansi.WHITE + "¡Bienvendo a Hundir la flota!" + Ansi.RESET);
             System.out.println("1- Empezar a jugar");
             System.out.println("2- Salir del juego");
             playerInput = InterfazUsuario.inputNumerico();
@@ -68,15 +68,20 @@ public class HundirLaFlota {
     }
 
     public static void turnoJugador() {
-        try {
-            System.out.println("Tu turno");
-            int fila = InterfazUsuario.inputFila();
-            int columna = InterfazUsuario.inputColumna();
-            resultadoTurnoJugador = tableroIA.tiro(fila, columna);
-            numTiros++;
-        } catch (Exception e) {
-            System.out.println("Jugada inválida. Prueba otra vez: \n");
-        }
+        boolean jugadaInvalida;
+        do {
+            jugadaInvalida = false;
+            try {
+                System.out.println("\nPreparando cañones...");
+                int fila = InterfazUsuario.inputFila();
+                int columna = InterfazUsuario.inputColumna();
+                resultadoTurnoJugador = tableroIA.tiro(fila, columna);
+                numTiros++;
+            } catch (Exception e) {
+                System.out.println(Ansi.RED + "\nJugada inválida. Prueba otra vez:" + Ansi.RESET);
+                jugadaInvalida = true;
+            }
+        } while (jugadaInvalida);
     }
 
     public static void turnoIA() {
@@ -87,19 +92,28 @@ public class HundirLaFlota {
     }
 
     public static boolean comprobarFinPartida() {
-        return false;
+        return tableroIA.getBarcos().isEmpty() || tableroJugador.getBarcos().isEmpty();
+    }
+
+    public static void mostrarGanador() {
+        String resultado;
+        if (tableroIA.getBarcos().isEmpty())
+            resultado = "¡Has ganado!";
+        else
+            resultado = "Has perdido...";
+        System.out.println("Resultado: " + resultado);
     }
 
     public static void mostrarEstadisticas() {
         System.out.println("\nFIN DE PARTIDA");
-        System.out.println("--Estadísticas--");
+        mostrarGanador();
         System.out.println("Número de tiros necesarios: " + numTiros);
     }
 
     public static void mostrarTableros() {
-        System.out.println("\n----BARCOS IA----");
-        tableroIA.mostrarTablero(true);
-        System.out.println("\n----TUS BARCOS----");
+        System.out.println("\n---- " + Ansi.UNDERLINED + "BARCOS IA" + Ansi.RESET + " ----");
+        tableroIA.mostrarTablero(false);
+        System.out.println("\n---- " + Ansi.UNDERLINED + "TUS BARCOS" + Ansi.RESET + " ---");
         tableroJugador.mostrarTablero(true);
     }
 }
