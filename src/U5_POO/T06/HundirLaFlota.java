@@ -83,7 +83,6 @@ public class HundirLaFlota {
         Coordenada tiradaIA = ia.tirada();
         resultadoTurnoIA = tableroJugador.tiro(tiradaIA.getFila(), tiradaIA.getColumna());
         System.out.println("El contrincante ha jugado " + tiradaIA.getFila() + tiradaIA.getColumna());
-        ia.tiradasPrevias.add(tiradaIA);
         mostrarTableros();
     }
 

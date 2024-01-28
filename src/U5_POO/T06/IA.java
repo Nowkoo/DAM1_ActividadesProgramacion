@@ -7,6 +7,9 @@ import java.util.Random;
 public class IA {
     Tablero tablero;
     ArrayList<Coordenada> tiradasPrevias = new ArrayList<>();
+    Coordenada primeraCoordenadaTocada;
+    boolean hayCoordenadaTocada = false;
+    Barco barcoTocado;
     Random random = new Random();
 
     public IA(Tablero tablero) {
@@ -22,11 +25,18 @@ public class IA {
         } else {
             tiradaIA = tiroAleatorio();
         }
+        tiradasPrevias.add(tiradaIA);
         return tiradaIA;
     }
 
     public boolean hayTocado() {
-        return !tablero.getBarcosTocados().isEmpty();
+        for (Barco barco : tablero.getBarcos()) {
+            if (barco.isTocado()) {
+                barcoTocado = barco;
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean hayHundido() {
@@ -42,52 +52,76 @@ public class IA {
     }
 
     public boolean tiradaInteligente(Coordenada tirada) {
-        for (Barco barco : tablero.getBarcosTocados()) {
-            if (numCasillasTocadas(barco) == 1) {
-                 return tiradaEnCruz(tirada);
-            }
+        actualizarCoordenadasTocadas();
+        if (numCasillasTocadas(barcoTocado) == 1) {
+            return tablero.coordenadaRepetida(tirada, tiradaEnCruz());
+        } else {
+            return tablero.coordenadaRepetida(tirada, tiradaEnLinea());
         }
-        return tiradaEnRaya();
+    }
+
+    public void actualizarCoordenadasTocadas() {
+        if (barcoTocado.getCoordenadas().isEmpty()) {
+            hayCoordenadaTocada = false;
+        }
+        if (numCasillasTocadas(barcoTocado) == 1) {
+            if (!hayCoordenadaTocada) {
+                primeraCoordenadaTocada = tiradasPrevias.get(tiradasPrevias.size() - 1);
+                hayCoordenadaTocada = true;
+            }
+
+        }
     }
 
     public int numCasillasTocadas(Barco barco) {
         return barco.getLongitud() - barco.getCoordenadas().size();
     }
 
-    /*
-    public Coordenada intentarHundir() {
-        ArrayList<Coordenada> tiradasCircundantes = tiradasCircundantes();
-        for (Coordenada coordenada : tiradasCircundantes) {
-            if (tablero.coordenadaRepetida(coordenada, tiradasPrevias) || malaTirada(coordenada)) {
-                tiradasCircundantes.remove(coordenada);
-            }
-        }
-        Coordenada tiradaElegida = tiradasCircundantes.get(random.nextInt(tiradasCircundantes.size() - 1));
-        return tiradaElegida;
+    public ArrayList<Coordenada> tiradaEnCruz() {
+        Coordenada tocado = primeraCoordenadaTocada;
+        ArrayList<Coordenada> cruz = new ArrayList<>();
+        cruz.add(new Coordenada(tocado.getFila() - 1, tocado.getColumna()));
+        cruz.add(new Coordenada(tocado.getFila() + 1, tocado.getColumna()));
+        cruz.add(new Coordenada(tocado.getFila(), tocado.getColumna() + 1));
+        cruz.add(new Coordenada(tocado.getFila(), tocado.getColumna() - 1));
+        return cruz;
     }
 
-
-    public ArrayList<Coordenada> tiradasCircundantes() {
-        ArrayList<Coordenada> tiradasCircundantes = new ArrayList<>();
-        for (Barco barco : tablero.getBarcosTocados()) {
-            for (Coordenada coordenada : barco.getCoordenadas()) {
-                ArrayList<Coordenada> areaCoordenada = tablero.generarAreaCoordenada(coordenada);
-                tablero.añadirCoordenadasAlArray(areaCoordenada, tiradasCircundantes);
-            }
+    public ArrayList<Coordenada> tiradaEnLinea() {
+        if (barcoTocado.esHorizontal()) {
+            return tiradaHorizontal();
+        } else {
+            return tiradaVertical();
         }
-        return tiradasCircundantes();
     }
-     */
+
+    public ArrayList<Coordenada> tiradaHorizontal() {
+        ArrayList<Coordenada> linea = new ArrayList<>();
+        for (Coordenada coordenada : tablero.getCoordenadasTocadas()) {
+            linea.add(new Coordenada(coordenada.getFila(), coordenada.getColumna() + 1));
+            linea.add(new Coordenada(coordenada.getFila(), coordenada.getColumna() - 1));
+        }
+        return linea;
+    }
+
+    public ArrayList<Coordenada> tiradaVertical() {
+        ArrayList<Coordenada> linea = new ArrayList<>();
+        for (Coordenada coordenada : tablero.getCoordenadasTocadas()) {
+            linea.add(new Coordenada(coordenada.getFila() + 1, coordenada.getColumna()));
+            linea.add(new Coordenada(coordenada.getFila() - 1, coordenada.getColumna()));
+        }
+        return linea;
+    }
 
     public Coordenada evitarZonaSeguridad() {
         Coordenada tirada;
         do {
             tirada = tiroAleatorio();
-        } while (malaTirada(tirada));
+        } while (tiradaEnArea(tirada));
         return tirada;
     }
 
-    public boolean malaTirada(Coordenada coordenada) {
+    public boolean tiradaEnArea(Coordenada coordenada) {
         return tablero.coordenadaRepetida(coordenada, tablero.getAreaBarcosHundidos());
     }
 
@@ -97,7 +131,7 @@ public class IA {
             int fila = random.nextInt(tablero.getNumFilas());
             int columna = random.nextInt(tablero.getNumColumnas());
             tirada = new Coordenada(fila, columna);
-        } while (tablero.coordenadaRepetida(tirada, tiradasPrevias) && tablero.excedeTablero(tirada));
+        } while (tablero.coordenadaRepetida(tirada, tiradasPrevias) || tablero.excedeTablero(tirada));
         return tirada;
     }
 }

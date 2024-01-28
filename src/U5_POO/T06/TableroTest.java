@@ -2,6 +2,7 @@ package U5_POO.T06;
 
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -68,13 +69,22 @@ class TableroTest {
 
     @Test
     void generarAreaBarco() {
+        ArrayList<Coordenada> areaBarco = new ArrayList<>();
+        Tablero tablero = new Tablero();
+        tablero.setNumFilas(8);
+        tablero.setNumColumnas(8);
         Barco barcoPrueba = new Barco(1);
         barcoPrueba.getCoordenadas().add(new Coordenada(1, 1));
+        barcoPrueba.getCoordenadas().add(new Coordenada(1, 2));
+        tablero.generarAreaBarco(barcoPrueba, areaBarco);
+        for (Coordenada coordenadaArea : areaBarco) {
+            System.out.println(coordenadaArea);
+        }
     }
 
     @Test
     void generarAreaCoordenada() {
-        Coordenada coordenada = new Coordenada(3, 3);
+        Coordenada coordenada = new Coordenada(1, 1);
         Tablero tablero = new Tablero();
         for (Coordenada coordenadaArea : tablero.generarAreaCoordenada(coordenada)) {
             System.out.println(coordenadaArea);
@@ -87,6 +97,14 @@ class TableroTest {
 
     @Test
     void coordenadaRepetida() {
+        Tablero tablero = new Tablero();
+        tablero.setNumColumnas(8);
+        tablero.setNumFilas(8);
+        Coordenada coordenada = new Coordenada(2, 1);
+        ArrayList<Coordenada> coordenadas = new ArrayList<>();
+        coordenadas.add(coordenada);
+        boolean repetida = tablero.coordenadaRepetida(new Coordenada (1, 1), coordenadas);
+        assertEquals(false, repetida);
     }
 
     @Test

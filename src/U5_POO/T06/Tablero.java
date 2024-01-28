@@ -8,8 +8,8 @@ import java.util.Random;
 public class Tablero {
     private char[][] tablero;
     private ArrayList<Barco> barcos;
-    ArrayList<Barco> barcosTocados = new ArrayList<>();
     ArrayList<Coordenada> areaBarcosHundidos = new ArrayList<>();
+    private ArrayList<Coordenada> coordenadasTocadas = new ArrayList<>();
     private ArrayList<Coordenada> posicionesOcupadas = new ArrayList<>();
     private int numFilas;
     private int numColumnas;
@@ -72,15 +72,16 @@ public class Tablero {
                 if (coordenadasCoinciden) {
                     barco.getCoordenadas().remove(coordenada);
                     resultado = resultados[1];
-                    barcosTocados.add(barco);
+                    barco.setTocado(true);
+                    coordenadasTocadas.add(coordenada);
                     break;
                 }
             }
             if (arrayVacio(barco.getCoordenadas())) {
                 resultado = resultados[2];
                 barcos.remove(barco);
-                barcosTocados.remove(barco);
                 generarAreaBarco(barco, areaBarcosHundidos);
+                coordenadasTocadas = new ArrayList<>();
                 break;
             }
         }
@@ -111,6 +112,7 @@ public class Tablero {
         for (Barco barco : barcos) {
             do {
                 rellenarBarcoIA(barco, orientacion(), incremento());
+
             } while (barcoInvalido(barco));
             generarAreaBarco(barco, posicionesOcupadas);
         }
@@ -130,6 +132,14 @@ public class Tablero {
                 }
             }
         } while (excedeTablero(barco));
+        almacenarOrientacionBarco(barco);
+    }
+
+    public void almacenarOrientacionBarco (Barco barco) {
+        if (barco.getCoordenadas().get(0).getFila() == barco.getCoordenadas().get(1).getFila())
+            barco.setEsHorizontal(true);
+        else
+            barco.setEsHorizontal(false);
     }
 
     public void rellenarBarcosJugador() {
@@ -143,6 +153,7 @@ public class Tablero {
                 barcoLleno = barco.getCoordenadas().size() == barco.getLongitud();
             } while (!barcoLleno);
             generarAreaBarco(barco, posicionesOcupadas);
+            almacenarOrientacionBarco(barco);
             System.out.println("¡Barco creado!");
         }
     }
@@ -167,8 +178,7 @@ public class Tablero {
             if (perteneceAlBarco)
                 return true;
         }
-        boolean perteneceAOtrosBarcos = coordenadaRepetida(nuevaCoordenada, posicionesOcupadas);
-        return perteneceAOtrosBarcos;
+        return coordenadaRepetida(nuevaCoordenada, posicionesOcupadas);
     }
 
     public boolean esAdyacente(Barco barco, Coordenada nuevaCoordenada) {
@@ -329,11 +339,15 @@ public class Tablero {
         this.resultados = resultados;
     }
 
-    public ArrayList<Barco> getBarcosTocados() {
-        return barcosTocados;
-    }
-
     public ArrayList<Coordenada> getAreaBarcosHundidos() {
         return areaBarcosHundidos;
+    }
+
+    public ArrayList<Coordenada> getCoordenadasTocadas() {
+        return coordenadasTocadas;
+    }
+
+    public void setCoordenadasTocadas(ArrayList<Coordenada> coordenadasTocadas) {
+        this.coordenadasTocadas = coordenadasTocadas;
     }
 }
