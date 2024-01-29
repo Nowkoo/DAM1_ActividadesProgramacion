@@ -3,6 +3,10 @@ package Misc;
 import java.util.Objects;
 import java.util.Scanner;
 
+/**
+ * @author Mar
+ * @version 1.0
+ */
 public class ExamenB {
     static String[] dirs = new String[] {"11:11:11:11:11:11", "22:22:22:22:22:22", "33:33:33:33:33:33", "44:44:44:44:44:44", ""};
 
@@ -138,6 +142,14 @@ public class ExamenB {
         }
     }
 
+    /**
+     * Descripción de prueba
+     * @param c descripción del parámetro
+     * @return
+     * {@link #bienSeparado}
+     * {@code if()}
+     * @see <a href="https://stackoverflow.com/questions/49256457/what-is-the-linkplain-tag-used-for-and-how-does-it-differ-from-link">Aquí</a>
+     */
     public static boolean caracterValido(char c) {
         return ((c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F') || (c >= '0' && c <= '9'));
     }
