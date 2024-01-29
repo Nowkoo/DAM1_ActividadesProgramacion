@@ -8,8 +8,9 @@ public class InterfazUsuario {
     public static int inputFila() {
         System.out.println("Introduce una letra: ");
         String letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        String letra = scanner.nextLine().toUpperCase();
-
+        String letra = scanner.next().toUpperCase();
+        if (!letras.contains(letra))
+            return -10;
         return letras.indexOf(letra.charAt(0));
     }
 

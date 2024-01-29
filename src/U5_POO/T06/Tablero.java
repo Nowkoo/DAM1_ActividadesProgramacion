@@ -102,8 +102,10 @@ public class Tablero {
 
     public void actualizarTablero(int fila, int columna, String resultado) {
         boolean haFallado = resultado.equals(resultados[0]);
-        if (haFallado)
-            tablero[fila][columna] = 'O';
+        if (haFallado) {
+            if (!(tablero[fila][columna] + "").contains('X' + ""))
+                tablero[fila][columna] = 'O';
+        }
         else
             tablero[fila][columna] = 'X';
     }
@@ -175,7 +177,7 @@ public class Tablero {
         int i = 0;
         do {
             if (i != 0)
-                System.out.println(Ansi.RED + "Posición inválida." + Ansi.RESET);
+                System.out.println(Ansi.RED + "\nPosición inválida.\nMantén una distancia de seguridad de una casilla entre barcos y no te salgas del tablero." + Ansi.RESET);
             int fila = InterfazUsuario.inputFila();
             int columna = InterfazUsuario.inputColumna();
             nuevaCoordenada = new Coordenada(fila, columna);
@@ -290,7 +292,9 @@ public class Tablero {
     }
 
     public boolean excedeTablero(Coordenada coordenada) {
-        if (coordenada.getFila() > numFilas || coordenada.getColumna() > numColumnas)
+        boolean demasiadoGrande = coordenada.getFila() > numFilas || coordenada.getColumna() > numColumnas;
+        boolean demasiadoPequeño = coordenada.getFila() < 0 || coordenada.getColumna() < 0;
+        if (demasiadoGrande || demasiadoPequeño)
             return true;
         return false;
     }

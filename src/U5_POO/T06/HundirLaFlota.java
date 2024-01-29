@@ -23,7 +23,7 @@ public class HundirLaFlota {
             } else if (playerInput == 2) {
                 break;
             } else {
-                System.out.println("La opción seleccionada no existe.");
+                System.out.println(Ansi.RED + "La opción seleccionada no existe.\n" + Ansi.RESET);
             }
         }
     }
@@ -63,8 +63,8 @@ public class HundirLaFlota {
         barcosJugador.add(new Barco(3));
         barcosJugador.add(new Barco(4));
         tableroJugador = new Tablero(8, 8, barcosJugador);
-        //tableroJugador.rellenarBarcosJugador();
-        tableroJugador.rellenarBarcosIA();
+        tableroJugador.rellenarBarcosJugador();
+        //tableroJugador.rellenarBarcosIA();
     }
 
     public static void turnoJugador() {
@@ -105,7 +105,7 @@ public class HundirLaFlota {
     }
 
     public static void mostrarEstadisticas() {
-        System.out.println("\nFIN DE PARTIDA");
+        System.out.println(Ansi.WHITE + "\nFIN DE PARTIDA" + Ansi.RESET);
         mostrarGanador();
         System.out.println("Número de tiros necesarios: " + numTiros);
     }
