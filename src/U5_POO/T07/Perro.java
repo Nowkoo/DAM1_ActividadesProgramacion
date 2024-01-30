@@ -1,6 +1,4 @@
-package U5_POO.Animales;
-
-import java.sql.SQLOutput;
+package U5_POO.T07;
 
 public class Perro extends Mamifero {
     public Perro(String nombre) {

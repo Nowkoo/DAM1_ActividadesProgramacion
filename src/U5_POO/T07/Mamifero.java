@@ -1,4 +1,4 @@
-package U5_POO.Animales;
+package U5_POO.T07;
 
 public abstract class Mamifero extends Animal {
     public Mamifero(String nombre) {

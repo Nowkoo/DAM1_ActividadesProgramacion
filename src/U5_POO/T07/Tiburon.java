@@ -1,4 +1,4 @@
-package U5_POO.Animales;
+package U5_POO.T07;
 
 public class Tiburon extends Pez implements Jugable {
     public Tiburon(String nombre) {
