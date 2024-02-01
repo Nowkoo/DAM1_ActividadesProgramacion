@@ -11,15 +11,13 @@ public class Character implements Damageable {
     Race race;
     Profession profession;
     StatsKit stats;
-    int health;
     int damage;
 
-    public Character(String name, Race race, Profession profession, StatsKit stat, int health) {
+    public Character(String name, Race race, Profession profession, StatsKit stat) {
         this.name = name;
         this.race = race;
         this.profession = profession;
         this.stats = stat;
-        this.health = health;
     }
 
     public String getName() {
@@ -85,25 +83,27 @@ public class Character implements Damageable {
 
     @Override
     public double health() {
-        return health;
+        return maxHealth() - damage;
     }
 
     @Override
     public boolean isDead() {
-        return damage >= health;
+        return damage >= health();
     }
 
     @Override
     public void receivesDamage(double amount) {
         damage += amount;
-        System.out.println(name + " ha recibido " + amount + " de daño. Vida actual: " + health + "/" + maxHealth());
+        if (damage > maxHealth())
+            damage = (int) maxHealth();
+        System.out.println(name + " ha recibido " + amount + " de daño. Vida actual: " + health() + "/" + maxHealth());
     }
 
     @Override
     public void heals(double amount) {
         damage -= amount;
-        if (damage < 0)
+        if (damage <= 0)
             damage = 0;
-        System.out.println(name + " se ha curado " + amount + " de vida. Vida actual: " + health + "/" + maxHealth());
+        System.out.println(name + " se ha curado " + amount + " de vida. Vida actual: " + health() + "/" + maxHealth());
     }
 }
