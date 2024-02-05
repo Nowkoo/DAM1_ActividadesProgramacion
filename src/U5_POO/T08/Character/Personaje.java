@@ -3,17 +3,16 @@ package U5_POO.T08.Character;
 import U5_POO.T08.Character.Profession.Profession;
 import U5_POO.T08.Character.Race.Race;
 import U5_POO.T08.Character.Stat.*;
+import U5_POO.T08.Item.*;
 
-import java.util.concurrent.CompletionService;
-
-public class Character implements Damageable {
+public class Personaje implements Damageable {
     String name;
     Race race;
     Profession profession;
     StatsKit stats;
     int damage;
 
-    public Character(String name, Race race, Profession profession, StatsKit stat) {
+    public Personaje(String name, Race race, Profession profession, StatsKit stat) {
         this.name = name;
         this.race = race;
         this.profession = profession;
@@ -105,5 +104,9 @@ public class Character implements Damageable {
         if (damage <= 0)
             damage = 0;
         System.out.println(name + " se ha curado " + amount + " de vida. Vida actual: " + health() + "/" + maxHealth());
+    }
+
+    public void consumes(Consumible consumible) {
+        System.out.println(name + " ha consumido: " + consumible.getClass().getSimpleName());
     }
 }
