@@ -107,6 +107,7 @@ public class Personaje implements Damageable {
     }
 
     public void consumes(Consumible consumible) {
+        consumible.consumedBy(this);
         System.out.println(name + " ha consumido: " + consumible.getClass().getSimpleName());
     }
 }
