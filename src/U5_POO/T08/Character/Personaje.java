@@ -10,13 +10,14 @@ public class Personaje implements Damageable {
     Race race;
     Profession profession;
     StatsKit stats;
-    int damage;
+    private double health;
 
     public Personaje(String name, Race race, Profession profession, StatsKit stat) {
         this.name = name;
         this.race = race;
         this.profession = profession;
         this.stats = stat;
+        this.health = maxHealth();
     }
 
     public String getName() {
@@ -64,15 +65,8 @@ public class Personaje implements Damageable {
 
     //Muestra toda la información de un personaje
     public String toString() {
-        return "Me llamo " + getName() + ". Soy un " + race.toString() + " " +
-                profession.toString() + ". Mis estadísticas son:\n" +
-                stats.getFuerza().toString() + ": " + fuerza() + " | " +
-                stats.getDestreza().toString() + ": " + destreza() + " | " +
-                stats.getConstitucion().toString() + ": " + constitucion() + " | " +
-                stats.getInteligencia().toString() + ": " + inteligencia() + " | " +
-                "Velocity: " + velocity() + " | " +
-                "Power: " + power() + " | " +
-                "Magic: " + magic() + " | ";
+        return String.format("Me llamo %s. Soy un %s %s. Mis estadísticas son:\nFuerza: %d Destreza: %d Constitución: %d Inteligencia: %d Velocidad: %.1f Poder: %.1f Magia: %.1f Vida: %.1f",
+                name, race.toString(), profession.toString(), fuerza(), destreza(), constitucion(), inteligencia(), velocity(), power(), magic(), health);
     }
 
     @Override
@@ -82,28 +76,30 @@ public class Personaje implements Damageable {
 
     @Override
     public double health() {
-        return maxHealth() - damage;
+        return health;
     }
 
     @Override
     public boolean isDead() {
-        return damage >= health();
+        return health <= 0;
     }
 
     @Override
     public void receivesDamage(double amount) {
-        damage += amount;
-        if (damage > maxHealth())
-            damage = (int) maxHealth();
-        System.out.println(name + " ha recibido " + amount + " de daño. Vida actual: " + health() + "/" + maxHealth());
+        health -= amount;
+        if (health < 0) {
+            health = 0;
+        }
+        System.out.printf("%s ha recibido %.1f de daño. Vida:: %.1f/%.1f%n", name, amount, health, maxHealth());
     }
 
     @Override
     public void heals(double amount) {
-        damage -= amount;
-        if (damage <= 0)
-            damage = 0;
-        System.out.println(name + " se ha curado " + amount + " de vida. Vida actual: " + health() + "/" + maxHealth());
+        health += amount;
+        if (health > maxHealth()) {
+            health = maxHealth();
+        }
+        System.out.printf("%s se ha curado %.1f de vida. Vida: %.1f/%.1f%n", name, amount, health, maxHealth());
     }
 
     public void consumes(Consumible consumible) {

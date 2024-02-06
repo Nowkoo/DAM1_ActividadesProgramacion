@@ -1,7 +1,7 @@
 package U5_POO.T08.Item.Food;
 
-public class Pan extends SimpleFood {
+public class Pan extends Food {
     public Pan() {
-        super.power = 10;
+        super(10);
     }
 }
