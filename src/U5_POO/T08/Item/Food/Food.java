@@ -11,10 +11,16 @@ public abstract class Food implements Consumible {
     }
 
     public void consumedBy(Personaje personaje) {
-        if (power >= 0) {
-            personaje.heals(power);
-        } else {
-            personaje.receivesDamage(power);
-        }
+        System.out.println(personaje.getName() + " ha consumido: " + toString());
+        personaje.consumir(power);
+    }
+
+    public float getPower() {
+        return power;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
     }
 }

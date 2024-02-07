@@ -102,8 +102,11 @@ public class Personaje implements Damageable {
         System.out.printf("%s se ha curado %.1f de vida. Vida: %.1f/%.1f%n", name, amount, health, maxHealth());
     }
 
-    public void consumes(Consumible consumible) {
-        consumible.consumedBy(this);
-        System.out.println(name + " ha consumido: " + consumible.getClass().getSimpleName());
+    public void consumir(float power) {
+        if (power >= 0) {
+            heals(power);
+        } else {
+            receivesDamage(-power);
+        }
     }
 }
