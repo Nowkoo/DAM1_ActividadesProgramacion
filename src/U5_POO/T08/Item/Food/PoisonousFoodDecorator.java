@@ -1,11 +1,10 @@
 package U5_POO.T08.Item.Food;
 
 import U5_POO.T08.Character.Personaje;
-import U5_POO.T08.Item.Consumible;
 
 public class PoisonousFoodDecorator extends FoodDecorator {
 
-    public PoisonousFoodDecorator(Consumible decoratedFood) {
+    public PoisonousFoodDecorator(Food decoratedFood) {
         super(decoratedFood);
     }
 

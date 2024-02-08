@@ -1,12 +1,9 @@
 package U5_POO.T08.Item.Food;
 
-import U5_POO.T08.Character.Personaje;
-import U5_POO.T08.Item.Consumible;
+public abstract class FoodDecorator implements Food {
+    protected Food decoratedFood;
 
-public abstract class FoodDecorator implements Consumible {
-    protected Consumible decoratedFood;
-
-    public FoodDecorator(Consumible decoratedFood) {
+    public FoodDecorator(Food decoratedFood) {
         this.decoratedFood = decoratedFood;
     }
 }

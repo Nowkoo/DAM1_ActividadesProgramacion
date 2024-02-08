@@ -1,12 +1,9 @@
 package U5_POO.T08.Item.Food;
 
 import U5_POO.T08.Character.Personaje;
-import U5_POO.T08.Item.Consumible;
-
-import java.lang.module.Configuration;
 
 public class EnhancedFoodDecorator extends FoodDecorator {
-    public EnhancedFoodDecorator(Consumible decoratedFood) {
+    public EnhancedFoodDecorator(Food decoratedFood) {
         super(decoratedFood);
     }
 
