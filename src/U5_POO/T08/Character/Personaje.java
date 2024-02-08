@@ -12,6 +12,7 @@ public class Personaje implements Damageable {
     StatsKit stats;
     private double health;
 
+
     public Personaje(String name, Race race, Profession profession, StatsKit stat) {
         this.name = name;
         this.race = race;

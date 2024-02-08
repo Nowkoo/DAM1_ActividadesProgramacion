@@ -13,6 +13,13 @@ public class StatsKit {
         this.destreza = new Destreza(valorBase);
     }
 
+    public StatsKit(int fuerza, int constitucion, int inteligencia, int destreza) {
+        this.fuerza = new Fuerza(fuerza);
+        this.constitucion = new Constitucion(constitucion);
+        this.inteligencia = new Inteligencia(inteligencia);
+        this.destreza = new Destreza(destreza);
+    }
+
     public Fuerza getFuerza() {
         return fuerza;
     }
@@ -27,5 +34,21 @@ public class StatsKit {
 
     public Destreza getDestreza() {
         return destreza;
+    }
+
+    public void setFuerza(Fuerza fuerza) {
+        this.fuerza = fuerza;
+    }
+
+    public void setConstitucion(Constitucion constitucion) {
+        this.constitucion = constitucion;
+    }
+
+    public void setInteligencia(Inteligencia inteligencia) {
+        this.inteligencia = inteligencia;
+    }
+
+    public void setDestreza(Destreza destreza) {
+        this.destreza = destreza;
     }
 }
