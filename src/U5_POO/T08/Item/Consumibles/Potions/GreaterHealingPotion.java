@@ -1,4 +1,4 @@
-package U5_POO.T08.Item.Potions;
+package U5_POO.T08.Item.Consumibles.Potions;
 
 public class GreaterHealingPotion extends Potion {
     public GreaterHealingPotion() {

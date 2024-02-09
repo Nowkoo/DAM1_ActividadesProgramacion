@@ -1,4 +1,4 @@
-package U5_POO.T08.Item.Food;
+package U5_POO.T08.Item.Consumibles.Food;
 
 public abstract class FoodDecorator implements Food {
     protected Food decoratedFood;

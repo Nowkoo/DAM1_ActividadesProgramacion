@@ -11,6 +11,10 @@ abstract public class Stat {
         return value;
     }
 
+    public void setValue(int value) {
+        this.value = value;
+    }
+
     //Aumenta el valor de la característica en 1
     public void increase() {
         value++;

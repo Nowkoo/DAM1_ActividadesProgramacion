@@ -3,7 +3,7 @@ package U5_POO.T08.Character;
 import U5_POO.T08.Character.Profession.Profession;
 import U5_POO.T08.Character.Race.Race;
 import U5_POO.T08.Character.Stat.*;
-import U5_POO.T08.Item.*;
+import U5_POO.T08.Item.Equipamiento.Equipamiento;
 
 public class Personaje implements Damageable {
     String name;
@@ -11,6 +11,7 @@ public class Personaje implements Damageable {
     Profession profession;
     StatsKit stats;
     private double health;
+    Equipamiento equipamiento;
 
 
     public Personaje(String name, Race race, Profession profession, StatsKit stat) {
@@ -19,6 +20,7 @@ public class Personaje implements Damageable {
         this.profession = profession;
         this.stats = stat;
         this.health = maxHealth();
+        this.equipamiento = new Equipamiento();
     }
 
     public String getName() {
@@ -34,19 +36,19 @@ public class Personaje implements Damageable {
     }
 
     public int fuerza() {
-        return stats.getFuerza().getValue() + race.modifier(stats.getFuerza()) + profession.modifier(stats.getFuerza());
+        return stats.getFuerza().getValue() + race.modifier(stats.getFuerza()) + profession.modifier(stats.getFuerza()) + equipamiento.modifier(stats.getFuerza());
     }
 
     public int destreza() {
-        return stats.getDestreza().getValue() + race.modifier(stats.getDestreza()) + profession.modifier(stats.getDestreza());
+        return stats.getDestreza().getValue() + race.modifier(stats.getDestreza()) + profession.modifier(stats.getDestreza()) + equipamiento.modifier(stats.getDestreza());
     }
 
     public int inteligencia() {
-        return stats.getInteligencia().getValue() + race.modifier(stats.getInteligencia()) + profession.modifier(stats.getInteligencia());
+        return stats.getInteligencia().getValue() + race.modifier(stats.getInteligencia()) + profession.modifier(stats.getInteligencia()) + equipamiento.modifier(stats.getInteligencia());
     }
 
     public int constitucion() {
-        return stats.getConstitucion().getValue() + race.modifier(stats.getConstitucion()) + profession.modifier(stats.getConstitucion());
+        return stats.getConstitucion().getValue() + race.modifier(stats.getConstitucion()) + profession.modifier(stats.getConstitucion()) + equipamiento.modifier(stats.getConstitucion());
     }
 
     //(Valor base Dexterity + bonif. raza + bonif.profesion)*2
@@ -109,5 +111,9 @@ public class Personaje implements Damageable {
         } else {
             receivesDamage(-power);
         }
+    }
+
+    public Equipamiento getEquipamiento() {
+        return equipamiento;
     }
 }

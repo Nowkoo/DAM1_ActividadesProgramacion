@@ -4,15 +4,9 @@ import U5_POO.T08.Character.Personaje;
 import U5_POO.T08.Character.Profession.Asesino;
 import U5_POO.T08.Character.Race.Humano;
 import U5_POO.T08.Character.Stat.StatsKit;
-import U5_POO.T08.Item.Food.EnhancedFoodDecorator;
-import U5_POO.T08.Item.Food.Manzana;
-import U5_POO.T08.Item.Food.PoisonousFoodDecorator;
-import U5_POO.T08.Item.ItemConsumible;
-import U5_POO.T08.Item.Potions.HealingPotion;
-import U5_POO.T08.Item.Potions.MinorHealingPotion;
+import U5_POO.T08.Item.Consumibles.ItemConsumible;
+import U5_POO.T08.Item.Consumibles.Potions.HealingPotion;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ItemFoodTest {
 

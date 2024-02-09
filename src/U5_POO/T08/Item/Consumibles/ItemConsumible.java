@@ -1,4 +1,4 @@
-package U5_POO.T08.Item;
+package U5_POO.T08.Item.Consumibles;
 
 import U5_POO.T08.Character.Personaje;
 
