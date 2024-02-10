@@ -1,17 +1,18 @@
-package U5_POO.T08.Item.Equipamiento.Collar;
+package U5_POO.T08.Item.Equipables.Collar;
 
 import U5_POO.T08.Character.Personaje;
 import U5_POO.T08.Character.Stat.StatsKit;
-import U5_POO.T08.Item.Equipamiento.Equipamiento;
-import U5_POO.T08.Item.Equipamiento.ItemEquipable;
+import U5_POO.T08.Character.Equipamiento;
+import U5_POO.T08.Item.Equipables.ItemEquipable;
 
 public class Collar extends ItemEquipable {
-    public Collar(StatsKit itemStats, String nombre) {
-        super(itemStats, nombre);
+    public Collar(StatsKit itemStats, String name) {
+        super(itemStats, name);
+        this.peso = 5;
     }
     public Collar() {
-        this.itemStats = new StatsKit(0);
-        this.nombre = "Vacío";
+        super(new StatsKit(0), "Vacío");
+        this.peso = 5;
     }
 
     @Override

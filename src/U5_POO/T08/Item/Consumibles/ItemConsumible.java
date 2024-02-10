@@ -1,14 +1,15 @@
 package U5_POO.T08.Item.Consumibles;
 
 import U5_POO.T08.Character.Personaje;
+import U5_POO.T08.Item.Item;
 
-public abstract class ItemConsumible {
+public abstract class ItemConsumible extends Item {
     protected float power;
-    protected String name;
 
     public ItemConsumible(int power, String name) {
         this.power = power;
         this.name = name;
+        this.peso = 5;
     }
 
     public void consumedBy(Personaje personaje) {

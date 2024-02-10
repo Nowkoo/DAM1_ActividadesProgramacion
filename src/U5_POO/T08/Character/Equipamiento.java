@@ -1,14 +1,15 @@
-package U5_POO.T08.Item.Equipamiento;
+package U5_POO.T08.Character;
 
 import U5_POO.T08.Character.Stat.*;
-import U5_POO.T08.Item.Equipamiento.Armadura.Armadura;
-import U5_POO.T08.Item.Equipamiento.Armas.Arma;
-import U5_POO.T08.Item.Equipamiento.Botas.Botas;
-import U5_POO.T08.Item.Equipamiento.Brazalete.Brazalete;
-import U5_POO.T08.Item.Equipamiento.Casco.Casco;
-import U5_POO.T08.Item.Equipamiento.Collar.Collar;
-import U5_POO.T08.Item.Equipamiento.Guantes.Guantes;
-import U5_POO.T08.Item.Equipamiento.Pantalones.Pantalones;
+import U5_POO.T08.Item.Equipables.Armadura.Armadura;
+import U5_POO.T08.Item.Equipables.Armas.Arma;
+import U5_POO.T08.Item.Equipables.Botas.Botas;
+import U5_POO.T08.Item.Equipables.Brazalete.Brazalete;
+import U5_POO.T08.Item.Equipables.Casco.Casco;
+import U5_POO.T08.Item.Equipables.Collar.Collar;
+import U5_POO.T08.Item.Equipables.Guantes.Guantes;
+import U5_POO.T08.Item.Equipables.ItemEquipable;
+import U5_POO.T08.Item.Equipables.Pantalones.Pantalones;
 
 public class Equipamiento {
     Arma armaPrincipal;
@@ -37,14 +38,15 @@ public class Equipamiento {
     }
 
     public StatsKit statsEquipamiento() {
-        StatsKit statsEquipamiento = new StatsKit(0);
+        int totalFuerza = 0, totalConstitucion = 0, totalInteligencia = 0, totalDestreza = 0;
         for (ItemEquipable item : equipamiento) {
-            statsEquipamiento.getFuerza().setValue(statsEquipamiento.getFuerza().getValue() + item.getItemStats().getFuerza().getValue());
-            statsEquipamiento.getConstitucion().setValue(statsEquipamiento.getConstitucion().getValue() + item.getItemStats().getConstitucion().getValue());
-            statsEquipamiento.getDestreza().setValue(statsEquipamiento.getDestreza().getValue() + item.getItemStats().getDestreza().getValue());
-            statsEquipamiento.getInteligencia().setValue(statsEquipamiento.getInteligencia().getValue() + item.getItemStats().getInteligencia().getValue());
+            StatsKit itemStats = item.getItemStats();
+            totalFuerza += itemStats.getFuerza().getValue();
+            totalConstitucion += itemStats.getConstitucion().getValue();
+            totalInteligencia += itemStats.getInteligencia().getValue();
+            totalDestreza += itemStats.getDestreza().getValue();
         }
-        return statsEquipamiento;
+        return new StatsKit(totalFuerza, totalConstitucion, totalInteligencia, totalDestreza);
     }
 
     public int modifier(Stat stat) {
@@ -61,12 +63,18 @@ public class Equipamiento {
         return 0;
     }
 
+    public void actualizarEquipamiento() {
+        equipamiento = new ItemEquipable[] {armaPrincipal, armaSecundaria,
+                casco, armadura, pantalones, botas, guantes, collar, brazalete};
+    }
+
     public Arma getArmaPrincipal() {
         return armaPrincipal;
     }
 
     public void setArmaPrincipal(Arma armaPrincipal) {
         this.armaPrincipal = armaPrincipal;
+        actualizarEquipamiento();
     }
 
     public Arma getArmaSecundaria() {
@@ -75,6 +83,7 @@ public class Equipamiento {
 
     public void setArmaSecundaria(Arma armaSecundaria) {
         this.armaSecundaria = armaSecundaria;
+        actualizarEquipamiento();
     }
 
     public Casco getCasco() {
@@ -83,6 +92,7 @@ public class Equipamiento {
 
     public void setCasco(Casco casco) {
         this.casco = casco;
+        actualizarEquipamiento();
     }
 
     public Armadura getArmadura() {
@@ -91,6 +101,7 @@ public class Equipamiento {
 
     public void setArmadura(Armadura armadura) {
         this.armadura = armadura;
+        actualizarEquipamiento();
     }
 
     public Pantalones getPantalones() {
@@ -99,6 +110,7 @@ public class Equipamiento {
 
     public void setPantalones(Pantalones pantalones) {
         this.pantalones = pantalones;
+        actualizarEquipamiento();
     }
 
     public Botas getBotas() {
@@ -107,6 +119,7 @@ public class Equipamiento {
 
     public void setBotas(Botas botas) {
         this.botas = botas;
+        actualizarEquipamiento();
     }
 
     public Guantes getGuantes() {
@@ -115,6 +128,7 @@ public class Equipamiento {
 
     public void setGuantes(Guantes guantes) {
         this.guantes = guantes;
+        actualizarEquipamiento();
     }
 
     public Collar getCollar() {
@@ -123,6 +137,7 @@ public class Equipamiento {
 
     public void setCollar(Collar collar) {
         this.collar = collar;
+        actualizarEquipamiento();
     }
 
     public Brazalete getBrazalete() {
@@ -131,5 +146,6 @@ public class Equipamiento {
 
     public void setBrazalete(Brazalete brazalete) {
         this.brazalete = brazalete;
+        actualizarEquipamiento();
     }
 }

@@ -3,7 +3,6 @@ package U5_POO.T08.Character;
 import U5_POO.T08.Character.Profession.Profession;
 import U5_POO.T08.Character.Race.Race;
 import U5_POO.T08.Character.Stat.*;
-import U5_POO.T08.Item.Equipamiento.Equipamiento;
 
 public class Personaje implements Damageable {
     String name;
@@ -11,7 +10,8 @@ public class Personaje implements Damageable {
     Profession profession;
     StatsKit stats;
     private double health;
-    Equipamiento equipamiento;
+    Equipamiento equipamiento = new Equipamiento();
+    Inventario inv = new Inventario();
 
 
     public Personaje(String name, Race race, Profession profession, StatsKit stat) {
@@ -20,7 +20,6 @@ public class Personaje implements Damageable {
         this.profession = profession;
         this.stats = stat;
         this.health = maxHealth();
-        this.equipamiento = new Equipamiento();
     }
 
     public String getName() {
@@ -115,5 +114,9 @@ public class Personaje implements Damageable {
 
     public Equipamiento getEquipamiento() {
         return equipamiento;
+    }
+
+    public Inventario getInv() {
+        return inv;
     }
 }
