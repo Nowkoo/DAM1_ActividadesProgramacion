@@ -1,4 +1,4 @@
-package U06.Example01_Iterators;
+package U6_estructuras_de_datos.Iteradores.ejemplos_iteradores;
 
 public class Persona {
     String name;

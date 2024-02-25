@@ -1,4 +1,4 @@
-package U06.Example01_Iterators;
+package U6_estructuras_de_datos.Iteradores.ejemplos_iteradores;
 
 public class Main01 {
     public static void main(String[] args) {
