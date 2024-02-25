@@ -1,7 +1,8 @@
-package U6_estructuras_de_datos.ArrayList.Existe;
+package U6_estructuras_de_datos.Iteradores.Ej4_Existe;
 
 import java.util.ArrayList;
 
+//No hay bucles que transformar
 public class Existe {
     public static void main(String[] args) {
         ArrayList<String> arraylist = new ArrayList<>();

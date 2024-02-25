@@ -1,4 +1,4 @@
-package U6_estructuras_de_datos.ArrayList.ToArray;
+package U6_estructuras_de_datos.ArrayList.Ej3_ToArray;
 
 import java.util.ArrayList;
 

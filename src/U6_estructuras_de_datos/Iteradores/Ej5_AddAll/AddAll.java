@@ -1,7 +1,8 @@
-package U6_estructuras_de_datos.ArrayList.AddAll;
+package U6_estructuras_de_datos.Iteradores.Ej5_AddAll;
 
 import java.util.ArrayList;
 
+//No hay bucles que transformar
 public class AddAll {
     public static void main(String[] args) {
         ArrayList<String> lista1 = new ArrayList<>();

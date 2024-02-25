@@ -1,6 +1,5 @@
-package U6_estructuras_de_datos.ArrayList.Altura;
+package U6_estructuras_de_datos.Iteradores.Ej2_Altura;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Main {

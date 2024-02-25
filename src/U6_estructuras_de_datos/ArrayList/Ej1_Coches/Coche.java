@@ -1,4 +1,4 @@
-package U6_estructuras_de_datos.ArrayList.Coches;
+package U6_estructuras_de_datos.ArrayList.Ej1_Coches;
 
 public class Coche {
     String marca;

@@ -1,4 +1,4 @@
-package U6_estructuras_de_datos.ArrayList.Altura;
+package U6_estructuras_de_datos.ArrayList.Ej2_Altura;
 
 import java.util.ArrayList;
 import java.util.Scanner;

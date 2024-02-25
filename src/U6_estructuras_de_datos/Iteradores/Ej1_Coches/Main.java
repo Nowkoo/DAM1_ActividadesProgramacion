@@ -1,6 +1,8 @@
-package U6_estructuras_de_datos.ArrayList.Coches;
+package U6_estructuras_de_datos.Iteradores.Ej1_Coches;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class Main {
@@ -16,5 +18,11 @@ public class Main {
                 coches.add(new Coche(input));
             }
         } while (input.length() != 0);
+
+        Iterator<Coche> it = coches.iterator();
+        while (it.hasNext()) {
+            Coche c = it.next();
+            System.out.println(c.getMarca());
+        }
     }
 }
