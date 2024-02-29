@@ -3,33 +3,37 @@ package U6_estructuras_de_datos.Maps;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Ej7_Anagramas {
     public static void main(String[] args) throws IOException {
-        Map<String, String> diccionario = new HashMap<>();
+        Map<String, List<String>> diccionario = new HashMap<>();
         BufferedReader reader = new BufferedReader(new FileReader("./recursos/spanish-dict.txt"));
         String line;
         while ((line = reader.readLine())!=null) {
-            diccionario.put(ordenarAlfabeticamente(line) , line);
+            String palabraOrdenada = ordenarAlfabeticamente(line);
+            List<String> palabras = diccionario.get(palabraOrdenada);
+            if (palabras == null) {
+                diccionario.put(palabraOrdenada, palabras = new ArrayList<>());
+            }
+            palabras.add(line);
         }
         reader.close();
+
+        imprimir(diccionario, 0);
     }
 
     public static String ordenarAlfabeticamente(String palabra) {
-        palabra = palabra.toLowerCase();
-        String palabraOrdenada;
-        char temp;
-        for (int i = 0; i < palabra.length() - 1; i++) {
-            for (int j = i + 1; j < palabra.length(); j++) {
-                if (palabra.charAt(i) < palabra.charAt(j)) {
-                    temp = palabra.charAt(i);
+        char[] charArray = palabra.toLowerCase().toCharArray();
+        Arrays.sort(charArray);
+        return new String(charArray);
+    }
 
-                }
+    public static void imprimir(Map<String, List<String>> diccionario, int minSize) {
+        for (List<String> palabras : diccionario.values()) {
+            if (palabras.size() > minSize) {
+                System.out.println(palabras.size());
             }
-            palabraOrdenada = palabraOrdenada + temp;
         }
-        return "";
     }
 }
