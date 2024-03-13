@@ -1,9 +1,8 @@
-package U6_estructuras_de_datos.Maps;
+package U6_estructuras_de_datos.HashMap;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 

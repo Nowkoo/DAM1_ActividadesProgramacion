@@ -1,6 +1,4 @@
-package U6_estructuras_de_datos.Maps;
-
-import U6_estructuras_de_datos.Iteradores.ejemplos_iteradores.Persona;
+package U6_estructuras_de_datos.HashMap;
 
 import java.util.*;
 

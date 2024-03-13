@@ -1,4 +1,4 @@
-package U6_estructuras_de_datos.Maps;
+package U6_estructuras_de_datos.HashMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
