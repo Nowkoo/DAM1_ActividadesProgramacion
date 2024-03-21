@@ -26,7 +26,7 @@ public class Main1Predicate {
         names.stream().filter(validateName).forEach(System.out::println);
         //o también con función Lambda
         names.stream()
-                .filter(streams)
+                .filter(validateName)
                 .forEach(name -> System.out.println(name));
 
     }
