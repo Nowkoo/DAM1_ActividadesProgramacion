@@ -3,8 +3,8 @@ package U6_estructuras_de_datos.InterfacesFuncionales.Ejercicio1;
 import java.util.*;
 
 public class Ejercicio1 {
-    static ArrayList<ListaDeTareas> casosDePrueba = new ArrayList<>();
-    static Scanner scanner = new Scanner(System.in);
+    private static ArrayList<ListaDeTareas> casosDePrueba = new ArrayList<>();
+    private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         int input;
