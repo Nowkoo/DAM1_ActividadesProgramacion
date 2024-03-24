@@ -1,7 +1,4 @@
-package U6_estructuras_de_datos.InterfacesFuncionales;
-
-import U6_estructuras_de_datos.InterfacesFuncionales.Example07_FunctionalInterfaces.F_Comparator.ListaDeTareas;
-import U6_estructuras_de_datos.InterfacesFuncionales.Example07_FunctionalInterfaces.F_Comparator.Tarea;
+package U6_estructuras_de_datos.InterfacesFuncionales.Ejercicio1;
 
 import java.util.*;
 
@@ -36,12 +33,18 @@ public class Ejercicio1 {
     }
 
     public static int pedirInput(int min, int max) {
-        int input;
-        do {
-            input = scanner.nextInt();
-            scanner.nextLine();
-        } while (input < min || input > max);
-        return input;
+        while(true) {
+            if (scanner.hasNextInt()) {
+                int input = scanner.nextInt();
+                scanner.nextLine();
+                if (input >= min && input <= max) {
+                    return input;
+                }
+            } else {
+                System.out.println("Por favor, introduce un número.");
+                scanner.next();
+            }
+        }
     }
 
     public static void salida() {
