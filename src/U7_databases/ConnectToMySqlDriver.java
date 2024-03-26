@@ -13,6 +13,10 @@ public class ConnectToMySqlDriver {
         String username = "mar";
         String password = "secret";
 
+        /*String url="jdbc:postgresql://89.36.214.106:5432/factura";
+        String username = "factura_alu";
+        String password = "factura_alu";*/
+
         try{
             Driver driver = DriverManager.getDriver(url);
 
