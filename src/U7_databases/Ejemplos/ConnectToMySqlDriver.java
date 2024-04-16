@@ -1,4 +1,4 @@
-package U7_databases;
+package U07.Ejemplos.A_Conexion;
 
 import java.sql.Connection;
 import java.sql.Driver;
@@ -9,20 +9,9 @@ import java.util.Properties;
 public class ConnectToMySqlDriver {
 
     public static void main(String[] args)  {
-        //bbdd casa
-        /*String url="jdbc:mysql://172.23.176.1:33060/1dam_programacio";
-        String username = "mar";
-        String password = "secret";*/
-
-        //bbdd claseDROP USER 'username'@'localhost';
-        String url="jdbc:mysql://localhost:33060/programacio";
-        String username = "mar";
+        String url="jdbc:mysql://localhost:33060/testing";
+        String username = "testing1";
         String password = "secret";
-
-        //bbdd bbdd
-        /*String url="jdbc:postgresql://89.36.214.106:5432/factura";
-        String username = "factura_alu";
-        String password = "factura_alu";*/
 
         try{
             Driver driver = DriverManager.getDriver(url);
