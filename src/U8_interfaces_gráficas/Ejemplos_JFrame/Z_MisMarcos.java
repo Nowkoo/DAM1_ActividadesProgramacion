@@ -1,7 +1,6 @@
 package U8_interfaces_gráficas.Ejemplos_JFrame;
 
 import javax.swing.JFrame;
-import U08.Examples.A_JFrame.B_MarcoCentrado;
 
 /**
  *
