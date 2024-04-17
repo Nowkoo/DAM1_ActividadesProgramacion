@@ -4,29 +4,22 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Ejercicio2 extends JFrame {
+    private JTextArea texto;
     public Ejercicio2() {
         setTitle("Ventanas en bucle");
         setSize(300,200);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        String textoVentana = "";
-
-        Container contentpane = getContentPane();
-        PanelConTexto panel = new PanelConTexto();
-        contentpane.add(panel);
-
-        while (true) {
-            String input = JOptionPane.showInputDialog(null, "Input");
-            if (input.equals("Fin")) break;
-            textoVentana = textoVentana + " " + input;
-            panel.paintComponent(panel.getGraphics(), textoVentana);
-        }
+        texto = new JTextArea();
+        this.add(texto);
+        ventanasDeDialogo();
     }
     public static void main(String[] args) {
-        new Ejercicio2();
+        SwingUtilities.invokeLater(Ejercicio2::new);
     }
 
+    /*
     class PanelConTexto extends JPanel {
         int posx = 100;
         int posy = 100;
@@ -34,6 +27,15 @@ public class Ejercicio2 extends JFrame {
             super.paintComponent(g);
             g.drawString(str, posx, posy);
         }
+    }
+    */
 
+    public void ventanasDeDialogo() {
+        String input;
+        while (true) {
+            input = JOptionPane.showInputDialog(null, "Input");
+            if (input.equals("Fin")) break;
+            texto.append(input + "\n");
+        }
     }
 }
