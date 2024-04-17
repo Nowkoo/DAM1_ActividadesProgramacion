@@ -38,7 +38,7 @@ class PanelConImagen extends JPanel {
     private Image image=null;
     public PanelConImagen(){
         try{
-            image = ImageIO.read(new File("./recursos/icono.png"));
+            image = ImageIO.read(new File("./recursos/pluginfile.bmp"));
         }catch (IOException e){
             System.out.println("imagen no encontrada");
         }
