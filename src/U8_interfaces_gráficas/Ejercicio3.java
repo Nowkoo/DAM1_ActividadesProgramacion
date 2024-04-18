@@ -7,25 +7,58 @@ import java.io.File;
 import java.io.IOException;
 
 public class Ejercicio3 extends JFrame {
-    public static void main(String[] args) {
+    static private PanelConImagen panelConImagen;
 
+    public Ejercicio3() {
+        this.setBounds(750,300,300,200);
+        this.setTitle("Imagen en movimiento");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setVisible(true);
+
+        panelConImagen = new PanelConImagen("./recursos/pluginfile.bmp");
+        this.add(panelConImagen);
+    }
+    public static void main(String[] args) throws InterruptedException {
+        Ejercicio3 ventana = new Ejercicio3();
+        movimiento();
     }
 
-    class PanelConImagen extends JPanel {
-        private Image imagen = null;
+    public static void movimiento() throws InterruptedException {
+        while (true){
+            Thread.sleep(20);
 
-        public PanelConImagen(String rutaImagen) {
-            try {
-                imagen = ImageIO.read(new File(rutaImagen));
-            } catch (IOException e) {
-                System.out.println("Imagen no encontrada");
+            if (panelConImagen.posx<1100){
+                panelConImagen.posx+=1;
+            } else {
+                panelConImagen.posx = 0;
             }
-        }
 
-        @Override
-        public void paintComponent(Graphics g) {
-            super.paintComponents(g);
-            g.drawImage(imagen, 5, 5, null);
+            if (panelConImagen.posy<400){
+                panelConImagen.posy+=1;
+            } else {
+                panelConImagen.posy = 0;
+            }
+            panelConImagen.repaint();
         }
+    }
+}
+
+class PanelConImagen extends JPanel {
+    int posx = 0;
+    int posy = 0;
+    private Image imagen = null;
+
+    public PanelConImagen(String rutaImagen) {
+        try {
+            imagen = ImageIO.read(new File(rutaImagen));
+        } catch (IOException e) {
+            System.out.println("Imagen no encontrada");
+        }
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(imagen, posx, posy, null);
     }
 }
