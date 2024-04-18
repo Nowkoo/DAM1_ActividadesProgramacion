@@ -54,7 +54,6 @@ class DestruirVentana implements ActionListener {
 }
 
 class Windows extends JFrame {
-    static int contador = 0;
     static Stack<Windows> ventanas = new Stack<>();
     public Windows() {
         ventanas.push(this);
@@ -70,7 +69,7 @@ class Windows extends JFrame {
         return ventanas;
     }
 
-    class AutodestruccionColectiva implements ActionListener {
+    static class AutodestruccionColectiva implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             while (!Windows.getVentanas().isEmpty()) {
