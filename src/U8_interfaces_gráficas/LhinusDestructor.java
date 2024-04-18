@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.util.Stack;
 
 public class LhinusDestructor extends JFrame {
-    static int contadorDeVentanas = 1;
     public LhinusDestructor() {
         setTitle("Lhinus el Destructor");
         this.setBounds(750,300,600,400);
