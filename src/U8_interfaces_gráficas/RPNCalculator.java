@@ -2,12 +2,24 @@ package U8_interfaces_gráficas;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 class Calculadora {
     private static String operacion = "";
+    public static void main(String[] args) {
+        new InterfazCalculadora();
+    }
 
-    public static void escribir(char nuevoCaracter) {
-        operacion = operacion + nuevoCaracter;
+    public static void escribir(String nuevo) {
+        operacion = operacion + nuevo;
+    }
+
+    public static void borrar() {
+        operacion = "";
+    }
+
+    public static String getOperacion() {
+        return operacion;
     }
 }
 class InterfazCalculadora extends JFrame {
@@ -31,51 +43,34 @@ class PlantillaCalculadora extends JPanel {
         bCalcular.setPreferredSize(new Dimension(100,50));
 
         add(resultado, BorderLayout.NORTH);
-        add(crearGridBotones(), BorderLayout.CENTER);
+        add(crearGridBotones(resultado), BorderLayout.CENTER);
         add(bCalcular, BorderLayout.SOUTH);
     }
 
-    public JPanel crearGridBotones() {
+    public JPanel crearGridBotones(JTextArea textArea) {
+        String[] textoBotones = new String[] {"7", "8", "9", "/", "4", "5", "6", "X", "1", "2", "3", "-", "ESP", "0", "C", "+"};
         JPanel gridBotones = new JPanel();
         gridBotones.setLayout(new GridLayout(0, 4));
 
-        JButton b7 = new JButton("7");
-        JButton b8 = new JButton("8");
-        JButton b9 = new JButton("9");
-        JButton bDividir = new JButton("/");
-        JButton b4 = new JButton("4");
-        JButton b5 = new JButton("5");
-        JButton b6 = new JButton("6");
-        JButton bMultiplicar = new JButton("X");
-        JButton b1 = new JButton("1");
-        JButton b2 = new JButton("2");
-        JButton b3 = new JButton("3");
-        JButton bRestar = new JButton("-");
-        JButton bDecimal = new JButton(".");
-        JButton b0 = new JButton("0");
-        JButton bBorrar = new JButton("C");
-        JButton bSumar = new JButton("+");
-
-        gridBotones.add(b7);
-        gridBotones.add(b8);
-        gridBotones.add(b9);
-        gridBotones.add(bDividir);
-        gridBotones.add(b4);
-        gridBotones.add(b5);
-        gridBotones.add(b6);
-        gridBotones.add(bMultiplicar);
-        gridBotones.add(b1);
-        gridBotones.add(b2);
-        gridBotones.add(b3);
-        gridBotones.add(bRestar);
-        gridBotones.add(bDecimal);
-        gridBotones.add(b0);
-        gridBotones.add(bBorrar);
-        gridBotones.add(bSumar);
-
-        b7.addActionListener((e)->{
-            Calculadora.escribir(b7.);
-        });
+        for (String str : textoBotones) {
+            JButton boton = new JButton(str);
+            gridBotones.add(boton);
+            if (str.equals("C")) {
+                boton.addActionListener((e)->{
+                    Calculadora.borrar();
+                });
+            } else if (str.equals("ESP")) {
+                boton.addActionListener((e)->{
+                    Calculadora.escribir(" ");
+                    textArea.append(Calculadora.getOperacion());
+                });
+            } else {
+                boton.addActionListener((e)->{
+                    Calculadora.escribir(boton.getText());
+                    textArea.append(Calculadora.getOperacion());
+                });
+            }
+        }
 
         return gridBotones;
     }
