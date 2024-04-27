@@ -5,6 +5,10 @@ import Librerias.Utilidades;
 import java.util.*;
 
 public class Ej2_ExpresionesAritmeticas {
+    public static void main(String[] args) {
+        Ej2_ExpresionesAritmeticas op = new Ej2_ExpresionesAritmeticas();
+        System.out.println(op.infijoStack("8 1 1 - /"));
+    }
     public String infijoStack(String postfija) {
         Stack<Integer> pila = new Stack<>();
         String[] grupos = Utilidades.dividirEnPalabras(postfija);
