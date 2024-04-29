@@ -59,9 +59,16 @@ public class Calculadora {
     }
 
     public static boolean esNumero(String cadena) {
-        for (int i = 0;  i < cadena.length(); i++) {
+        if (cadena.charAt(0) == '-' && cadena.length() == 1) {
+            return false;
+        } else if (!Character.isDigit(cadena.charAt(0)) && cadena.charAt(0) != '-') {
+            return false;
+        }
+
+        for (int i = 1;  i < cadena.length(); i++) {
             if (!Character.isDigit(cadena.charAt(i))) return false;
         }
+
         return true;
     }
 
