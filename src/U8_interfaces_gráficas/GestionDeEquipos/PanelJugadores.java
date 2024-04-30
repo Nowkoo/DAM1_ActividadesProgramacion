@@ -3,10 +3,10 @@ package U8_interfaces_gráficas.GestionDeEquipos;
 import javax.swing.*;
 import java.awt.*;
 
-public class PanelEquipos extends JPanel {
-    public PanelEquipos() {
+public class PanelJugadores extends JPanel {
+    public PanelJugadores() {
         setLayout(new GridLayout(0, 2));
-        String[] labels = new String[] {"País al que pertenece la competición:", "Nombre de la competición:", "Entrenador del equipo:"};
+        String[] labels = new String[] {"Demarcación:", "Nombre del jugador:", "Año de nacimiento:", "Altura:", "Dorsal:", "Club de pertenencia:"};
 
         for (String textoLabel : labels) {
             JLabel newLabel = new JLabel(textoLabel);
