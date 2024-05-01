@@ -1,13 +1,10 @@
 package U8_interfaces_gráficas.GestionDeEquipos;
 
-import U5_POO.T01.Main;
-
 import javax.swing.*;
 import java.awt.*;
 
 public class Interfaz extends JFrame {
-
-    public static void main(String[] args) {
+    public Interfaz() {
         MainFrame myApp = new MainFrame();
         myApp.setTitle("Gestión de equipos");
         myApp.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -16,7 +13,7 @@ public class Interfaz extends JFrame {
 
 class MainFrame extends JFrame {
     public MainFrame() {
-        this.setBounds(300,300,600,300);
+        this.setBounds(300,300,600,350);
         MainPanel myPanel = new MainPanel();
         this.add(myPanel);
         this.setVisible(true);
@@ -24,33 +21,37 @@ class MainFrame extends JFrame {
 }
 
 class MainPanel extends JPanel {
-    PanelEquipos panelEquipos;
-    PanelJugadores panelJugadores;
+    private PanelEquipos panelEquipos;
+    private PanelJugadores panelJugadores;
     public MainPanel() {
         this.setLayout(new BorderLayout());
+        JMenuBar menu = crearMenu();
+        add(menu, BorderLayout.NORTH);
+
+        panelEquipos = new PanelEquipos();
+        panelJugadores = new PanelJugadores();
+    }
+
+    private JMenuBar crearMenu() {
         JMenuBar myBar = new JMenuBar();
         JMenu menu = new JMenu("Menú");
         JMenuItem altaEquipos = new JMenuItem("Alta equipos");
         JMenuItem altaJugadores = new JMenuItem("Alta jugadores");
+
+        altaJugadores.addActionListener(e -> cambiarDePanel(panelEquipos, panelJugadores));
+        altaEquipos.addActionListener(e -> cambiarDePanel(panelJugadores, panelEquipos));
+
         menu.add(altaEquipos);
         menu.add(altaJugadores);
         myBar.add(menu);
 
-        add(myBar, BorderLayout.NORTH);
+        return myBar;
+    }
 
-        panelEquipos = new PanelEquipos();
-        panelJugadores = new PanelJugadores();
-        altaEquipos.addActionListener((e) -> {
-            remove(panelJugadores);
-            add(panelEquipos, BorderLayout.CENTER);
-            panelEquipos.revalidate();
-            panelEquipos.repaint();
-        });
-        altaJugadores.addActionListener((e) -> {
-            remove(panelEquipos);
-            add(panelJugadores, BorderLayout.CENTER);
-            panelJugadores.revalidate();
-            panelJugadores.repaint();
-        });
+    private void cambiarDePanel(JPanel oldPanel, JPanel newPanel) {
+        remove(oldPanel);
+        add(newPanel, BorderLayout.CENTER);
+        newPanel.revalidate();
+        newPanel.repaint();
     }
 }
