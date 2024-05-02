@@ -72,7 +72,7 @@ class MainPanel extends JPanel {
         newPanel.repaint();
     }
 
-    static void cambiarIdioma(int numIdioma) {
+    void cambiarIdioma(int numIdioma) {
         Idioma idioma = new Idioma(numIdioma);
         menu.setText(idioma.getProperty("menu"));
         altaEquipos.setText(idioma.getProperty("altaEquipos"));
@@ -80,8 +80,8 @@ class MainPanel extends JPanel {
         cambiarIdioma.setText(idioma.getProperty("cambiarIdioma"));
         espanol.setText(idioma.getProperty("espanol"));
         ingles.setText(idioma.getProperty("ingles"));
-        JPanel oldPanel = panelEquipos;
-        panelEquipos = new PanelEquipos(numIdioma);
-        cambiarDePanel(oldPanel, panelEquipos);
+        PanelEquipos newPanel = new PanelEquipos(numIdioma);
+        cambiarDePanel(panelEquipos, newPanel);
+        panelEquipos = newPanel;
     }
 }
