@@ -10,6 +10,7 @@ public class PanelEquipos extends JPanel {
     private static String paisCompeticion;
     private static String nombreCompeticion;
     private static String entrenador;
+    private static String botonRegistro;
     private Map<String, JTextField> textFields;
 
     public PanelEquipos(int numIdioma) {
@@ -28,10 +29,11 @@ public class PanelEquipos extends JPanel {
         paisCompeticion = idioma.getProperty("paisCompeticion");
         nombreCompeticion = idioma.getProperty("nombreCompeticion");
         entrenador = idioma.getProperty("entrenador");
+        botonRegistro = idioma.getProperty("botonRegistro");
     }
 
     private void crearBotonAltas() {
-        JButton botonAlta = new JButton("Registrar equipo");
+        JButton botonAlta = new JButton(botonRegistro);
         add(Box.createRigidArea(new Dimension(0, 10)));
         botonAlta.addActionListener((e) -> {
             procesarAlta();

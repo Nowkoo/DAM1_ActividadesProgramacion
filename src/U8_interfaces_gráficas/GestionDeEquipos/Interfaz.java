@@ -38,7 +38,7 @@ class MainPanel extends JPanel {
         add(menu, BorderLayout.NORTH);
 
         panelEquipos = new PanelEquipos(0);
-        panelJugadores = new PanelJugadores();
+        panelJugadores = new PanelJugadores(0);
     }
 
     private JMenuBar crearMenu() {
@@ -80,8 +80,16 @@ class MainPanel extends JPanel {
         cambiarIdioma.setText(idioma.getProperty("cambiarIdioma"));
         espanol.setText(idioma.getProperty("espanol"));
         ingles.setText(idioma.getProperty("ingles"));
-        PanelEquipos newPanel = new PanelEquipos(numIdioma);
-        cambiarDePanel(panelEquipos, newPanel);
-        panelEquipos = newPanel;
+
+        PanelEquipos newPanelEquipos = new PanelEquipos(numIdioma);
+        remove(panelEquipos);
+        panelEquipos = newPanelEquipos;
+
+        PanelJugadores newPanelJugadores = new PanelJugadores(numIdioma);
+        remove(panelJugadores);
+        panelJugadores = newPanelJugadores;
+
+        revalidate();
+        repaint();
     }
 }

@@ -6,15 +6,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PanelJugadores extends JPanel {
-    private static final String DEMARCACION = "Demarcación:";
-    private static final String NOMBRE = "Nombre del jugador:";
-    private static final String FECHA_NACIMIENTO = "Año de nacimiento:";
-    private static final String ALTURA = "Altura:";
-    private static final String DORSAL = "Dorsal:";
-    private static final String CLUB = "Club de pertenencia:";
+    private static String demarcacion;
+    private static String nombre;
+    private static String fechaNacimiento;
+    private static String altura;
+    private static String dorsal;
+    private static String club;
+    private static String botonRegistro;
     private Map<String, JTextField> textFields;
 
-    public PanelJugadores() {
+    public PanelJugadores(int numIdioma) {
+        cargarLabels(numIdioma);
         textFields = new HashMap<>();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -23,8 +25,19 @@ public class PanelJugadores extends JPanel {
         crearBotonAltas();
     }
 
+    private void cargarLabels(int numIdioma) {
+        Idioma idioma = new Idioma(numIdioma);
+        demarcacion = idioma.getProperty("demarcacion");
+        nombre = idioma.getProperty("nombreJugador");
+        fechaNacimiento = idioma.getProperty("fechaNacimiento");
+        altura = idioma.getProperty("altura");
+        dorsal = idioma.getProperty("dorsal");
+        club = idioma.getProperty("club");
+        botonRegistro = idioma.getProperty("botonRegistro");
+    }
+
     private void crearBotonAltas() {
-        JButton botonAlta = new JButton("Registrar jugador");
+        JButton botonAlta = new JButton(botonRegistro);
         add(Box.createRigidArea(new Dimension(0, 10)));
         botonAlta.addActionListener((e) -> {
             procesarAlta();
@@ -42,12 +55,12 @@ public class PanelJugadores extends JPanel {
 
     private void altaJugador() {
         AltaJugador nuevoJugador = new AltaJugador(
-                textFields.get(DEMARCACION).getText(),
-                textFields.get(NOMBRE).getText(),
-                textFields.get(FECHA_NACIMIENTO).getText(),
-                textFields.get(ALTURA).getText(),
-                textFields.get(DORSAL).getText(),
-                textFields.get(CLUB).getText()
+                textFields.get(demarcacion).getText(),
+                textFields.get(nombre).getText(),
+                textFields.get(fechaNacimiento).getText(),
+                textFields.get(altura).getText(),
+                textFields.get(dorsal).getText(),
+                textFields.get(club).getText()
         );
         GestorEquiposMain.altaJugador(nuevoJugador);
     }
@@ -62,12 +75,12 @@ public class PanelJugadores extends JPanel {
         Dimension labelSize = new Dimension(180, 30);
         Dimension fieldSize = new Dimension(250, 30);
         String[] labels = new String[] {
-                DEMARCACION,
-                NOMBRE,
-                FECHA_NACIMIENTO,
-                ALTURA,
-                DORSAL,
-                CLUB
+                demarcacion,
+                nombre,
+                fechaNacimiento,
+                altura,
+                dorsal,
+                club
         };
 
         for (String textoLabel : labels) {
