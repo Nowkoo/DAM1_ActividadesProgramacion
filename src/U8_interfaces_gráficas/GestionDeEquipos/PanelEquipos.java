@@ -6,19 +6,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PanelEquipos extends JPanel {
-    private static final String NOMBRE_EQUIPO = "Nombre del equipo:";
-    private static final String PAIS_COMPETICION = "País de la competición:";
-    private static final String NOMBRE_COMPETICION = "Nombre de la competición:";
-    private static final String ENTRENADOR = "Entrenador del equipo:";
+    private static String nombreEquipo;
+    private static String paisCompeticion;
+    private static String nombreCompeticion;
+    private static String entrenador;
     private Map<String, JTextField> textFields;
 
-    public PanelEquipos() {
+    public PanelEquipos(int numIdioma) {
+        cargarLabels(numIdioma);
         textFields = new HashMap<>();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         crearTextFields();
         crearBotonAltas();
+    }
+
+    private void cargarLabels(int numIdioma) {
+        Idioma idioma = new Idioma(numIdioma);
+        nombreEquipo = idioma.getProperty("nombreEquipo");
+        paisCompeticion = idioma.getProperty("paisCompeticion");
+        nombreCompeticion = idioma.getProperty("nombreCompeticion");
+        entrenador = idioma.getProperty("entrenador");
     }
 
     private void crearBotonAltas() {
@@ -40,10 +49,10 @@ public class PanelEquipos extends JPanel {
 
     private void altaEquipo() {
         AltaEquipo nuevoEquipo = new AltaEquipo(
-                textFields.get(NOMBRE_EQUIPO).getText(),
-                textFields.get(PAIS_COMPETICION).getText(),
-                textFields.get(NOMBRE_COMPETICION).getText(),
-                textFields.get(ENTRENADOR).getText()
+                textFields.get(nombreEquipo).getText(),
+                textFields.get(paisCompeticion).getText(),
+                textFields.get(nombreCompeticion).getText(),
+                textFields.get(entrenador).getText()
         );
         GestorEquiposMain.altaEquipo(nuevoEquipo);
     }
@@ -58,10 +67,10 @@ public class PanelEquipos extends JPanel {
         Dimension labelSize = new Dimension(180, 30);
         Dimension fieldSize = new Dimension(250, 30);
         String[] labels = new String[] {
-                NOMBRE_EQUIPO,
-                PAIS_COMPETICION,
-                NOMBRE_COMPETICION,
-                ENTRENADOR
+                nombreEquipo,
+                paisCompeticion,
+                nombreCompeticion,
+                entrenador
         };
 
         for (String textoLabel : labels) {
