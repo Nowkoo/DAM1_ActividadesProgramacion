@@ -1,4 +1,4 @@
-package U07.Ejemplos.A_Conexion;
+package U7_databases.Ejemplos;
 
 import java.sql.*;
 public class ConnectToMySql {

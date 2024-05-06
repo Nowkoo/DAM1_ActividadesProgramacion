@@ -1,6 +1,22 @@
 package U8_interfaces_gráficas.GestionDeEquipos;
 
 public class AltaEquipo {
+    public String getNombreEquipo() {
+        return nombreEquipo;
+    }
+
+    public String getPaisCompeticion() {
+        return paisCompeticion;
+    }
+
+    public String getNombreCompeticion() {
+        return nombreCompeticion;
+    }
+
+    public String getEntrenador() {
+        return entrenador;
+    }
+
     private String nombreEquipo;
     private String paisCompeticion;
     private String nombreCompeticion;
