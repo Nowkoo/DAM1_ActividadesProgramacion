@@ -1,4 +1,8 @@
-package U8_interfaces_gráficas.GestionDeEquipos;
+package U8_interfaces_gráficas.GestionDeEquipos.View;
+
+import U8_interfaces_gráficas.GestionDeEquipos.Model.AltaEquipo;
+import U8_interfaces_gráficas.GestionDeEquipos.Controller.GestorEquiposMain;
+import U8_interfaces_gráficas.GestionDeEquipos.Model.Idioma;
 
 import javax.swing.*;
 import java.awt.*;

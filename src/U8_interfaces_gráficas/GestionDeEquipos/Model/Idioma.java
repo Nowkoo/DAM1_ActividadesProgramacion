@@ -1,4 +1,4 @@
-package U8_interfaces_gráficas.GestionDeEquipos;
+package U8_interfaces_gráficas.GestionDeEquipos.Model;
 
 import java.io.File;
 import java.io.FileInputStream;

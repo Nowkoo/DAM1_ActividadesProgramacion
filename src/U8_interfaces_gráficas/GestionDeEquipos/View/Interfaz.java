@@ -1,6 +1,6 @@
-package U8_interfaces_gráficas.GestionDeEquipos;
+package U8_interfaces_gráficas.GestionDeEquipos.View;
 
-import U8_interfaces_gráficas.Ejemplos_MenuBar.Example2.Language;
+import U8_interfaces_gráficas.GestionDeEquipos.Model.Idioma;
 
 import javax.swing.*;
 import java.awt.*;

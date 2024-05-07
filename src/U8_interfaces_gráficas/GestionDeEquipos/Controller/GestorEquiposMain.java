@@ -1,4 +1,9 @@
-package U8_interfaces_gráficas.GestionDeEquipos;
+package U8_interfaces_gráficas.GestionDeEquipos.Controller;
+
+import U8_interfaces_gráficas.GestionDeEquipos.Model.DatabaseConnection;
+import U8_interfaces_gráficas.GestionDeEquipos.Model.AltaEquipo;
+import U8_interfaces_gráficas.GestionDeEquipos.Model.AltaJugador;
+import U8_interfaces_gráficas.GestionDeEquipos.View.Interfaz;
 
 import java.sql.SQLException;
 import java.sql.Statement;
