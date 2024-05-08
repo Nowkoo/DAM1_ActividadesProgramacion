@@ -1,7 +1,7 @@
 package U8_interfaces_gráficas.GestionDeEquipos.View;
 
 import U8_interfaces_gráficas.GestionDeEquipos.Model.AltaEquipo;
-import U8_interfaces_gráficas.GestionDeEquipos.Controller.GestorEquiposMain;
+import U8_interfaces_gráficas.GestionDeEquipos.Controller.OperacionesDB;
 import U8_interfaces_gráficas.GestionDeEquipos.Model.Idioma;
 
 import javax.swing.*;
@@ -9,7 +9,7 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PanelEquipos extends JPanel {
+public class RegistrarEquiposVista extends JPanel {
     private static String nombreEquipo;
     private static String paisCompeticion;
     private static String nombreCompeticion;
@@ -17,7 +17,7 @@ public class PanelEquipos extends JPanel {
     private static String botonRegistro;
     private Map<String, JTextField> textFields;
 
-    public PanelEquipos(int numIdioma) {
+    public RegistrarEquiposVista(int numIdioma) {
         cargarLabels(numIdioma);
         textFields = new HashMap<>();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -60,7 +60,7 @@ public class PanelEquipos extends JPanel {
                 textFields.get(nombreCompeticion).getText(),
                 textFields.get(entrenador).getText()
         );
-        GestorEquiposMain.altaEquipo(nuevoEquipo);
+        OperacionesDB.altaEquipo(nuevoEquipo);
     }
 
     private void vaciarTextFields() {

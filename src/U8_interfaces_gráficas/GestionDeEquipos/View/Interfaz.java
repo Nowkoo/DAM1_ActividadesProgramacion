@@ -1,5 +1,6 @@
 package U8_interfaces_gráficas.GestionDeEquipos.View;
 
+import U8_interfaces_gráficas.GestionDeEquipos.Controller.MainPanelController;
 import U8_interfaces_gráficas.GestionDeEquipos.Model.Idioma;
 
 import javax.swing.*;
@@ -29,16 +30,16 @@ class MainPanel extends JPanel {
     private static JMenu cambiarIdioma;
     private static JMenuItem espanol;
     private static JMenuItem ingles;
-    private static PanelEquipos panelEquipos;
-    private static PanelJugadores panelJugadores;
+    private static RegistrarEquiposVista registrarEquiposVista;
+    private static RegistrarPanelJugadores registrarPanelJugadores;
     Idioma idioma = new Idioma(0);
     public MainPanel() {
         this.setLayout(new BorderLayout());
         JMenuBar menu = crearMenu();
         add(menu, BorderLayout.NORTH);
 
-        panelEquipos = new PanelEquipos(0);
-        panelJugadores = new PanelJugadores(0);
+        registrarEquiposVista = new RegistrarEquiposVista(0);
+        registrarPanelJugadores = new RegistrarPanelJugadores(0);
     }
 
     private JMenuBar crearMenu() {
@@ -50,8 +51,8 @@ class MainPanel extends JPanel {
         espanol = new JMenuItem(idioma.getProperty("espanol"));
         ingles = new JMenuItem(idioma.getProperty("ingles"));
 
-        altaJugadores.addActionListener(e -> cambiarDePanel(panelEquipos, panelJugadores));
-        altaEquipos.addActionListener(e -> cambiarDePanel(panelJugadores, panelEquipos));
+        altaJugadores.addActionListener(e -> MainPanelController.cambiarDePanel(this, registrarEquiposVista, registrarPanelJugadores));
+        altaEquipos.addActionListener(e -> MainPanelController.cambiarDePanel(this, registrarPanelJugadores, registrarEquiposVista));
         espanol.addActionListener(e -> cambiarIdioma(0));
         ingles.addActionListener(e -> cambiarIdioma(1));
 
@@ -65,13 +66,6 @@ class MainPanel extends JPanel {
         return myBar;
     }
 
-    private void cambiarDePanel(JPanel oldPanel, JPanel newPanel) {
-        remove(oldPanel);
-        add(newPanel, BorderLayout.CENTER);
-        newPanel.revalidate();
-        newPanel.repaint();
-    }
-
     void cambiarIdioma(int numIdioma) {
         Idioma idioma = new Idioma(numIdioma);
         menu.setText(idioma.getProperty("menu"));
@@ -81,13 +75,13 @@ class MainPanel extends JPanel {
         espanol.setText(idioma.getProperty("espanol"));
         ingles.setText(idioma.getProperty("ingles"));
 
-        PanelEquipos newPanelEquipos = new PanelEquipos(numIdioma);
-        remove(panelEquipos);
-        panelEquipos = newPanelEquipos;
+        RegistrarEquiposVista newRegistrarEquiposVista = new RegistrarEquiposVista(numIdioma);
+        remove(registrarEquiposVista);
+        registrarEquiposVista = newRegistrarEquiposVista;
 
-        PanelJugadores newPanelJugadores = new PanelJugadores(numIdioma);
-        remove(panelJugadores);
-        panelJugadores = newPanelJugadores;
+        RegistrarPanelJugadores newRegistrarPanelJugadores = new RegistrarPanelJugadores(numIdioma);
+        remove(registrarPanelJugadores);
+        registrarPanelJugadores = newRegistrarPanelJugadores;
 
         revalidate();
         repaint();

@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class GestorEquiposMain {
+public class OperacionesDB {
     static java.sql.Connection con = DatabaseConnection.getInstance().getConnection();
     private static Interfaz interfaz;
     private static ArrayList<AltaEquipo> equipos;
@@ -44,7 +44,7 @@ public class GestorEquiposMain {
             st.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        };
+        }
         System.out.println("done");
     }
 }
