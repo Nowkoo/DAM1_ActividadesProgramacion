@@ -1,26 +1,27 @@
 package U8_interfaces_gráficas.GestionDeEquipos.Controller;
 
 import U8_interfaces_gráficas.GestionDeEquipos.Model.DatabaseConnection;
-import U8_interfaces_gráficas.GestionDeEquipos.Model.AltaEquipo;
-import U8_interfaces_gráficas.GestionDeEquipos.Model.AltaJugador;
+import U8_interfaces_gráficas.GestionDeEquipos.Model.Equipo;
+import U8_interfaces_gráficas.GestionDeEquipos.Model.Jugador;
 import U8_interfaces_gráficas.GestionDeEquipos.View.Interfaz;
 
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class OperacionesDB {
+public class GestorEquiposMain {
     static java.sql.Connection con = DatabaseConnection.getInstance().getConnection();
     private static Interfaz interfaz;
-    private static ArrayList<AltaEquipo> equipos;
-    private static ArrayList<AltaJugador> jugadores;
+    private static ArrayList<Equipo> equipos;
+    private static ArrayList<Jugador> jugadores;
+
     public static void main(String[] args) {
         interfaz = new Interfaz();
         equipos = new ArrayList<>();
         jugadores = new ArrayList<>();
     }
 
-    public static void altaEquipo(AltaEquipo nuevoEquipo) {
+    public static void altaEquipo(Equipo nuevoEquipo) {
         try {
             Statement st = con.createStatement();
             String sql = "INSERT INTO equipos (nombre, pais_comp, nombre_comp, entrenador) VALUES ('" + nuevoEquipo.getNombreEquipo() + "', '"
@@ -33,7 +34,7 @@ public class OperacionesDB {
         };
     }
 
-    public static void altaJugador(AltaJugador nuevoJugador) {
+    public static void altaJugador(Jugador nuevoJugador) {
         try {
             Statement st = con.createStatement();
             String sql = "INSERT INTO jugadores (demarcacion, nombre, fecha_nac, altura, dorsal, club) " +

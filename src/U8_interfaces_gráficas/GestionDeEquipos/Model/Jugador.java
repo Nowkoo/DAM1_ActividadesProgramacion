@@ -1,6 +1,6 @@
 package U8_interfaces_gráficas.GestionDeEquipos.Model;
 
-public class AltaJugador {
+public class Jugador {
     private String demarcacion;
     private String nombre;
     private String fechaNacimiento;
@@ -8,7 +8,7 @@ public class AltaJugador {
     private String dorsal;
     private String club;
 
-    public AltaJugador(String demarcacion, String nombre, String fechaNacimiento, String altura, String dorsal, String club) {
+    public Jugador(String demarcacion, String nombre, String fechaNacimiento, String altura, String dorsal, String club) {
         this.demarcacion = demarcacion;
         this.nombre = nombre;
         this.fechaNacimiento = fechaNacimiento;

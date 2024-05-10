@@ -1,6 +1,6 @@
 package U8_interfaces_gráficas.GestionDeEquipos.Model;
 
-public class AltaEquipo {
+public class Equipo {
     public String getNombreEquipo() {
         return nombreEquipo;
     }
@@ -22,7 +22,7 @@ public class AltaEquipo {
     private String nombreCompeticion;
     private String entrenador;
 
-    public AltaEquipo(String nombreEquipo, String paisCompeticion, String nombreCompeticion, String entrenador) {
+    public Equipo(String nombreEquipo, String paisCompeticion, String nombreCompeticion, String entrenador) {
         this.nombreEquipo = nombreEquipo;
         this.paisCompeticion = paisCompeticion;
         this.nombreCompeticion = nombreCompeticion;
