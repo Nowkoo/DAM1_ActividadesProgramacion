@@ -1,5 +1,10 @@
 package U8_interfaces_gráficas.GestionDeEquipos.View;
 
+import U8_interfaces_gráficas.GestionDeEquipos.Controller.ControladorPrincipal;
+import U8_interfaces_gráficas.GestionDeEquipos.Controller.CtrlConsultaEquipos;
+import U8_interfaces_gráficas.GestionDeEquipos.Controller.CtrlConsultaJugadores;
+import U8_interfaces_gráficas.GestionDeEquipos.Model.Idioma;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,16 +12,18 @@ public class VistaInicio extends JPanel {
     private JButton btnEquipos;
     private JButton btnJugadores;
 
-    public VistaInicio() {
-        inicializarPanel();
+    public VistaInicio(int numIdioma) {
+        inicializarPanel(numIdioma);
     }
 
-    private void inicializarPanel() {
+    private void inicializarPanel(int numIdioma) {
+        Idioma idioma = new Idioma(numIdioma);
         this.setLayout(new GridLayout(1, 2, 10, 10)); // 1 fila, 2 columnas, 10 pixels de espacio horizontal y vertical
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Agregar un borde alrededor del panel
+        this.setName("Inicio");
 
-        btnEquipos = new JButton("Equipos");
-        btnJugadores = new JButton("Jugadores");
+        btnEquipos = new JButton(idioma.getProperty("gestionarEquipos"));
+        btnJugadores = new JButton(idioma.getProperty("gestionarJugadores"));
 
         btnEquipos.setPreferredSize(new Dimension(150, 100));
         btnJugadores.setPreferredSize(new Dimension(150, 100));
@@ -35,11 +42,11 @@ public class VistaInicio extends JPanel {
         btnJugadores.setBorder(BorderFactory.createRaisedBevelBorder());
 
         btnEquipos.addActionListener(e -> {
-            // ControladorPrincipal.cambiarPanelActivo();
+            ControladorPrincipal.cambiarDePanel(CtrlConsultaEquipos.getConsultaEquipos());
         });
 
         btnJugadores.addActionListener(e -> {
-            // ControladorPrincipal.cambiarPanelActivo();
+            ControladorPrincipal.cambiarDePanel(CtrlConsultaJugadores.getConsultaJugadores());
         });
     }
 }

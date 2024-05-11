@@ -1,5 +1,8 @@
 package U8_interfaces_gráficas.GestionDeEquipos.View;
 
+import U8_interfaces_gráficas.GestionDeEquipos.Controller.ControladorPrincipal;
+import U8_interfaces_gráficas.GestionDeEquipos.Controller.CtrlConsultaJugadores;
+import U8_interfaces_gráficas.GestionDeEquipos.Controller.CtrlRegistroJugadores;
 import U8_interfaces_gráficas.GestionDeEquipos.Controller.GestorEquiposMain;
 import U8_interfaces_gráficas.GestionDeEquipos.Model.Idioma;
 import U8_interfaces_gráficas.GestionDeEquipos.Model.Jugador;
@@ -9,7 +12,7 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class VistaJugadores extends JPanel {
+public class VistaConsultaJugadores extends JPanel {
     private static String demarcacion;
     private static String nombre;
     private static String fechaNacimiento;
@@ -17,9 +20,13 @@ public class VistaJugadores extends JPanel {
     private static String dorsal;
     private static String club;
     private static String botonRegistro;
+    private static String botonConsulta;
+    private static String botonAlta;
     private Map<String, JTextField> textFields;
 
-    public VistaJugadores(int numIdioma) {
+    public VistaConsultaJugadores(int numIdioma) {
+        this.setName("Consulta jugadores");
+
         cargarLabels(numIdioma);
         textFields = new HashMap<>();
         setLayout(new BorderLayout());  // Modificado para usar BorderLayout
@@ -31,17 +38,21 @@ public class VistaJugadores extends JPanel {
 
         JPanel menuLateral = new JPanel();
         menuLateral.setLayout(new BoxLayout(menuLateral, BoxLayout.Y_AXIS));
-
-        menuLateral.add(new JButton("Botón 1"));
-        menuLateral.add(new JButton("Botón 2"));
         menuLateral.setPreferredSize(new Dimension(150, 100));
+
+        JButton consulta = crearBotonMenu(botonConsulta);
+        consulta.setEnabled(false);
+        menuLateral.add(consulta);
+        JButton alta = crearBotonMenu(botonAlta);
+        alta.addActionListener(e -> ControladorPrincipal.cambiarDePanel(CtrlRegistroJugadores.getRegistroJugadores()));
+        menuLateral.add(alta);
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, menuLateral, new JScrollPane(panelDatos));
         splitPane.setDividerLocation(150);
         add(splitPane, BorderLayout.CENTER);
     }
 
-    private JButton crearBotonMenu(String texto, JPanel targetPanel) {
+    private JButton crearBotonMenu(String texto) {
         JButton button = new JButton(texto);
         button.setMaximumSize(new Dimension(Integer.MAX_VALUE, button.getMaximumSize().height));
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -57,6 +68,8 @@ public class VistaJugadores extends JPanel {
         dorsal = idioma.getProperty("dorsal");
         club = idioma.getProperty("club");
         botonRegistro = idioma.getProperty("botonRegistro");
+        botonAlta = idioma.getProperty("botonAlta");
+        botonConsulta = idioma.getProperty("botonConsulta");
     }
 
     private void crearBotonAltas(JPanel panel) {

@@ -1,27 +1,32 @@
 package U8_interfaces_gráficas.GestionDeEquipos.View;
 
+import U8_interfaces_gráficas.GestionDeEquipos.Controller.*;
+import U8_interfaces_gráficas.GestionDeEquipos.Model.Datos;
 import U8_interfaces_gráficas.GestionDeEquipos.Model.Equipo;
-import U8_interfaces_gráficas.GestionDeEquipos.Controller.GestorEquiposMain;
 import U8_interfaces_gráficas.GestionDeEquipos.Model.Idioma;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class VistaEquipos extends JPanel {
+public class VistaConsultaEquipos extends JPanel {
+    ArrayList<Equipo> equipos = Datos.getEquipos();
     private static String nombreEquipo;
     private static String paisCompeticion;
     private static String nombreCompeticion;
     private static String entrenador;
     private static String botonRegistro;
     private static String botonConsulta;
+    private static String botonAlta;
 
     private Map<String, JTextField> textFields;
 
-    public VistaEquipos(int numIdioma) {
+    public VistaConsultaEquipos(int numIdioma) {
         cargarLabels(numIdioma);
         textFields = new HashMap<>();
+        this.setName("Consulta equipos");
 
         setLayout(new BorderLayout());
 
@@ -33,9 +38,14 @@ public class VistaEquipos extends JPanel {
 
         JPanel menuLateral = new JPanel();
         menuLateral.setLayout(new BoxLayout(menuLateral, BoxLayout.Y_AXIS));
-        menuLateral.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
-        menuLateral.add(crearBotonMenu("Alta", panelDatos));
-        menuLateral.add(crearBotonMenu("Consulta", new JPanel())); // Asumiendo que la consulta abre otro panel
+        menuLateral.setPreferredSize(new Dimension(150, 100));
+
+        JButton consulta = crearBotonMenu(botonConsulta);
+        consulta.setEnabled(false);
+        menuLateral.add(consulta);
+        JButton alta = crearBotonMenu(botonAlta);
+        alta.addActionListener(e -> ControladorPrincipal.cambiarDePanel(CtrlRegistroEquipos.getRegistroEquipos()));
+        menuLateral.add(alta);
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, menuLateral, panelDatos);
         splitPane.setDividerLocation(150);
@@ -43,7 +53,7 @@ public class VistaEquipos extends JPanel {
         add(splitPane, BorderLayout.CENTER);
     }
 
-    private JButton crearBotonMenu(String texto, JPanel targetPanel) {
+    private JButton crearBotonMenu(String texto) {
         JButton button = new JButton(texto);
         button.setMaximumSize(new Dimension(Integer.MAX_VALUE, button.getMaximumSize().height));
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -64,6 +74,8 @@ public class VistaEquipos extends JPanel {
         nombreCompeticion = idioma.getProperty("nombreCompeticion");
         entrenador = idioma.getProperty("entrenador");
         botonRegistro = idioma.getProperty("botonRegistro");
+        botonConsulta = idioma.getProperty("botonConsulta");
+        botonAlta = idioma.getProperty("botonAlta");
         botonConsulta = idioma.getProperty("botonConsulta");
     }
 
