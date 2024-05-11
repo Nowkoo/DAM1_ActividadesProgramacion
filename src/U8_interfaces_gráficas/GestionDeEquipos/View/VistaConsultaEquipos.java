@@ -6,10 +6,9 @@ import U8_interfaces_gráficas.GestionDeEquipos.Model.Equipo;
 import U8_interfaces_gráficas.GestionDeEquipos.Model.Idioma;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class VistaConsultaEquipos extends JPanel {
     ArrayList<Equipo> equipos = Datos.getEquipos();
@@ -17,25 +16,48 @@ public class VistaConsultaEquipos extends JPanel {
     private static String paisCompeticion;
     private static String nombreCompeticion;
     private static String entrenador;
-    private static String botonRegistro;
     private static String botonConsulta;
     private static String botonAlta;
-
-    private Map<String, JTextField> textFields;
+    private static String botonModificar;
+    private static String id;
+    private DefaultTableModel modelo;
+    private JTable tabla;
 
     public VistaConsultaEquipos(int numIdioma) {
         cargarLabels(numIdioma);
-        textFields = new HashMap<>();
         this.setName("Consulta equipos");
-
         setLayout(new BorderLayout());
 
-        JPanel panelDatos = new JPanel();
+        JPanel panelDatos = crearPanelDatos();
+        JPanel menuLateral = crearMenuLateral();
+
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, menuLateral, panelDatos);
+        splitPane.setDividerLocation(150);
+        add(splitPane, BorderLayout.CENTER);
+    }
+
+    private JPanel crearPanelDatos() {
+        equipos.add(new Equipo("prueba", "prueba", "prueba", "prueba"));
+
+        JPanel panelDatos = new JPanel(new BorderLayout());
+        modelo = new DefaultTableModel();
+        modelo.setColumnIdentifiers(new String[] {id, nombreEquipo, paisCompeticion, nombreCompeticion, entrenador});
+        tabla = new JTable(modelo);
+
+        for (Equipo equipo : equipos) {
+            Object[] fila = new Object[] {equipo.getId(), equipo.getNombreEquipo(), equipo.getPaisCompeticion(), equipo.getNombreCompeticion(), equipo.getEntrenador()};
+            modelo.addRow(fila);
+        }
+
+        JScrollPane scrollPane = new JScrollPane(tabla);
+        panelDatos.add(scrollPane, BorderLayout.CENTER);
         panelDatos.setLayout(new BoxLayout(panelDatos, BoxLayout.Y_AXIS));
         panelDatos.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        crearTextFields(panelDatos);
-        crearBotonAltas(panelDatos);
 
+        return panelDatos;
+    }
+
+    private JPanel crearMenuLateral() {
         JPanel menuLateral = new JPanel();
         menuLateral.setLayout(new BoxLayout(menuLateral, BoxLayout.Y_AXIS));
         menuLateral.setPreferredSize(new Dimension(150, 100));
@@ -44,13 +66,13 @@ public class VistaConsultaEquipos extends JPanel {
         consulta.setEnabled(false);
         menuLateral.add(consulta);
         JButton alta = crearBotonMenu(botonAlta);
-        alta.addActionListener(e -> ControladorPrincipal.cambiarDePanel(CtrlRegistroEquipos.getRegistroEquipos()));
+        alta.addActionListener(e -> ControladorPrincipal.cambiarDePanel(CtrlAltaEquipos.getAltaEquipos()));
         menuLateral.add(alta);
+        JButton modificar = crearBotonMenu(botonModificar);
+        modificar.addActionListener(e -> ControladorPrincipal.cambiarDePanel(CtrlModificarEquipos.getModificarEquipos()));
+        menuLateral.add(modificar);
 
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, menuLateral, panelDatos);
-        splitPane.setDividerLocation(150);
-
-        add(splitPane, BorderLayout.CENTER);
+        return menuLateral;
     }
 
     private JButton crearBotonMenu(String texto) {
@@ -60,93 +82,15 @@ public class VistaConsultaEquipos extends JPanel {
         return button;
     }
 
-    private void cambiarPanel(JPanel panel) {
-        this.removeAll();
-        this.add(panel);
-        this.revalidate();
-        this.repaint();
-    }
-
     private void cargarLabels(int numIdioma) {
         Idioma idioma = new Idioma(numIdioma);
         nombreEquipo = idioma.getProperty("nombreEquipo");
         paisCompeticion = idioma.getProperty("paisCompeticion");
         nombreCompeticion = idioma.getProperty("nombreCompeticion");
         entrenador = idioma.getProperty("entrenador");
-        botonRegistro = idioma.getProperty("botonRegistro");
         botonConsulta = idioma.getProperty("botonConsulta");
         botonAlta = idioma.getProperty("botonAlta");
-        botonConsulta = idioma.getProperty("botonConsulta");
-    }
-
-    private void crearBotonAltas(JPanel panel) {
-        JButton botonAlta = new JButton(botonRegistro);
-        panel.add(Box.createRigidArea(new Dimension(0, 10)));
-        botonAlta.addActionListener((e) -> {
-            procesarAlta();
-        });
-        panel.add(botonAlta);
-    }
-
-    private void procesarAlta() {
-        for (String label : textFields.keySet()) {
-            if (textFields.get(label).getText().isEmpty()) return;
-        }
-        altaEquipo();
-        vaciarTextFields();
-    }
-
-    private void altaEquipo() {
-        Equipo nuevoEquipo = new Equipo(
-                textFields.get(nombreEquipo).getText(),
-                textFields.get(paisCompeticion).getText(),
-                textFields.get(nombreCompeticion).getText(),
-                textFields.get(entrenador).getText()
-        );
-        GestorEquiposMain.altaEquipo(nuevoEquipo);
-    }
-
-    private void vaciarTextFields() {
-        for (String label : textFields.keySet()) {
-            textFields.get(label).setText("");
-        }
-    }
-
-    private void crearTextFields(JPanel panel) {
-        Dimension labelSize = new Dimension(180, 30);
-        Dimension fieldSize = new Dimension(250, 30);
-        String[] labels = new String[] {
-                nombreEquipo,
-                paisCompeticion,
-                nombreCompeticion,
-                entrenador
-        };
-
-        for (String textoLabel : labels) {
-            crearTextField(textoLabel, labelSize, fieldSize, panel);
-        }
-    }
-
-    private void crearTextField(String textoLabel, Dimension labelSize, Dimension fieldSize, JPanel panel) {
-        JPanel fila = new JPanel();
-        fila.setLayout(new BoxLayout(fila, BoxLayout.X_AXIS));
-        fila.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-        JLabel newLabel = new JLabel(textoLabel);
-        newLabel.setMinimumSize(labelSize);
-        newLabel.setMaximumSize(labelSize);
-
-        JTextField newField = new JTextField();
-        newField.setMinimumSize(fieldSize);
-        newField.setMaximumSize(fieldSize);
-
-        fila.add(newLabel);
-        fila.add(Box.createRigidArea(new Dimension(5, 0)));
-        fila.add(newField);
-
-        panel.add(fila);
-        panel.add(Box.createRigidArea(new Dimension(0, 5)));
-
-        textFields.put(newLabel.getText(), newField);
+        botonModificar = idioma.getProperty("modificar");
+        id = idioma.getProperty("id");
     }
 }

@@ -14,8 +14,4 @@ public class CtrlConsultaJugadores {
     public static JPanel getConsultaJugadores() {
         return consultaJugadores;
     }
-
-    public void setConsultaJugadores(VistaConsultaJugadores consultaJugadores) {
-        this.consultaJugadores = consultaJugadores;
-    }
 }

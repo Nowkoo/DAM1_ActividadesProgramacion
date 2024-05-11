@@ -40,11 +40,17 @@ class MainPanel extends JPanel {
         add(vistaInicio, BorderLayout.CENTER);
 
         int idioma = ControladorPrincipal.getIdiomaActual();
+        inicializarPaneles(vistaInicio, idioma);
+    }
+
+    private void inicializarPaneles(VistaInicio vistaInicio, int idioma) {
         new ControladorPrincipal(vistaInicio, this);
-        new CtrlRegistroEquipos(new VistaAltaEquipos(idioma));
-        new CtrlRegistroJugadores(new VistaAltaJugadores(idioma));
+        new CtrlAltaEquipos(new VistaAltaEquipos(idioma));
+        new CtrlAltaJugadores(new VistaAltaJugadores(idioma));
         new CtrlConsultaEquipos(new VistaConsultaEquipos(idioma));
         new CtrlConsultaJugadores(new VistaConsultaJugadores(idioma));
+        new CtrlModificarEquipos(new VistaModificarEquipos(idioma));
+        new CtrlModificarJugadores(new VistaModificarJugadores(idioma));
     }
 
     private JMenuBar crearMenu() {
@@ -83,8 +89,10 @@ class MainPanel extends JPanel {
 
         new CtrlConsultaEquipos(new VistaConsultaEquipos(numIdioma));
         new CtrlConsultaJugadores(new VistaConsultaJugadores(numIdioma));
-        new CtrlRegistroEquipos(new VistaAltaEquipos(numIdioma));
-        new CtrlRegistroJugadores(new VistaAltaJugadores(numIdioma));
+        new CtrlAltaEquipos(new VistaAltaEquipos(numIdioma));
+        new CtrlAltaJugadores(new VistaAltaJugadores(numIdioma));
+        new CtrlModificarEquipos(new VistaModificarEquipos(numIdioma));
+        new CtrlModificarJugadores(new VistaModificarJugadores(numIdioma));
 
         ControladorPrincipal.cambiarDePanel(new VistaInicio(numIdioma));
         revalidate();

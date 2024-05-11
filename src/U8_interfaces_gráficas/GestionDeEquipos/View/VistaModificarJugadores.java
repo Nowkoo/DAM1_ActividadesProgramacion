@@ -1,38 +1,41 @@
 package U8_interfaces_gráficas.GestionDeEquipos.View;
 
 import U8_interfaces_gráficas.GestionDeEquipos.Controller.*;
-import U8_interfaces_gráficas.GestionDeEquipos.Model.Equipo;
+import U8_interfaces_gráficas.GestionDeEquipos.Model.Datos;
 import U8_interfaces_gráficas.GestionDeEquipos.Model.Idioma;
+import U8_interfaces_gráficas.GestionDeEquipos.Model.Jugador;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class VistaAltaEquipos extends JPanel {
-    private static String nombreEquipo;
-    private static String paisCompeticion;
-    private static String nombreCompeticion;
-    private static String entrenador;
+public class VistaModificarJugadores extends JPanel {
+    ArrayList<Jugador> jugadores = Datos.getJugadores();
+    private static String demarcacion;
+    private static String nombre;
+    private static String fechaNacimiento;
+    private static String altura;
+    private static String dorsal;
+    private static String club;
     private static String botonRegistro;
     private static String botonConsulta;
-    private static String botonModificar;
     private static String botonAlta;
-
+    private static String botonModificar;
     private Map<String, JTextField> textFields;
 
-    public VistaAltaEquipos(int numIdioma) {
+    public VistaModificarJugadores(int numIdioma) {
+        this.setName("Alta jugadores");
         cargarLabels(numIdioma);
         textFields = new HashMap<>();
-        this.setName("Alta equipos");
         setLayout(new BorderLayout());
 
         JPanel panelDatos = crearPanelDatos();
         JPanel menuLateral = crearMenuLateral();
 
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, menuLateral, panelDatos);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, menuLateral, new JScrollPane(panelDatos));
         splitPane.setDividerLocation(150);
-
         add(splitPane, BorderLayout.CENTER);
     }
 
@@ -51,13 +54,13 @@ public class VistaAltaEquipos extends JPanel {
         menuLateral.setPreferredSize(new Dimension(150, 100));
 
         JButton consulta = crearBotonMenu(botonConsulta);
-        consulta.addActionListener(e -> ControladorPrincipal.cambiarDePanel(CtrlConsultaEquipos.getConsultaEquipos()));
+        consulta.addActionListener(e -> ControladorPrincipal.cambiarDePanel(CtrlConsultaJugadores.getConsultaJugadores()));
         menuLateral.add(consulta);
         JButton alta = crearBotonMenu(botonAlta);
-        alta.setEnabled(false);
+        alta.addActionListener(e -> ControladorPrincipal.cambiarDePanel(CtrlAltaJugadores.getAltaJugadores()));
         menuLateral.add(alta);
         JButton modificar = crearBotonMenu(botonModificar);
-        modificar.addActionListener(e -> ControladorPrincipal.cambiarDePanel(CtrlModificarEquipos.getModificarEquipos()));
+        modificar.setEnabled(false);
         menuLateral.add(modificar);
 
         return menuLateral;
@@ -72,12 +75,13 @@ public class VistaAltaEquipos extends JPanel {
 
     private void cargarLabels(int numIdioma) {
         Idioma idioma = new Idioma(numIdioma);
-        nombreEquipo = idioma.getProperty("nombreEquipo");
-        paisCompeticion = idioma.getProperty("paisCompeticion");
-        nombreCompeticion = idioma.getProperty("nombreCompeticion");
-        entrenador = idioma.getProperty("entrenador");
+        demarcacion = idioma.getProperty("demarcacion");
+        nombre = idioma.getProperty("nombreJugador");
+        fechaNacimiento = idioma.getProperty("fechaNacimiento");
+        altura = idioma.getProperty("altura");
+        dorsal = idioma.getProperty("dorsal");
+        club = idioma.getProperty("club");
         botonRegistro = idioma.getProperty("botonRegistro");
-        botonConsulta = idioma.getProperty("botonConsulta");
         botonAlta = idioma.getProperty("botonAlta");
         botonConsulta = idioma.getProperty("botonConsulta");
         botonModificar = idioma.getProperty("modificar");
@@ -86,9 +90,7 @@ public class VistaAltaEquipos extends JPanel {
     private void crearBotonAltas(JPanel panel) {
         JButton botonAlta = new JButton(botonRegistro);
         panel.add(Box.createRigidArea(new Dimension(0, 10)));
-        botonAlta.addActionListener((e) -> {
-            procesarAlta();
-        });
+        botonAlta.addActionListener(e -> procesarAlta());
         panel.add(botonAlta);
     }
 
@@ -96,18 +98,20 @@ public class VistaAltaEquipos extends JPanel {
         for (String label : textFields.keySet()) {
             if (textFields.get(label).getText().isEmpty()) return;
         }
-        altaEquipo();
+        altaJugador();
         vaciarTextFields();
     }
 
-    private void altaEquipo() {
-        Equipo nuevoEquipo = new Equipo(
-                textFields.get(nombreEquipo).getText(),
-                textFields.get(paisCompeticion).getText(),
-                textFields.get(nombreCompeticion).getText(),
-                textFields.get(entrenador).getText()
+    private void altaJugador() {
+        Jugador nuevoJugador = new Jugador(
+                textFields.get(demarcacion).getText(),
+                textFields.get(nombre).getText(),
+                textFields.get(fechaNacimiento).getText(),
+                textFields.get(altura).getText(),
+                textFields.get(dorsal).getText(),
+                textFields.get(club).getText()
         );
-        GestorEquiposMain.altaEquipo(nuevoEquipo);
+        GestorEquiposMain.altaJugador(nuevoJugador);
     }
 
     private void vaciarTextFields() {
@@ -119,38 +123,31 @@ public class VistaAltaEquipos extends JPanel {
     private void crearTextFields(JPanel panel) {
         Dimension labelSize = new Dimension(180, 30);
         Dimension fieldSize = new Dimension(250, 30);
-        String[] labels = new String[] {
-                nombreEquipo,
-                paisCompeticion,
-                nombreCompeticion,
-                entrenador
-        };
+        String[] labels = {demarcacion, nombre, fechaNacimiento, altura, dorsal, club};
 
         for (String textoLabel : labels) {
-            crearTextField(textoLabel, labelSize, fieldSize, panel);
+            JPanel fila = new JPanel();
+            fila.setLayout(new BoxLayout(fila, BoxLayout.X_AXIS));
+            fila.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+            JLabel label = new JLabel(textoLabel);
+            label.setMinimumSize(labelSize);
+            label.setPreferredSize(labelSize);
+            label.setMaximumSize(labelSize);
+
+            JTextField field = new JTextField();
+            field.setMinimumSize(fieldSize);
+            field.setPreferredSize(fieldSize);
+            field.setMaximumSize(fieldSize);
+
+            fila.add(label);
+            fila.add(Box.createRigidArea(new Dimension(5, 0)));
+            fila.add(field);
+
+            panel.add(fila);
+            panel.add(Box.createRigidArea(new Dimension(0, 5)));
+
+            textFields.put(textoLabel, field);
         }
-    }
-
-    private void crearTextField(String textoLabel, Dimension labelSize, Dimension fieldSize, JPanel panel) {
-        JPanel fila = new JPanel();
-        fila.setLayout(new BoxLayout(fila, BoxLayout.X_AXIS));
-        fila.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-        JLabel newLabel = new JLabel(textoLabel);
-        newLabel.setMinimumSize(labelSize);
-        newLabel.setMaximumSize(labelSize);
-
-        JTextField newField = new JTextField();
-        newField.setMinimumSize(fieldSize);
-        newField.setMaximumSize(fieldSize);
-
-        fila.add(newLabel);
-        fila.add(Box.createRigidArea(new Dimension(5, 0)));
-        fila.add(newField);
-
-        panel.add(fila);
-        panel.add(Box.createRigidArea(new Dimension(0, 5)));
-
-        textFields.put(newLabel.getText(), newField);
     }
 }

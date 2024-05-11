@@ -1,8 +1,6 @@
 package U8_interfaces_gráficas.GestionDeEquipos.View;
 
-import U8_interfaces_gráficas.GestionDeEquipos.Controller.ControladorPrincipal;
-import U8_interfaces_gráficas.GestionDeEquipos.Controller.CtrlConsultaJugadores;
-import U8_interfaces_gráficas.GestionDeEquipos.Controller.GestorEquiposMain;
+import U8_interfaces_gráficas.GestionDeEquipos.Controller.*;
 import U8_interfaces_gráficas.GestionDeEquipos.Model.Idioma;
 import U8_interfaces_gráficas.GestionDeEquipos.Model.Jugador;
 
@@ -21,19 +19,33 @@ public class VistaAltaJugadores extends JPanel {
     private static String botonRegistro;
     private static String botonConsulta;
     private static String botonAlta;
+    private static String botonModificar;
     private Map<String, JTextField> textFields;
 
     public VistaAltaJugadores(int numIdioma) {
         this.setName("Alta jugadores");
         cargarLabels(numIdioma);
         textFields = new HashMap<>();
-        setLayout(new BorderLayout());  // Modificado para usar BorderLayout
+        setLayout(new BorderLayout());
+
+        JPanel panelDatos = crearPanelDatos();
+        JPanel menuLateral = crearMenuLateral();
+
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, menuLateral, new JScrollPane(panelDatos));
+        splitPane.setDividerLocation(150);
+        add(splitPane, BorderLayout.CENTER);
+    }
+
+    private JPanel crearPanelDatos() {
         JPanel panelDatos = new JPanel();
         panelDatos.setLayout(new BoxLayout(panelDatos, BoxLayout.Y_AXIS));
         panelDatos.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         crearTextFields(panelDatos);
         crearBotonAltas(panelDatos);
+        return panelDatos;
+    }
 
+    private JPanel crearMenuLateral() {
         JPanel menuLateral = new JPanel();
         menuLateral.setLayout(new BoxLayout(menuLateral, BoxLayout.Y_AXIS));
         menuLateral.setPreferredSize(new Dimension(150, 100));
@@ -44,10 +56,11 @@ public class VistaAltaJugadores extends JPanel {
         JButton alta = crearBotonMenu(botonAlta);
         alta.setEnabled(false);
         menuLateral.add(alta);
+        JButton modificar = crearBotonMenu(botonModificar);
+        modificar.addActionListener(e -> ControladorPrincipal.cambiarDePanel(CtrlModificarJugadores.getModificarJugadores()));
+        menuLateral.add(modificar);
 
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, menuLateral, new JScrollPane(panelDatos));
-        splitPane.setDividerLocation(150);
-        add(splitPane, BorderLayout.CENTER);
+        return menuLateral;
     }
 
     private JButton crearBotonMenu(String texto) {
@@ -68,6 +81,7 @@ public class VistaAltaJugadores extends JPanel {
         botonRegistro = idioma.getProperty("botonRegistro");
         botonAlta = idioma.getProperty("botonAlta");
         botonConsulta = idioma.getProperty("botonConsulta");
+        botonModificar = idioma.getProperty("modificar");
     }
 
     private void crearBotonAltas(JPanel panel) {

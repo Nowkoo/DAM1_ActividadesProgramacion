@@ -1,15 +1,18 @@
 package U8_interfaces_gráficas.GestionDeEquipos.View;
 
 import U8_interfaces_gráficas.GestionDeEquipos.Controller.*;
+import U8_interfaces_gráficas.GestionDeEquipos.Model.Datos;
 import U8_interfaces_gráficas.GestionDeEquipos.Model.Equipo;
 import U8_interfaces_gráficas.GestionDeEquipos.Model.Idioma;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class VistaAltaEquipos extends JPanel {
+public class VistaModificarEquipos extends JPanel {
+    ArrayList<Equipo> equipos = Datos.getEquipos();
     private static String nombreEquipo;
     private static String paisCompeticion;
     private static String nombreCompeticion;
@@ -21,7 +24,7 @@ public class VistaAltaEquipos extends JPanel {
 
     private Map<String, JTextField> textFields;
 
-    public VistaAltaEquipos(int numIdioma) {
+    public VistaModificarEquipos(int numIdioma) {
         cargarLabels(numIdioma);
         textFields = new HashMap<>();
         this.setName("Alta equipos");
@@ -54,10 +57,10 @@ public class VistaAltaEquipos extends JPanel {
         consulta.addActionListener(e -> ControladorPrincipal.cambiarDePanel(CtrlConsultaEquipos.getConsultaEquipos()));
         menuLateral.add(consulta);
         JButton alta = crearBotonMenu(botonAlta);
-        alta.setEnabled(false);
+        alta.addActionListener(e -> ControladorPrincipal.cambiarDePanel(CtrlAltaEquipos.getAltaEquipos()));
         menuLateral.add(alta);
         JButton modificar = crearBotonMenu(botonModificar);
-        modificar.addActionListener(e -> ControladorPrincipal.cambiarDePanel(CtrlModificarEquipos.getModificarEquipos()));
+        modificar.setEnabled(false);
         menuLateral.add(modificar);
 
         return menuLateral;

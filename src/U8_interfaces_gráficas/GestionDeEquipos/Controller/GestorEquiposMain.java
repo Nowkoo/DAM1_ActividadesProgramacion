@@ -31,7 +31,7 @@ public class GestorEquiposMain {
             st.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        };
+        }
     }
 
     public static void altaJugador(Jugador nuevoJugador) {

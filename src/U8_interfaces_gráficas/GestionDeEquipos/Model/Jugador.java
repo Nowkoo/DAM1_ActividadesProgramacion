@@ -1,6 +1,7 @@
 package U8_interfaces_gráficas.GestionDeEquipos.Model;
 
 public class Jugador {
+    private int id;
     private String demarcacion;
     private String nombre;
     private String fechaNacimiento;
@@ -16,6 +17,18 @@ public class Jugador {
         this.dorsal = dorsal;
         this.club = club;
     }
+
+    public Jugador(int id, String demarcacion, String nombre, String fechaNacimiento, String altura, String dorsal, String club) {
+        this.id = id;
+        this.demarcacion = demarcacion;
+        this.nombre = nombre;
+        this.fechaNacimiento = fechaNacimiento;
+        this.altura = altura;
+        this.dorsal = dorsal;
+        this.club = club;
+    }
+
+    public int getId() { return id; }
 
     public String getDemarcacion() {
         return demarcacion;
