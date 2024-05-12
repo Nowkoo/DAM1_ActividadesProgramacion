@@ -16,7 +16,7 @@ public class Interfaz extends JFrame {
 
 class MainFrame extends JFrame {
     public MainFrame() {
-        this.setBounds(300,300,600,350);
+        this.setBounds(300,300,700,400);
         MainPanel myPanel = new MainPanel();
         this.add(myPanel);
         this.setVisible(true);
@@ -32,19 +32,19 @@ class MainPanel extends JPanel {
     private static JMenuItem ingles;
     int numIdioma;
     public MainPanel() {
-        numIdioma = ControladorPrincipal.getIdiomaActual();
+        numIdioma = ControladorInterfaz.getIdiomaActual();
         this.setLayout(new BorderLayout());
         JMenuBar menu = crearMenu();
         add(menu, BorderLayout.NORTH);
         VistaInicio vistaInicio = new VistaInicio(numIdioma);
         add(vistaInicio, BorderLayout.CENTER);
 
-        int idioma = ControladorPrincipal.getIdiomaActual();
+        int idioma = ControladorInterfaz.getIdiomaActual();
         inicializarPaneles(vistaInicio, idioma);
     }
 
     private void inicializarPaneles(VistaInicio vistaInicio, int idioma) {
-        new ControladorPrincipal(vistaInicio, this);
+        new ControladorInterfaz(vistaInicio, this);
         new CtrlAltaEquipos(new VistaAltaEquipos(idioma));
         new CtrlAltaJugadores(new VistaAltaJugadores(idioma));
         new CtrlConsultaEquipos(new VistaConsultaEquipos(idioma));
@@ -63,8 +63,8 @@ class MainPanel extends JPanel {
         espanol = new JMenuItem(idioma.getProperty("espanol"));
         ingles = new JMenuItem(idioma.getProperty("ingles"));
 
-        altaJugadores.addActionListener(e -> ControladorPrincipal.cambiarDePanel(CtrlConsultaJugadores.getConsultaJugadores()));
-        gestionarEquipos.addActionListener(e -> ControladorPrincipal.cambiarDePanel(CtrlConsultaEquipos.getConsultaEquipos()));
+        altaJugadores.addActionListener(e -> ControladorInterfaz.cambiarDePanel(CtrlConsultaJugadores.getConsultaJugadores()));
+        gestionarEquipos.addActionListener(e -> ControladorInterfaz.cambiarDePanel(CtrlConsultaEquipos.getConsultaEquipos()));
         espanol.addActionListener(e -> cambiarIdioma(0));
         ingles.addActionListener(e -> cambiarIdioma(1));
 
@@ -94,7 +94,7 @@ class MainPanel extends JPanel {
         new CtrlModificarEquipos(new VistaModificarEquipos(numIdioma));
         new CtrlModificarJugadores(new VistaModificarJugadores(numIdioma));
 
-        ControladorPrincipal.cambiarDePanel(new VistaInicio(numIdioma));
+        ControladorInterfaz.cambiarDePanel(new VistaInicio(numIdioma));
         revalidate();
         repaint();
     }

@@ -68,10 +68,10 @@ public class VistaConsultaJugadores extends JPanel {
         consulta.setEnabled(false);
         menuLateral.add(consulta);
         JButton alta = crearBotonMenu(botonAlta);
-        alta.addActionListener(e -> ControladorPrincipal.cambiarDePanel(CtrlAltaJugadores.getAltaJugadores()));
+        alta.addActionListener(e -> ControladorInterfaz.cambiarDePanel(CtrlAltaJugadores.getAltaJugadores()));
         menuLateral.add(alta);
         JButton modificar = crearBotonMenu(botonModificar);
-        modificar.addActionListener(e -> ControladorPrincipal.cambiarDePanel(CtrlModificarEquipos.getModificarEquipos()));
+        modificar.addActionListener(e -> ControladorInterfaz.cambiarDePanel(CtrlModificarJugadores.getModificarJugadores()));
         menuLateral.add(modificar);
 
         return menuLateral;

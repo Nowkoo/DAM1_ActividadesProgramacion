@@ -19,7 +19,7 @@ public class VistaAltaEquipos extends JPanel {
     private static String botonModificar;
     private static String botonAlta;
 
-    private Map<String, JTextField> textFields;
+    private static Map<String, JTextField> textFields;
 
     public VistaAltaEquipos(int numIdioma) {
         cargarLabels(numIdioma);
@@ -51,13 +51,13 @@ public class VistaAltaEquipos extends JPanel {
         menuLateral.setPreferredSize(new Dimension(150, 100));
 
         JButton consulta = crearBotonMenu(botonConsulta);
-        consulta.addActionListener(e -> ControladorPrincipal.cambiarDePanel(CtrlConsultaEquipos.getConsultaEquipos()));
+        consulta.addActionListener(e -> ControladorInterfaz.cambiarDePanel(CtrlConsultaEquipos.getConsultaEquipos()));
         menuLateral.add(consulta);
         JButton alta = crearBotonMenu(botonAlta);
         alta.setEnabled(false);
         menuLateral.add(alta);
         JButton modificar = crearBotonMenu(botonModificar);
-        modificar.addActionListener(e -> ControladorPrincipal.cambiarDePanel(CtrlModificarEquipos.getModificarEquipos()));
+        modificar.addActionListener(e -> ControladorInterfaz.cambiarDePanel(CtrlModificarEquipos.getModificarEquipos()));
         menuLateral.add(modificar);
 
         return menuLateral;
@@ -87,33 +87,9 @@ public class VistaAltaEquipos extends JPanel {
         JButton botonAlta = new JButton(botonRegistro);
         panel.add(Box.createRigidArea(new Dimension(0, 10)));
         botonAlta.addActionListener((e) -> {
-            procesarAlta();
+            CtrlAltaEquipos.procesarAlta(textFields);
         });
         panel.add(botonAlta);
-    }
-
-    private void procesarAlta() {
-        for (String label : textFields.keySet()) {
-            if (textFields.get(label).getText().isEmpty()) return;
-        }
-        altaEquipo();
-        vaciarTextFields();
-    }
-
-    private void altaEquipo() {
-        Equipo nuevoEquipo = new Equipo(
-                textFields.get(nombreEquipo).getText(),
-                textFields.get(paisCompeticion).getText(),
-                textFields.get(nombreCompeticion).getText(),
-                textFields.get(entrenador).getText()
-        );
-        GestorEquiposMain.altaEquipo(nuevoEquipo);
-    }
-
-    private void vaciarTextFields() {
-        for (String label : textFields.keySet()) {
-            textFields.get(label).setText("");
-        }
     }
 
     private void crearTextFields(JPanel panel) {
@@ -152,5 +128,15 @@ public class VistaAltaEquipos extends JPanel {
         panel.add(Box.createRigidArea(new Dimension(0, 5)));
 
         textFields.put(newLabel.getText(), newField);
+    }
+
+    public static Equipo recogerDatos() {
+        Equipo nuevoEquipo = new Equipo(
+                textFields.get(nombreEquipo).getText(),
+                textFields.get(paisCompeticion).getText(),
+                textFields.get(nombreCompeticion).getText(),
+                textFields.get(entrenador).getText()
+        );
+        return nuevoEquipo;
     }
 }

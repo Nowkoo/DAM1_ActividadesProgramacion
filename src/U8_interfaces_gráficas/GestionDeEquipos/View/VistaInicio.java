@@ -1,6 +1,6 @@
 package U8_interfaces_gráficas.GestionDeEquipos.View;
 
-import U8_interfaces_gráficas.GestionDeEquipos.Controller.ControladorPrincipal;
+import U8_interfaces_gráficas.GestionDeEquipos.Controller.ControladorInterfaz;
 import U8_interfaces_gráficas.GestionDeEquipos.Controller.CtrlConsultaEquipos;
 import U8_interfaces_gráficas.GestionDeEquipos.Controller.CtrlConsultaJugadores;
 import U8_interfaces_gráficas.GestionDeEquipos.Model.Idioma;
@@ -42,11 +42,11 @@ public class VistaInicio extends JPanel {
         btnJugadores.setBorder(BorderFactory.createRaisedBevelBorder());
 
         btnEquipos.addActionListener(e -> {
-            ControladorPrincipal.cambiarDePanel(CtrlConsultaEquipos.getConsultaEquipos());
+            ControladorInterfaz.cambiarDePanel(CtrlConsultaEquipos.getConsultaEquipos());
         });
 
         btnJugadores.addActionListener(e -> {
-            ControladorPrincipal.cambiarDePanel(CtrlConsultaJugadores.getConsultaJugadores());
+            ControladorInterfaz.cambiarDePanel(CtrlConsultaJugadores.getConsultaJugadores());
         });
     }
 }

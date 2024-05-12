@@ -20,7 +20,7 @@ public class VistaAltaJugadores extends JPanel {
     private static String botonConsulta;
     private static String botonAlta;
     private static String botonModificar;
-    private Map<String, JTextField> textFields;
+    private static Map<String, JTextField> textFields;
 
     public VistaAltaJugadores(int numIdioma) {
         this.setName("Alta jugadores");
@@ -51,13 +51,13 @@ public class VistaAltaJugadores extends JPanel {
         menuLateral.setPreferredSize(new Dimension(150, 100));
 
         JButton consulta = crearBotonMenu(botonConsulta);
-        consulta.addActionListener(e -> ControladorPrincipal.cambiarDePanel(CtrlConsultaJugadores.getConsultaJugadores()));
+        consulta.addActionListener(e -> ControladorInterfaz.cambiarDePanel(CtrlConsultaJugadores.getConsultaJugadores()));
         menuLateral.add(consulta);
         JButton alta = crearBotonMenu(botonAlta);
         alta.setEnabled(false);
         menuLateral.add(alta);
         JButton modificar = crearBotonMenu(botonModificar);
-        modificar.addActionListener(e -> ControladorPrincipal.cambiarDePanel(CtrlModificarJugadores.getModificarJugadores()));
+        modificar.addActionListener(e -> ControladorInterfaz.cambiarDePanel(CtrlModificarJugadores.getModificarJugadores()));
         menuLateral.add(modificar);
 
         return menuLateral;
@@ -87,34 +87,8 @@ public class VistaAltaJugadores extends JPanel {
     private void crearBotonAltas(JPanel panel) {
         JButton botonAlta = new JButton(botonRegistro);
         panel.add(Box.createRigidArea(new Dimension(0, 10)));
-        botonAlta.addActionListener(e -> procesarAlta());
+        botonAlta.addActionListener(e -> CtrlAltaJugadores.procesarAlta(textFields));
         panel.add(botonAlta);
-    }
-
-    private void procesarAlta() {
-        for (String label : textFields.keySet()) {
-            if (textFields.get(label).getText().isEmpty()) return;
-        }
-        altaJugador();
-        vaciarTextFields();
-    }
-
-    private void altaJugador() {
-        Jugador nuevoJugador = new Jugador(
-                textFields.get(demarcacion).getText(),
-                textFields.get(nombre).getText(),
-                textFields.get(fechaNacimiento).getText(),
-                textFields.get(altura).getText(),
-                textFields.get(dorsal).getText(),
-                textFields.get(club).getText()
-        );
-        GestorEquiposMain.altaJugador(nuevoJugador);
-    }
-
-    private void vaciarTextFields() {
-        for (String label : textFields.keySet()) {
-            textFields.get(label).setText("");
-        }
     }
 
     private void crearTextFields(JPanel panel) {
@@ -146,5 +120,17 @@ public class VistaAltaJugadores extends JPanel {
 
             textFields.put(textoLabel, field);
         }
+    }
+
+    public static Jugador recogerDatos() {
+        Jugador nuevoJugador = new Jugador(
+                textFields.get(demarcacion).getText(),
+                textFields.get(nombre).getText(),
+                textFields.get(fechaNacimiento).getText(),
+                textFields.get(altura).getText(),
+                textFields.get(dorsal).getText(),
+                textFields.get(club).getText()
+        );
+        return nuevoJugador;
     }
 }

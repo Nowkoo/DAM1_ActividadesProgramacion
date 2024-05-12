@@ -1,16 +1,15 @@
 package U8_interfaces_gráficas.GestionDeEquipos.Controller;
 
-import U8_interfaces_gráficas.GestionDeEquipos.View.*;
-
 import javax.swing.*;
 import java.awt.*;
+import java.util.Map;
 
-public class ControladorPrincipal {
+public class ControladorInterfaz {
     static JPanel panelActivo;
     static JPanel panelPadre;
     private static int idiomaActual = 0;
 
-    public ControladorPrincipal(JPanel panelActivo, JPanel panelPadre) {
+    public ControladorInterfaz(JPanel panelActivo, JPanel panelPadre) {
         this.panelActivo = panelActivo;
         this.panelPadre = panelPadre;
     }
@@ -20,6 +19,12 @@ public class ControladorPrincipal {
         newPanel.revalidate();
         newPanel.repaint();
         panelActivo = newPanel;
+    }
+
+    public static void vaciarTextFields(Map<String, JTextField> textFields) {
+        for (String label : textFields.keySet()) {
+            textFields.get(label).setText("");
+        }
     }
 
     public static int getIdiomaActual() {

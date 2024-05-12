@@ -19,19 +19,18 @@ public class VistaModificarJugadores extends JPanel {
     private static String altura;
     private static String dorsal;
     private static String club;
-    private static String botonRegistro;
     private static String botonConsulta;
     private static String botonAlta;
     private static String botonModificar;
-    private Map<String, JTextField> textFields;
+    private static Map<String, JTextField> textFields;
 
     public VistaModificarJugadores(int numIdioma) {
-        this.setName("Alta jugadores");
+        this.setName("Modificar jugadores");
         cargarLabels(numIdioma);
         textFields = new HashMap<>();
         setLayout(new BorderLayout());
 
-        JPanel panelDatos = crearPanelDatos();
+        JPanel panelDatos = crearPanelDatos(numIdioma);
         JPanel menuLateral = crearMenuLateral();
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, menuLateral, new JScrollPane(panelDatos));
@@ -39,12 +38,59 @@ public class VistaModificarJugadores extends JPanel {
         add(splitPane, BorderLayout.CENTER);
     }
 
-    private JPanel crearPanelDatos() {
+    public JPanel crearPanelId(int numIdioma) {
+        Idioma idioma = new Idioma(numIdioma);
+        JPanel panelId = new JPanel();
+        panelId.setLayout(new BoxLayout(panelId, BoxLayout.X_AXIS));
+        panelId.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JLabel label = new JLabel(idioma.getProperty("id"));
+        JTextField idTextField = new JTextField();
+        idTextField.setMaximumSize(new Dimension(200, 30));
+
+        JButton buscar = new JButton(idioma.getProperty("buscar"));
+        buscar.addActionListener(e -> CtrlModificarJugadores.mostrarJugador(textFields, idTextField.getText()));
+
+        panelId.add(label);
+        panelId.add(Box.createRigidArea(new Dimension(5, 0)));
+        panelId.add(idTextField);
+        panelId.add(Box.createRigidArea(new Dimension(5, 0)));
+        panelId.add(buscar);
+
+        return panelId;
+    }
+
+    public JPanel crearBotones(int numIdioma) {
+        Idioma idioma = new Idioma(numIdioma);
+        JPanel panelBotones = new JPanel();
+        panelBotones.setLayout(new BoxLayout(panelBotones, BoxLayout.X_AXIS));
+        panelBotones.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JButton modificar = new JButton(idioma.getProperty("botonModificar"));
+        JButton borrar = new JButton(idioma.getProperty("botonBorrar"));
+        modificar.addActionListener(e -> CtrlModificarJugadores.modificarJugador(recogerDatos()));
+        borrar.addActionListener(e -> CtrlModificarJugadores.borrarJugador());
+        borrar.setForeground(Color.RED);
+
+        panelBotones.add(modificar);
+        panelBotones.add(Box.createRigidArea(new Dimension(5, 0)));
+        panelBotones.add(borrar);
+        return panelBotones;
+    }
+
+    private JPanel crearPanelDatos(int numIdioma) {
         JPanel panelDatos = new JPanel();
         panelDatos.setLayout(new BoxLayout(panelDatos, BoxLayout.Y_AXIS));
         panelDatos.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         crearTextFields(panelDatos);
-        crearBotonAltas(panelDatos);
+
+        JPanel panelId = crearPanelId(numIdioma);
+        JPanel panelBotones = crearBotones(numIdioma);
+
+        panelDatos.add(Box.createRigidArea(new Dimension(0, 10)));
+        panelDatos.add(panelId);
+        panelDatos.add(Box.createRigidArea(new Dimension(0, 10)));
+        panelDatos.add(panelBotones);
         return panelDatos;
     }
 
@@ -54,10 +100,10 @@ public class VistaModificarJugadores extends JPanel {
         menuLateral.setPreferredSize(new Dimension(150, 100));
 
         JButton consulta = crearBotonMenu(botonConsulta);
-        consulta.addActionListener(e -> ControladorPrincipal.cambiarDePanel(CtrlConsultaJugadores.getConsultaJugadores()));
+        consulta.addActionListener(e -> ControladorInterfaz.cambiarDePanel(CtrlConsultaJugadores.getConsultaJugadores()));
         menuLateral.add(consulta);
         JButton alta = crearBotonMenu(botonAlta);
-        alta.addActionListener(e -> ControladorPrincipal.cambiarDePanel(CtrlAltaJugadores.getAltaJugadores()));
+        alta.addActionListener(e -> ControladorInterfaz.cambiarDePanel(CtrlAltaJugadores.getAltaJugadores()));
         menuLateral.add(alta);
         JButton modificar = crearBotonMenu(botonModificar);
         modificar.setEnabled(false);
@@ -81,43 +127,9 @@ public class VistaModificarJugadores extends JPanel {
         altura = idioma.getProperty("altura");
         dorsal = idioma.getProperty("dorsal");
         club = idioma.getProperty("club");
-        botonRegistro = idioma.getProperty("botonRegistro");
         botonAlta = idioma.getProperty("botonAlta");
         botonConsulta = idioma.getProperty("botonConsulta");
         botonModificar = idioma.getProperty("modificar");
-    }
-
-    private void crearBotonAltas(JPanel panel) {
-        JButton botonAlta = new JButton(botonRegistro);
-        panel.add(Box.createRigidArea(new Dimension(0, 10)));
-        botonAlta.addActionListener(e -> procesarAlta());
-        panel.add(botonAlta);
-    }
-
-    private void procesarAlta() {
-        for (String label : textFields.keySet()) {
-            if (textFields.get(label).getText().isEmpty()) return;
-        }
-        altaJugador();
-        vaciarTextFields();
-    }
-
-    private void altaJugador() {
-        Jugador nuevoJugador = new Jugador(
-                textFields.get(demarcacion).getText(),
-                textFields.get(nombre).getText(),
-                textFields.get(fechaNacimiento).getText(),
-                textFields.get(altura).getText(),
-                textFields.get(dorsal).getText(),
-                textFields.get(club).getText()
-        );
-        GestorEquiposMain.altaJugador(nuevoJugador);
-    }
-
-    private void vaciarTextFields() {
-        for (String label : textFields.keySet()) {
-            textFields.get(label).setText("");
-        }
     }
 
     private void crearTextFields(JPanel panel) {
@@ -149,5 +161,17 @@ public class VistaModificarJugadores extends JPanel {
 
             textFields.put(textoLabel, field);
         }
+    }
+
+    public static Jugador recogerDatos() {
+        Jugador nuevoJugador = new Jugador(
+                textFields.get(demarcacion).getText(),
+                textFields.get(nombre).getText(),
+                textFields.get(fechaNacimiento).getText(),
+                textFields.get(altura).getText(),
+                textFields.get(dorsal).getText(),
+                textFields.get(club).getText()
+        );
+        return nuevoJugador;
     }
 }
