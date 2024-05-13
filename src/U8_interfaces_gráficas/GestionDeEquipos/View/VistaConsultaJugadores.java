@@ -39,8 +39,6 @@ public class VistaConsultaJugadores extends JPanel {
     }
 
     private JPanel crearPanelDatos() {
-        jugadores.add(new Jugador("prueba", "prueba", "prueba", "prueba", "prueba", "prueba"));
-
         JPanel panelDatos = new JPanel(new BorderLayout());
         modelo = new DefaultTableModel();
         modelo.setColumnIdentifiers(new String[] {id, demarcacion, nombre, fechaNacimiento, altura, dorsal, club});

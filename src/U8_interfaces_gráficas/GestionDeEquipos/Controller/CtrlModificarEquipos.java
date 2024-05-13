@@ -48,6 +48,7 @@ public class CtrlModificarEquipos {
         if (idBuscado != -1) {
             OperacionesBBDD.modificarEquipo(idBuscado, equipo);
             JOptionPane.showInternalMessageDialog(null, "El equipo ha sido modificado.");
+            CtrlConsultaEquipos.actualizarPanel();
         }
     }
 
@@ -55,6 +56,7 @@ public class CtrlModificarEquipos {
         if (idBuscado != -1) {
             OperacionesBBDD.borrarEquipo(idBuscado);
             JOptionPane.showInternalMessageDialog(null, "El equipo ha sido eliminado.");
+            CtrlConsultaEquipos.actualizarPanel();
         }
     }
 

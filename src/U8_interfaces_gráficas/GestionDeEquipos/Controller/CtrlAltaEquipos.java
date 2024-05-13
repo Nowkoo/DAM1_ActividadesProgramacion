@@ -2,6 +2,7 @@ package U8_interfaces_gráficas.GestionDeEquipos.Controller;
 
 import U8_interfaces_gráficas.GestionDeEquipos.Model.Equipo;
 import U8_interfaces_gráficas.GestionDeEquipos.View.VistaAltaEquipos;
+import U8_interfaces_gráficas.GestionDeEquipos.View.VistaConsultaEquipos;
 
 import javax.swing.*;
 import java.util.Map;
@@ -20,6 +21,7 @@ public class CtrlAltaEquipos {
         Equipo nuevoEquipo = VistaAltaEquipos.recogerDatos();
         OperacionesBBDD.altaEquipo(nuevoEquipo);
         ControladorInterfaz.vaciarTextFields(textFields);
+        CtrlConsultaEquipos.actualizarPanel();
     }
 
     public static VistaAltaEquipos getAltaEquipos() {

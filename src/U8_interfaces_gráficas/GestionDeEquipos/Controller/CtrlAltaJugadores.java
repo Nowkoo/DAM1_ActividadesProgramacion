@@ -19,6 +19,7 @@ public class CtrlAltaJugadores {
         Jugador nuevoJugador = VistaAltaJugadores.recogerDatos();
         OperacionesBBDD.altaJugador(nuevoJugador);
         ControladorInterfaz.vaciarTextFields(textFields);
+        CtrlConsultaJugadores.actualizarPanel();
     }
 
     public static JPanel getAltaJugadores() {

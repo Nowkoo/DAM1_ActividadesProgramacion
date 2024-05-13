@@ -168,10 +168,11 @@ public class VistaModificarJugadores extends JPanel {
                 textFields.get(demarcacion).getText(),
                 textFields.get(nombre).getText(),
                 textFields.get(fechaNacimiento).getText(),
-                textFields.get(altura).getText(),
-                textFields.get(dorsal).getText(),
+                Float.parseFloat(textFields.get(altura).getText()),
+                Integer.parseInt(textFields.get(dorsal).getText()),
                 textFields.get(club).getText()
         );
+
         return nuevoJugador;
     }
 }

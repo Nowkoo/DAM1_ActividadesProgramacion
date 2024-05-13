@@ -37,8 +37,6 @@ public class VistaConsultaEquipos extends JPanel {
     }
 
     private JPanel crearPanelDatos() {
-        equipos.add(new Equipo("prueba", "prueba", "prueba", "prueba"));
-
         JPanel panelDatos = new JPanel(new BorderLayout());
         modelo = new DefaultTableModel();
         modelo.setColumnIdentifiers(new String[] {id, nombreEquipo, paisCompeticion, nombreCompeticion, entrenador});

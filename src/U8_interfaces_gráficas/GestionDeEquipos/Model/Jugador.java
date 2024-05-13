@@ -5,11 +5,11 @@ public class Jugador {
     private String demarcacion;
     private String nombre;
     private String fechaNacimiento;
-    private String altura;
-    private String dorsal;
+    private float altura;
+    private int dorsal;
     private String club;
 
-    public Jugador(String demarcacion, String nombre, String fechaNacimiento, String altura, String dorsal, String club) {
+    public Jugador(String demarcacion, String nombre, String fechaNacimiento, float altura, int dorsal, String club) {
         this.demarcacion = demarcacion;
         this.nombre = nombre;
         this.fechaNacimiento = fechaNacimiento;
@@ -18,7 +18,7 @@ public class Jugador {
         this.club = club;
     }
 
-    public Jugador(int id, String demarcacion, String nombre, String fechaNacimiento, String altura, String dorsal, String club) {
+    public Jugador(int id, String demarcacion, String nombre, String fechaNacimiento, float altura, int dorsal, String club) {
         this.id = id;
         this.demarcacion = demarcacion;
         this.nombre = nombre;
@@ -42,11 +42,11 @@ public class Jugador {
         return fechaNacimiento;
     }
 
-    public String getAltura() {
+    public float getAltura() {
         return altura;
     }
 
-    public String getDorsal() {
+    public int getDorsal() {
         return dorsal;
     }
 

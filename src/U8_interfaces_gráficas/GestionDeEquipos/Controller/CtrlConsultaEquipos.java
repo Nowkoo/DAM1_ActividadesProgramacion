@@ -9,6 +9,9 @@ public class CtrlConsultaEquipos {
         this.consultaEquipos = consultaEquipos;
     }
 
+    public static void actualizarPanel() {
+        consultaEquipos = new VistaConsultaEquipos(ControladorInterfaz.getIdiomaActual());
+    }
     public static VistaConsultaEquipos getConsultaEquipos() {
         return consultaEquipos;
     }

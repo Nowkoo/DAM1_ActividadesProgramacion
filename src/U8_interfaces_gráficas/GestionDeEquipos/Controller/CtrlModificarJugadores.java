@@ -32,7 +32,7 @@ public class CtrlModificarJugadores {
     public static void mostrarJugador(Map<String, JTextField> textFields, String input) {
         Jugador jugador = buscarJugadorPorId(input);
         if (jugador != null) {
-            String[] contenido = new String[] {jugador.getDemarcacion(), jugador.getNombre(), jugador.getFechaNacimiento(), jugador.getAltura(), jugador.getDorsal(), jugador.getClub()};
+            String[] contenido = new String[] {jugador.getDemarcacion(), jugador.getNombre(), jugador.getFechaNacimiento(), String.valueOf(jugador.getAltura()), String.valueOf(jugador.getDorsal()), jugador.getClub()};
             int i = 0;
             for (JTextField textField : textFields.values()) {
                 textField.setText(contenido[i]);
@@ -49,6 +49,7 @@ public class CtrlModificarJugadores {
         if (idBuscado != -1) {
             OperacionesBBDD.modificarJugador(idBuscado, jugador);
             JOptionPane.showInternalMessageDialog(null, "El jugador ha sido modificado.");
+            CtrlConsultaJugadores.actualizarPanel();
         }
     }
 
@@ -56,6 +57,7 @@ public class CtrlModificarJugadores {
         if (idBuscado != -1) {
             OperacionesBBDD.borrarJugador(idBuscado);
             JOptionPane.showInternalMessageDialog(null, "El jugador ha sido eliminado.");
+            CtrlConsultaJugadores.actualizarPanel();
         }
     }
 
