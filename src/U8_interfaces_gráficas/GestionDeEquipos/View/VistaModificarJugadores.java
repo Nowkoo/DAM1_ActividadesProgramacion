@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class VistaModificarJugadores extends JPanel {
@@ -27,7 +28,7 @@ public class VistaModificarJugadores extends JPanel {
     public VistaModificarJugadores(int numIdioma) {
         this.setName("Modificar jugadores");
         cargarLabels(numIdioma);
-        textFields = new HashMap<>();
+        textFields = new LinkedHashMap<>();
         setLayout(new BorderLayout());
 
         JPanel panelDatos = crearPanelDatos(numIdioma);
@@ -169,7 +170,7 @@ public class VistaModificarJugadores extends JPanel {
                 textFields.get(nombre).getText(),
                 textFields.get(fechaNacimiento).getText(),
                 Float.parseFloat(textFields.get(altura).getText()),
-                Integer.parseInt(textFields.get(dorsal).getText()),
+                Float.parseFloat(textFields.get(dorsal).getText()),
                 textFields.get(club).getText()
         );
 

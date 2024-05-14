@@ -34,6 +34,7 @@ public class CtrlModificarEquipos {
             String[] contenido = new String[] {equipo.getNombreEquipo(), equipo.getPaisCompeticion(), equipo.getNombreCompeticion(), equipo.getEntrenador()};
             int i = 0;
             for (JTextField textField : textFields.values()) {
+
                 textField.setText(contenido[i]);
                 i++;
             }

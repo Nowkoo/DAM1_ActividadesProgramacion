@@ -22,6 +22,7 @@ public class VistaConsultaJugadores extends JPanel {
     private static String botonAlta;
     private static String botonModificar;
     private static String id;
+
     private DefaultTableModel modelo;
     private JTable tabla;
 
@@ -94,5 +95,9 @@ public class VistaConsultaJugadores extends JPanel {
         botonAlta = idioma.getProperty("botonAlta");
         botonModificar = idioma.getProperty("modificar");
         id = idioma.getProperty("id");
+    }
+
+    public DefaultTableModel getModelo() {
+        return modelo;
     }
 }

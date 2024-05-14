@@ -128,7 +128,7 @@ public class VistaAltaJugadores extends JPanel {
                 textFields.get(nombre).getText(),
                 textFields.get(fechaNacimiento).getText(),
                 Float.parseFloat(textFields.get(altura).getText()),
-                Integer.parseInt(textFields.get(dorsal).getText()),
+                Float.parseFloat(textFields.get(dorsal).getText()),
                 textFields.get(club).getText()
         );
 

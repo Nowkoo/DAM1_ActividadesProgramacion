@@ -31,6 +31,7 @@ public class OperacionesBBDD {
             }
 
             st.close();
+            rs.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -42,8 +43,20 @@ public class OperacionesBBDD {
             String sql = "INSERT INTO jugadores (demarcacion, nombre, fecha_nac, altura, dorsal, club) " +
                     "VALUES ('" + nuevoJugador.getDemarcacion() + "', '" + nuevoJugador.getNombre() + "', '"
                     + nuevoJugador.getFechaNacimiento() + "', " + nuevoJugador.getAltura() + ", "
-                    + nuevoJugador.getDorsal() + ", '" + nuevoJugador.getClub() + "');";
+                    + nuevoJugador.getAltura() + ", '" + nuevoJugador.getClub() + "');";
             st.executeUpdate(sql);
+
+            sql = "SELECT cod_jug FROM jugadores WHERE demarcacion = '" + nuevoJugador.getDemarcacion() + "' AND nombre = '"
+                    + nuevoJugador.getNombre() + "' AND fecha_nac = '" + nuevoJugador.getFechaNacimiento()
+                    + "' AND altura = " + nuevoJugador.getAltura() + " AND dorsal = " + nuevoJugador.getDorsal()
+                    + " AND club = '" + nuevoJugador.getClub() + "';";
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()) {
+                Jugador jugador = new Jugador(rs.getInt(1), nuevoJugador.getDemarcacion(), nuevoJugador.getNombre(), nuevoJugador.getFechaNacimiento(), nuevoJugador.getAltura(), nuevoJugador.getDorsal(), nuevoJugador.getClub());
+                Datos.getJugadores().add(jugador);
+            }
+
+            rs.close();
             st.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -57,6 +70,21 @@ public class OperacionesBBDD {
                     + equipo.getPaisCompeticion() + "', nombre_comp = '" + equipo.getNombreCompeticion()
                     + "', entrenador = '" + equipo.getEntrenador() + "' WHERE  cod_eq = " + id + ";";
             st.executeUpdate(sql);
+
+            sql = "SELECT * FROM equipos WHERE cod_eq = " + id + ";";
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()) {
+                Equipo nuevoEquipo = new Equipo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+                ArrayList<Equipo> equipos = Datos.getEquipos();
+                for (Equipo equipoActual : equipos) {
+                    if (equipoActual.getId() == nuevoEquipo.getId()) {
+                        int index = equipos.indexOf(equipoActual);
+                        equipos.set(index, nuevoEquipo);
+                    }
+                }
+            }
+
+            rs.close();
             st.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -66,17 +94,23 @@ public class OperacionesBBDD {
     public static void modificarJugador(int id, Jugador jugador) {
         try {
             Statement st = con.createStatement();
-            String sql = "UPDATE equipos SET demarcacion = '" + jugador.getDemarcacion() + "', nombre = '"
+            String sql = "UPDATE jugadores SET demarcacion = '" + jugador.getDemarcacion() + "', nombre = '"
                     + jugador.getNombre() + "', fecha_nac = '" + jugador.getFechaNacimiento()
                     + "', altura = " + jugador.getAltura() + ", dorsal = " + jugador.getDorsal() + ", club = '"
                     + jugador.getClub() + "' WHERE  cod_jug = " + id + ";";
             st.executeUpdate(sql);
 
-            sql = "SELECT * FROM equipos WHERE cod_eq = " + id + ";";
+            sql = "SELECT * FROM jugadores WHERE cod_jug = " + id + ";";
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()) {
-                Equipo nuevoEquipo = new Equipo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
-                Datos.getEquipos().add(nuevoEquipo);
+                Jugador nuevoJugador = new Jugador(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getFloat(5), rs.getInt(6), rs.getString(7));
+                ArrayList<Jugador> jugadores = Datos.getJugadores();
+                for (Jugador jugadorActual : jugadores) {
+                    if (jugadorActual.getId() == nuevoJugador.getId()) {
+                        int index = jugadores.indexOf(jugadorActual);
+                        jugadores.set(index, nuevoJugador);
+                    }
+                }
             }
             st.close();
             rs.close();
@@ -94,17 +128,34 @@ public class OperacionesBBDD {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        ArrayList<Equipo> equipos = Datos.getEquipos();
+        int index = -1;
+        for (Equipo equipo : equipos) {
+            if (equipo.getId() == id) {
+                index = equipos.indexOf(equipo);
+            }
+        }
+        equipos.remove(index);
     }
 
     public static void borrarJugador(int id) {
         try {
             Statement st = con.createStatement();
-            String sql = "DELETE FROM jugadores WHERE cod_eq = " + id + ";";
+            String sql = "DELETE FROM jugadores WHERE cod_jug = " + id + ";";
             st.executeUpdate(sql);
             st.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
+        ArrayList<Jugador> jugadores = Datos.getJugadores();
+        int index = -1;
+        for (Jugador jugador : jugadores) {
+            if (jugador.getId() == id) {
+                index = jugadores.indexOf(jugador);
+            }
+        }
+        jugadores.remove(index);
     }
 
     public static void cargarDatosEquipos(ArrayList<Equipo> equipos) {
@@ -121,7 +172,6 @@ public class OperacionesBBDD {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        System.out.println("done");
     }
 
     public static void cargarDatosJugadores(ArrayList<Jugador> jugadores) {
@@ -138,6 +188,5 @@ public class OperacionesBBDD {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        System.out.println("done");
     }
 }

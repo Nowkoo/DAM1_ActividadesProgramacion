@@ -1,5 +1,6 @@
 package U8_interfaces_gráficas.GestionDeEquipos.Controller;
 
+import U8_interfaces_gráficas.GestionDeEquipos.Model.Equipo;
 import U8_interfaces_gráficas.GestionDeEquipos.View.VistaConsultaEquipos;
 
 public class CtrlConsultaEquipos {

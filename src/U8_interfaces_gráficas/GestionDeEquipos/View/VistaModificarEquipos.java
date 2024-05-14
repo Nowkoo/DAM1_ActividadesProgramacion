@@ -7,9 +7,7 @@ import U8_interfaces_gráficas.GestionDeEquipos.Model.Idioma;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class VistaModificarEquipos extends JPanel {
     ArrayList<Equipo> equipos = Datos.getEquipos();
@@ -25,7 +23,7 @@ public class VistaModificarEquipos extends JPanel {
 
     public VistaModificarEquipos(int numIdioma) {
         cargarLabels(numIdioma);
-        textFields = new HashMap<>();
+        textFields = new LinkedHashMap<>();
         this.setName("Modificar equipos");
         setLayout(new BorderLayout());
 
