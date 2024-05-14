@@ -86,7 +86,7 @@ public class VistaConsultaJugadores extends JPanel {
     private void cargarLabels(int numIdioma) {
         Idioma idioma = new Idioma(numIdioma);
         demarcacion = idioma.getProperty("demarcacion");
-        nombre = idioma.getProperty("nombre");
+        nombre = idioma.getProperty("nombreJugador");
         fechaNacimiento = idioma.getProperty("fechaNacimiento");
         altura = idioma.getProperty("altura");
         dorsal = idioma.getProperty("dorsal");
